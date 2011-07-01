@@ -916,8 +916,8 @@ public class ImprovedChat {
          tab.blinking = false;
          if(m.r instanceof gc && tab.chatScroll > 0 && tab.valid(var11)) {
             tab.chatScroll += lines.size();
-            if(tab.chatScroll > tab.e.size() - 9) {
-               tab.chatScroll = tab.e.size() - 9;
+            if(tab.chatScroll > tab.e.size() - 16) {
+               tab.chatScroll = tab.e.size() - 16;
             }
 
             if(tab.chatScroll < 0) {
