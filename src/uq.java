@@ -223,12 +223,14 @@ public class uq extends ub {
             }
         }
 
-        byte var27 = 10;
+        byte var27 = 20;
         boolean var28 = false;
         if(this.g.r instanceof gc) {
-            var27 = 20;
+            // System.out.println("IT IS GC!");
+            var27 = 30;
             var28 = true;
         }
+        // System.out.println(var27);
 
         GL11.glEnable(3042);
         GL11.glBlendFunc(770, 771);

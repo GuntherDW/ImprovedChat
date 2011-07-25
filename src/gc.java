@@ -12,6 +12,7 @@ public class gc extends da {
     private int i = 0;
     private static final String j = fp.a;
     static Pattern prefixPattern = Pattern.compile("~\\(.*?[^\\\\]\\)");
+
     public int cursorPosition;
 
 
@@ -114,7 +115,10 @@ public class gc extends da {
     public void a(int var1, int var2, float var3) {
         this.checkcursor();
         String line = this.a.substring(0, this.cursorPosition) + (this.i / 6 % 2 == 0?"|":":") + this.a.substring(this.cursorPosition);
+        String cm = null;
+        if(ImprovedChat.Current.ChatMode!=null) { cm = ImprovedChat.Current.ChatMode; }
         int len = line.length();
+        if(cm!=null) { cm = cm + " "; } else { cm = ""; }
         byte pos = 100;
         Matcher m = prefixPattern.matcher(line);
         int var14;
@@ -140,7 +144,7 @@ public class gc extends da {
 
         while(var12.hasNext()) {
             String wheel = (String)var12.next();
-            this.b(this.g, wheel, 4, this.d - 12 * size--, 14737632);
+            this.b(this.g, cm + wheel, 4, this.d - 12 * size--, 14737632);
         }
 
         int var13 = Mouse.getDWheel();
