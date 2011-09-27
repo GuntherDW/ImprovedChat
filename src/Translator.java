@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Translator {
 
-    private static List languages = new ArrayList();
+    private static List<String> languages = new ArrayList<String>();
     private static URL url;
 
 

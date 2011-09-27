@@ -6,7 +6,7 @@ import java.util.regex.PatternSyntaxException;
 
 public class Variables {
 
-    private Hashtable vars = new Hashtable();
+    private Hashtable<String, Variable> vars = new Hashtable<String, Variable>();
 
 
     public boolean add(String name, String regex) {
@@ -21,11 +21,11 @@ public class Variables {
     }
 
     public Variables.Variable get(String name) {
-        return (Variables.Variable)this.vars.get(name);
+        return this.vars.get(name);
     }
 
     public String getPattern(String name) {
-        Variables.Variable v = (Variables.Variable)this.vars.get(name);
+        Variables.Variable v = this.vars.get(name);
         return v != null?v.pattern.toString():"";
     }
 
@@ -38,7 +38,7 @@ public class Variables {
         Variables.Variable v;
         for(Enumeration keys = this.vars.keys(); keys.hasMoreElements(); this.vars.put(name, v)) {
             name = (String)keys.nextElement();
-            v = (Variables.Variable)this.vars.get(name);
+            v = this.vars.get(name);
             Matcher m = v.pattern.matcher(line);
             if(m.find()) {
                 v.value = m.group();

@@ -1,5 +1,6 @@
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -23,12 +24,14 @@ import java.util.regex.Pattern;
 
 public class ImprovedChat implements ChatHookable {
 
+    private static int fade = 0;
+    public static int commandScroll = 0;
     static Minecraft m;
     static Server Global;
     static Server Current;
-    private static Hashtable servers = new Hashtable();
+    private static Hashtable<String, Server> servers = new Hashtable<String, Server>();
     static Hashtable constantVar;
-    public static ArrayList pastCommands = new ArrayList();
+    public static List<String> pastCommands = new ArrayList<String>();
     private static PatternList[] d;
     private static File settings;
     private static File constantsFile;
@@ -45,6 +48,8 @@ public class ImprovedChat implements ChatHookable {
     public static int bgColor = 0;
     public static int historyOpacity = 128;
     public static int historyColor = 0;
+    public static byte ChatLinesSmall = 10;
+    public static byte ChatLinesBig = 20;
     private static Document doc;
     private static Element topElement;
     private static Pattern colorCrashFix = Pattern.compile("\u00a7(?![0-9a-fA-F])|\u00a7[0-9a-fA-F]?$");
@@ -164,15 +169,17 @@ public class ImprovedChat implements ChatHookable {
         a = newElem(topElement, "ChatBox");
         a.setAttribute("Color", "" + bgColor);
         a.setAttribute("Opacity", "" + bgOpacity);
+        a.setAttribute("ChatLinesBig", "" + ChatLinesBig);
+        a.setAttribute("ChatLinesSmall", "" + ChatLinesSmall);
         a = newElem(topElement, "ChatHistory");
         a.setAttribute("Color", "" + historyColor);
         a.setAttribute("Opacity", "" + historyOpacity);
         topElement = newElem(topElement, "Servers");
-        Enumeration es = servers.keys();
+        Enumeration<String> es = servers.keys();
         saveServer(Global);
 
         while(es.hasMoreElements()) {
-            saveServer((Server)servers.get(es.nextElement()));
+            saveServer(servers.get(es.nextElement()));
         }
 
         topElement = (Element)topElement.getParentNode();
@@ -313,6 +320,8 @@ public class ImprovedChat implements ChatHookable {
 
                 line = (Element)e.getElementsByTagName("ChatBox").item(0);
                 String var27;
+                String linesSmall;
+                String linesBig;
                 if(line != null) {
                     var27 = line.getAttribute("Color");
                     if(var27 != null) {
@@ -322,6 +331,12 @@ public class ImprovedChat implements ChatHookable {
                             ;
                         }
                     }
+                    
+                    var27 = line.getAttribute("ChatLinesSmall");
+                    if(var27!=null) { try{ ChatLinesSmall = Byte.parseByte(var27); } catch (NumberFormatException ex) { ; } }
+
+                    var27 = line.getAttribute("ChatLinesBig");
+                    if(var27!=null) { try{ ChatLinesSmall = Byte.parseByte(var27); } catch (NumberFormatException ex) { ; } }
 
                     var27 = line.getAttribute("Opacity");
                     if(var27 != null) {
@@ -379,7 +394,7 @@ public class ImprovedChat implements ChatHookable {
 
                             for(int nl2 = 0; nl2 < tab.getLength(); ++nl2) {
                                 line = (Element)tab.item(nl2);
-                                server.bindings[name].put(new Integer(Integer.parseInt(line.getAttribute("key"))), line.getTextContent());
+                                server.bindings[name].put(Integer.parseInt(line.getAttribute("key")), line.getTextContent());
                             }
                         }
 
@@ -596,7 +611,7 @@ public class ImprovedChat implements ChatHookable {
     }
 
     public static void removeRule(String type, int id) {
-        ArrayList a = null;
+        List<PatternList.Entry> a = null;
         if(type.equalsIgnoreCase("input")) {
             a = d[0].list;
         } else if(type.equalsIgnoreCase("output")) {
@@ -667,8 +682,8 @@ public class ImprovedChat implements ChatHookable {
         return r;
     }
 
-    private static List format(String line, int lineSize) {
-        ArrayList r = new ArrayList();
+    private static List<String> format(String line, int lineSize) {
+        List<String> r = new ArrayList<String>();
         line = colorCrashFix.matcher(line).replaceAll("");
         if(line.length() == 0) {
             return r;
@@ -676,7 +691,7 @@ public class ImprovedChat implements ChatHookable {
             boolean pos = false;
             boolean curSize = false;
             boolean spacePos = false;
-            Stack colors = new Stack();
+            Stack<Character> colors = new Stack<Character>();
             Character newLineColor = new Character('f');
             colors.push(newLineColor);
             String[] lines = line.split("\n");
@@ -696,50 +711,59 @@ public class ImprovedChat implements ChatHookable {
             int var15 = 0;
 
             for(int var12 = 0; var15 < line.length(); ++var15) {
-                switch(line.charAt(var15)) {
-                    case 10:
+                switch(line.charAt(var15))
+                {
+                    case 10: // '\n'
                         r.add(colorCrashFix.matcher(sb.toString()).replaceAll(""));
-                        sb.delete(0, sb.length()).append("\u00a7" + colors.peek());
+                        sb.delete(0, sb.length()).append((new StringBuilder("\247")).append(colors.peek()).toString());
                         var16 = 0;
                         var12 = 0;
                         break;
-                    case 32:
-                        var16 = sb.length() + 1;
-                        newLineColor = (Character)colors.peek();
-                    case 47:
-                        if(line.substring(var15).startsWith("/&c")) {
-                            if(colors.size() > 1) {
-                                colors.pop();
-                            }
 
-                            Character var13 = (Character)colors.peek();
-                            sb.append("\u00a7" + var13);
+                    case 167:
+                        sb.append(line.substring(var15, var15 + 2));
+                        var15++;
+                        colors.push(new Character(line.charAt(var15)));
+                        break;
+
+                    case 32: // ' '
+                        var16 = sb.length() + 1;
+                        newLineColor = colors.peek();
+                        // fall through
+
+                    case 47: // '/'
+                        if(line.substring(var15).startsWith("/&c"))
+                        {
+                            if(colors.size() > 1)
+                                colors.pop();
+                            Character character1 = (Character)colors.peek();
+                            sb.append((new StringBuilder("\247")).append(character1).toString());
                             var15 += 2;
                             break;
                         }
-                        /* case 167:
-                      sb.append(line.substring(var15, var15 + 2));
-                      ++var15;
-                      colors.push(new Character(line.charAt(var15)));
-                       break; */
-                    default:
-                        String var14 = line.substring(var15, var15 + 1);
-                        int chS = m.q.a(var14);
-                        /* if(var12 + chS > lineSize && !var14.equals(" ")) {
-                        if(var16 == 0) {
-                           var16 = sb.length();
-                           newLineColor = (Character)colors.peek();
-                        }
+                        // fall through
 
-                        r.add(colorCrashFix.matcher(sb.substring(0, var16)).replaceAll(""));
-                        sb.delete(0, var16).append(var14);
-                        sb.insert(0, "\u00a7" + newLineColor);
-                        var12 = m.p.a(sb.toString());
-                        var16 = 0;
-                     } else { */
-                        sb.append(var14);
-                        var12 += chS;
-                        // }
+                    default:
+                        String s1 = line.substring(var15, var15 + 1);
+                        int j1 = getStringWidth(s1);
+                        if(var12 + j1 > lineSize && !s1.equals(" "))
+                        {
+                            if(var16 == 0)
+                            {
+                                var16 = sb.length();
+                                newLineColor = (Character)colors.peek();
+                            }
+                            r.add(colorCrashFix.matcher(sb.substring(0, var16)).replaceAll(""));
+                            sb.delete(0, var16).append(s1);
+                            sb.insert(0, (new StringBuilder("\247")).append(newLineColor).toString());
+                            var12 = getStringWidth(sb.toString());
+                            var16 = 0;
+                        } else
+                        {
+                            sb.append(s1);
+                            var12 += j1;
+                        }
+                        break;
                 }
             }
 
@@ -749,10 +773,21 @@ public class ImprovedChat implements ChatHookable {
         }
     }
 
-    public static List processInput(String line) {
+    public static List<String> processInput(String line) {
         line = buxvillFix.matcher(line).replaceAll("/&c");
         line = updateColor.matcher(d[0].process(line)).replaceAll("\u00a7");
-        return format(line, 318);
+        return format(line, 320);
+    }
+
+
+    public static int getStringWidth(String str)
+    {
+        return getFontRenderer().a(str);
+    }
+
+    public static kh getFontRenderer()
+    {
+        return m.q;
     }
 
     public static String processOutput(String line) {
@@ -760,7 +795,7 @@ public class ImprovedChat implements ChatHookable {
         line = replaceVars(line);
 
         if(Current.colorchat)
-            line= updateColor.matcher(d[0].process(line)).replaceAll("\u00a7");
+            line= updateColor.matcher(d[1].process(line)).replaceAll("\u00a7");
         else
             colorTags.matcher(line).replaceAll("");
 
@@ -769,7 +804,176 @@ public class ImprovedChat implements ChatHookable {
 
     }
 
-    public static List processDisplay(String line) {
+    public static void handle_draw(abj theGuiIngame, kh var8, boolean var35, byte var30) {
+        boolean var36 = false;
+        if(Current != null) {
+            int var38;
+            int var11;
+            if(Current.tabs.size() > 1) {
+                var11 = -312;
+                int somestring = 0;
+
+                int var32;
+                for(var32 = 0; var32 <= Current.currentTabIndex; ++var32) {
+                    var11 += 4 + Current.tabs.get(var32).width;
+                }
+
+                if(var11 < 0) {
+                    var11 = 0;
+                }
+
+                for(var32 = 0; var32 < Current.tabs.size(); ++var32) {
+                    Tab var24 = Current.tabs.get(var32);
+                    if(somestring + 4 + var24.width > 312) {
+                        break;
+                    }
+
+                    if(somestring >= var11) {
+                        if(Current.currentTabIndex == var32) {
+                            if(var35) {
+                                drawStringWithShadow(var8, var24.name, 2 + somestring, -180, 16777215);
+                            } else {
+                                if(var24.blinking) {
+                                    fade = 64;
+                                    var24.blinking = false;
+                                }
+
+                                if(fade > 0) {
+                                    drawStringWithShadow(var8, var24.name, 2 + somestring, -180, (fade << 25) + 16777215);
+                                    --fade;
+                                }
+                            }
+                        } else if(var24.blinking) {
+                            var38 = getUpdateCounterOfGuiIngame(theGuiIngame) % 40 - 20;
+                            if(var38 < 0) {
+                                var38 = -var38;
+                            }
+
+                            var38 = (int)((double)var38 * 12.75D);
+                            if(var38 == 0) {
+                                ++var38;
+                            }
+
+                            drawStringWithShadow(var8, var24.name, 2 + somestring, -180, (var38 << 24) + 16777215);
+                        } else if(var35) {
+                            drawStringWithShadow(var8, var24.name, 2 + somestring, -180, -2130706433);
+                        }
+
+                        somestring += 4 + var24.width;
+                    } else {
+                        var11 -= 4 + var24.width;
+                    }
+                }
+            }
+
+            String var12 = "";
+
+            for(var11 = currentTab().chatScroll; var11 < currentTab().e.size() && var11 < var30 + currentTab().chatScroll; ++var11) {
+                if(getUpdateCounterOfChatLine((kq)currentTab().e.get(var11)) < 200 || var35) {
+                    double var13 = (double)getUpdateCounterOfChatLine((kq)currentTab().e.get(var11)) / 200.0D;
+                    var13 = 1.0D - var13;
+                    var13 *= 10.0D;
+                    if(var13 < 0.0D) {
+                        var13 = 0.0D;
+                    }
+
+                    if(var13 > 1.0D) {
+                        var13 = 1.0D;
+                    }
+
+                    var13 *= var13;
+                    var38 = (int)((double)historyOpacity * var13);
+                    if(var35) {
+                        var38 = historyOpacity;
+                    }
+
+                    if(var38 > 0) {
+                        byte var39 = 2;
+                        int var26 = (-var11 + currentTab().chatScroll) * 9;
+                        var12 = getChatMessageOfChatLine((kq)currentTab().e.get(var11));
+                        drawRectOnGuiIngame(theGuiIngame, var39, var26 - 1, var39 + 320, var26 + 8, (var38 << 24) + historyColor);
+                        GL11.glEnable(3042);
+                        drawStringWithShadow(var8, var12, var39, var26, 16777215);
+                    }
+                }
+            }
+        }
+
+    }
+
+    public static void drawRectOnGuiIngame(abj theabj, int var1, int var2, int var3, int var4, int var5) {
+        theabj.a(var1, var2, var3, var4, var5);
+    }
+
+    public static String getChatMessageOfChatLine(kq thechatline) {
+        return thechatline.a;
+    }
+
+    public static qs get_thePlayer() {
+        return m.h;
+    }
+
+    public static void sendChatMessage(String str) {
+        get_thePlayer().a(str);
+    }
+
+    public static qr getCurrentScreen() {
+        return m.r;
+    }
+
+    public File getAppDir(String str) {
+        return Minecraft.a(str);
+    }
+
+    public static fv getGameSettings() {
+        return m.z;
+    }
+
+    public static String getLastServer() {
+        return getGameSettings().F;
+    }
+
+    public static int getUpdateCounterOfChatLine(kq thechatline) {
+        return thechatline.b;
+    }
+
+    public static void drawStringWithShadow(kh fontrenderer, String var1, int var2, int var3, int var4) {
+        fontrenderer.a(var1, var2, var3, var4);
+    }
+
+    public static void drawString(kh fontrenderer, String var1, int var2, int var3, int var4) {
+        fontrenderer.b(var1, var2, var3, var4);
+    }
+
+    public static int getUpdateCounterOfGuiIngame(abj theabj) {
+        return theabj.i;
+    }
+
+    public static void displayGuiScreen(qr guiscreen) {
+        m.a(guiscreen);
+    }
+
+    public static String getAllowedCharacters() {
+        return sb.a;
+    }
+
+    public static Server getCurrentServer() {
+        String s = getLastServer();
+        if(s != Current.name) {
+            setCurrentServer((Server)servers.get(s));
+            if(Current == null) {
+                servers.put(s, Current = new Server(s));
+            }
+        }
+
+        return Current;
+    }
+
+    private static void setCurrentServer(Server new_server) {
+        Current = new_server;
+    }
+
+    public static List<String> processDisplay(String line) {
         line = updateColor.matcher(d[2].process(line)).replaceAll("\u00a7");
         return format(line, 316);
     }
@@ -792,7 +996,7 @@ public class ImprovedChat implements ChatHookable {
 
         if(command != null) {
             if(command.endsWith("\\")) {
-                gc win = new gc();
+                so win = new so();
                 win.cursorPosition = (win.a = replaceVarsInBind(command.substring(0, command.length() - 1))).length();
                 m.a(win);
             } else {
@@ -873,6 +1077,7 @@ public class ImprovedChat implements ChatHookable {
                 while(var4.hasNext()) {
                     String l = (String)var4.next();
                     Current.currentTab().add(l);
+                    // System.out.println("l:"+l);
                 }
             }
 
@@ -889,6 +1094,7 @@ public class ImprovedChat implements ChatHookable {
                 while(var4.hasNext()) {
                     String l = (String)var4.next();
                     Current.currentTab().add(l);
+                    // System.out.println("l:"+l);
                 }
 
             }
@@ -897,11 +1103,11 @@ public class ImprovedChat implements ChatHookable {
 
     public static void stdout(String line) {
         if(line != null && !line.trim().equals("")) {
-            List lines = processInput(line);
-            sw[] linesArray = new sw[lines.size()];
+            List<String> lines = processInput(line);
+            kq[] linesArray = new kq[lines.size()];
 
             for(int fixed = 0; fixed < linesArray.length; ++fixed) {
-                linesArray[fixed] = new sw((String)lines.get(fixed));
+                linesArray[fixed] = new kq(lines.get(fixed));
             }
 
             String var11 = colorTags.matcher(line).replaceAll("");
@@ -911,11 +1117,11 @@ public class ImprovedChat implements ChatHookable {
             while(var5.hasNext()) {
                 tab = (Tab)var5.next();
                 if(tab.valid(var11)) {
-                    sw[] var9 = linesArray;
+                    kq[] var9 = linesArray;
                     int var8 = linesArray.length;
 
                     for(int var7 = 0; var7 < var8; ++var7) {
-                        sw e = var9[var7];
+                        kq e = var9[var7];
                         tab.add(e);
                     }
 
@@ -929,7 +1135,7 @@ public class ImprovedChat implements ChatHookable {
 
             tab = (Tab)Current.tabs.get(Current.currentTabIndex);
             tab.blinking = false;
-            if(m.r instanceof gc && tab.chatScroll > 0 && tab.valid(var11)) {
+            if(m.r instanceof so && tab.chatScroll > 0 && tab.valid(var11)) {
                 tab.chatScroll += lines.size();
                 if(tab.chatScroll > tab.e.size() - 16) {
                     tab.chatScroll = tab.e.size() - 16;
@@ -1133,6 +1339,17 @@ public class ImprovedChat implements ChatHookable {
                 return true;
             }
         });
+        commands.put("chatlines", new ImprovedChat.Command("Sets the amount of lines you see", (String)null, "") {
+            public boolean process(String[] args) {
+                if(args != null && args.length>0) {
+                    if(args[0].equalsIgnoreCase("small")) { try{ ChatLinesSmall = Byte.parseByte(args[1]); } catch(NumberFormatException ex)  { ImprovedChat.stderr("Caught exception!"); } }
+                    if(args[0].equalsIgnoreCase("big")) { try{ ChatLinesBig = Byte.parseByte(args[1]); } catch(NumberFormatException ex)  { ImprovedChat.stderr("Caught exception!"); } }
+                } else {
+                    ImprovedChat.stdout("Small lines : "+ChatLinesSmall+" Big lines : "+ChatLinesBig);
+                }
+                return true;
+            }
+        });
         commands.put("start", new ImprovedChat.Command("Starts the chatting", (String)null, "") {
             public boolean process(String[] args) {
                 ImprovedChat.access$2(false);
@@ -1166,11 +1383,11 @@ public class ImprovedChat implements ChatHookable {
                         }
 
                         ImprovedChat.unProccessedInput(args[0] + " rule list:");
-                        ArrayList list;
+                        List<Pattern> list;
                         if(args[0].equals("ignore")) {
-                            list = ((Tab) ImprovedChat.Current.tabs.get(ImprovedChat.Current.currentTabIndex)).ignore;
+                            list = ImprovedChat.Current.tabs.get(ImprovedChat.Current.currentTabIndex).ignore;
                         } else {
-                            list = ((Tab) ImprovedChat.Current.tabs.get(ImprovedChat.Current.currentTabIndex)).track;
+                            list = ImprovedChat.Current.tabs.get(ImprovedChat.Current.currentTabIndex).track;
                         }
 
                         if(list.size() == 0) {
@@ -1576,7 +1793,7 @@ public class ImprovedChat implements ChatHookable {
     }
 
     public static void setWorld() {
-        String name = m.z.C;
+        String name = m.z.F;
         Current = (Server)servers.get(name);
         if(Current == null) {
             servers.put(name, Current = new Server(name));
@@ -1591,7 +1808,7 @@ public class ImprovedChat implements ChatHookable {
     public static void tick() {
         if(Current != null) {
             for(int i = 0; i < currentTab().e.size(); ++i) {
-                ++((sw)currentTab().e.get(i)).b;
+                ++currentTab().e.get(i).b;
             }
         }
 
@@ -1613,7 +1830,7 @@ public class ImprovedChat implements ChatHookable {
     }
 
     public static String getServerAddress(String name) {
-        return ((Server)servers.get(name)).address;
+        return servers.get(name).address;
     }
 
     public static void copy(String a) {

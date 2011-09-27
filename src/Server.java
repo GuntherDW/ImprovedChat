@@ -1,22 +1,24 @@
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 public class Server {
 
-    ArrayList tabs;
-    int currentTabIndex;
-    Hashtable[] bindings;
-    Boolean colorchat;
-    Integer lines;
-    Variables vars;
-    String[] translations;
-    String ChatMode;
+    public List<Tab> tabs;
+    public int currentTabIndex;
+    public Hashtable[] bindings;
+    public Boolean colorchat;
+    public Integer lines;
+    public Variables vars;
+    public String[] translations;
+    public String ChatMode;
     public String name;
     public String address;
 
 
     public Server(String name) {
         this(name, name);
+        tabs = new ArrayList<Tab>();
         Tab d = new Tab("Default");
         this.tabs.add(d);
         d.track("^");
@@ -29,37 +31,37 @@ public class Server {
         this.address = add;
         this.bindings = new Hashtable[4];
         this.colorchat = false;
-        this.tabs = new ArrayList();
+        this.tabs = new ArrayList<Tab>();
         this.lines = 20;
         this.ChatMode = null;
 
         for(int i = 0; i < 4; ++i) {
-            this.bindings[i] = new Hashtable();
+            this.bindings[i] = new Hashtable<Integer, String>();
         }
 
     }
 
     public Tab currentTab() {
-        return (Tab)this.tabs.get(this.currentTabIndex);
+        return this.tabs.get(this.currentTabIndex);
     }
 
     public void nextTab() {
-        ((Tab)this.tabs.get(this.currentTabIndex)).blinking = false;
+        this.tabs.get(this.currentTabIndex).blinking = false;
         ++this.currentTabIndex;
         if(this.currentTabIndex >= this.tabs.size()) {
             this.currentTabIndex = 0;
         }
 
-        ((Tab)this.tabs.get(this.currentTabIndex)).blinking = true;
+        this.tabs.get(this.currentTabIndex).blinking = true;
     }
 
-    public void previosTab() {
-        ((Tab)this.tabs.get(this.currentTabIndex)).blinking = false;
+    public void previousTab() {
+        this.tabs.get(this.currentTabIndex).blinking = false;
         --this.currentTabIndex;
         if(this.currentTabIndex < 0) {
             this.currentTabIndex = this.tabs.size() - 1;
         }
 
-        ((Tab)this.tabs.get(this.currentTabIndex)).blinking = true;
+        this.tabs.get(this.currentTabIndex).blinking = true;
     }
 }
