@@ -6,7 +6,7 @@ public class Server {
 
     public List<Tab> tabs;
     public int currentTabIndex;
-    public Hashtable[] bindings;
+    public List<Hashtable<Integer, String>> bindings;
     public Boolean colorchat;
     public Integer lines;
     public Variables vars;
@@ -29,14 +29,15 @@ public class Server {
         this.vars = new Variables();
         this.name = name;
         this.address = add;
-        this.bindings = new Hashtable[4];
+        // this.bindings = (Hashtable<Integer, String>[]) new Hashtable<?,?>[4];
+        this.bindings = new ArrayList<Hashtable<Integer, String>>();
         this.colorchat = false;
         this.tabs = new ArrayList<Tab>();
         this.lines = 20;
         this.ChatMode = null;
 
         for(int i = 0; i < 4; ++i) {
-            this.bindings[i] = new Hashtable<Integer, String>();
+            this.bindings.add(new Hashtable<Integer, String>());
         }
 
     }

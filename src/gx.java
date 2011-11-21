@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class so extends qr {
+public class gx extends xe {
 
     protected String a = "";
     private int b = 0;
-    private static final String c = sb.a;
+    private static final String c = age.a;
     private static Pattern prefixPattern = Pattern.compile("~\\(.*?[^\\\\]\\)");
     public int cursorPosition;
 
@@ -23,23 +23,23 @@ public class so extends qr {
         Keyboard.enableRepeatEvents(false);
     }
 
-    public void p_() {
+    public void s_() {
         ++this.b;
     }
 
     protected void a(char var1, int var2) {
         /* if(var2 == 1) {
-            this.l.a((qr)null);
+            this.l.a((xe)null);
         } else if(var2 == 28) {
             String var3 = this.a.trim();
             if(var3.length() > 0) {
                 String var4 = this.a.trim();
-                if(!this.l.b(var4)) {
+                if(!this.l.c(var4)) {
                     this.l.h.a(var4);
                 }
             }
 
-            this.l.a((qr)null);
+            this.l.a((xe)null);
         } else {
             if(var2 == 14 && this.a.length() > 0) {
                 this.a = this.a.substring(0, this.a.length() - 1);
@@ -75,14 +75,14 @@ public class so extends qr {
             this.cursorPosition = this.a.length();
         } else if(Keyboard.isKeyDown(200) && ImprovedChat.commandScroll < ImprovedChat.pastCommands.size()) {
             ++ImprovedChat.commandScroll;
-            this.a = (String)ImprovedChat.pastCommands.get(ImprovedChat.pastCommands.size() - ImprovedChat.commandScroll);
+            this.a = ImprovedChat.pastCommands.get(ImprovedChat.pastCommands.size() - ImprovedChat.commandScroll);
             this.cursorPosition = this.a.length();
         } else if(Keyboard.isKeyDown(208) && ImprovedChat.commandScroll > 0) {
             --ImprovedChat.commandScroll;
             if(ImprovedChat.commandScroll == 0) {
                 this.a = "";
             } else {
-                this.a = (String)ImprovedChat.pastCommands.get(ImprovedChat.pastCommands.size() - ImprovedChat.commandScroll);
+                this.a = ImprovedChat.pastCommands.get(ImprovedChat.pastCommands.size() - ImprovedChat.commandScroll);
             }
 
             this.cursorPosition = this.a.length();
@@ -110,7 +110,7 @@ public class so extends qr {
         } else if(var1 == 3) {
             ImprovedChat.copy(this.a);
         } else if(var2 == 1) {
-            this.l.a((qr)null);
+            this.l.a((xe)null);
             ImprovedChat.currentTab().chatScroll = 0;
         } else if(var2 != 28 && var2 != 156) {
             if(var2 == 14 && this.a.length() > 0 && this.cursorPosition > 0) {
@@ -127,7 +127,7 @@ public class so extends qr {
             ImprovedChat.pastCommands.add(this.a);
             ImprovedChat.commandScroll = 0;
             ImprovedChat.process(this.a);
-            this.l.a((qr)null);
+            this.l.a((xe)null);
             ImprovedChat.currentTab().chatScroll = 0;
         }
     }
@@ -190,26 +190,27 @@ public class so extends qr {
 
     protected void a(int var1, int var2, int var3) {
         /* if(var3 == 0) {
-            if(this.l.v.a != null) {
+            if(this.l.w.a != null) {
                 if(this.a.length() > 0 && !this.a.endsWith(" ")) {
                     this.a = this.a + " ";
                 }
 
-                this.a = this.a + this.l.v.a;
+                this.a = this.a + this.l.w.a;
                 byte var4 = 100;
                 if(this.a.length() > var4) {
                     this.a = this.a.substring(0, var4);
                 }
             } else {
                 super.a(var1, var2, var3);
-            } */
+            }
+        } */
         if(var3 == 0) {
-            if(this.l.v.a != null) {
+            if(this.l.w.a != null) {
                 if(this.a.length() > 0 && !this.a.endsWith(" ")) {
                     this.a = this.a + " ";
                 }
 
-                this.a = this.a + this.l.v.a;
+                this.a = this.a + this.l.w.a;
                 short k = 300;
                 if(this.a.length() > k) {
                     this.a = this.a.substring(0, k);
@@ -218,6 +219,7 @@ public class so extends qr {
                 super.a(var1, var2, var3);
             }
         }
+
     }
 
     private void checkcursor() {

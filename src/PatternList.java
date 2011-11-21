@@ -37,7 +37,7 @@ public class PatternList {
 
     public void list() {
         for(int i = 0; i < this.list.size(); ++i) {
-            PatternList.Entry e = (PatternList.Entry)this.list.get(i);
+            PatternList.Entry e = this.list.get(i);
             ImprovedChat.unProccessedInput(i + ". (" + e.pattern.toString() + ")->(" + e.replacement + ")");
         }
 
@@ -50,7 +50,7 @@ public class PatternList {
     public String move(int from, int to) {
         if(from >= 0 && from <= this.list.size()) {
             if(to >= 0 && to <= this.list.size()) {
-                this.list.add(to, (PatternList.Entry)this.list.remove(from));
+                this.list.add(to, this.list.remove(from));
                 return "Move: Rule succesfully moved";
             } else {
                 return "Move: Second index out of range";

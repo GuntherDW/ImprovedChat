@@ -16,6 +16,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.io.*;
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -30,7 +31,8 @@ public class ImprovedChat implements ChatHookable {
     static Server Global;
     static Server Current;
     private static Hashtable<String, Server> servers = new Hashtable<String, Server>();
-    static Hashtable constantVar;
+    static Hashtable<String, String[]> translations;
+    static Hashtable<String, String> constantVar;
     public static List<String> pastCommands = new ArrayList<String>();
     private static PatternList[] d;
     private static File settings;
@@ -42,7 +44,7 @@ public class ImprovedChat implements ChatHookable {
     private static final int output = 1;
     private static final int display = 2;
     private static final Pattern space = Pattern.compile(" ");
-    private static Hashtable colorHex = new Hashtable();
+    private static Hashtable<String, Integer> colorHex = new Hashtable<String, Integer>();
     private static boolean chatDisabled = false;
     public static int bgOpacity = 128;
     public static int bgColor = 0;
@@ -59,7 +61,8 @@ public class ImprovedChat implements ChatHookable {
     private static Pattern varP = Pattern.compile("\\$\\w*");
     private static Pattern varPinB = Pattern.compile("\'\\$\\w*\'");
     private static Pattern fixInvalidCharacter = Pattern.compile("\u00a7");
-    private static Hashtable commands;
+    private static Pattern TranslatablePart = Pattern.compile("(?<!§)\\w(\\w|\\s|\')*\\w");
+    private static Hashtable<String, icCommand> commands;
     private static Pattern scriptVar = Pattern.compile("\\$[0-9]+");
     private static Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
     public static Pattern ExtraSnowBallspattern = Pattern.compile("§7§3§3§4(.*)");
@@ -106,8 +109,8 @@ public class ImprovedChat implements ChatHookable {
         }
     }
 
-    public static void init(Minecraft minec) {
-        m = minec;
+    public static void init(Minecraft minecraft) {
+        m = minecraft;
         new ImprovedChat();
     }
 
@@ -209,13 +212,13 @@ public class ImprovedChat implements ChatHookable {
         for(int tab = 0; tab < 4; ++tab) {
             topElement = newElem(topElement, "Bindings");
             topElement.setAttribute("type", "" + tab);
-            Enumeration ei = server.bindings[tab].keys();
+            Enumeration ei = server.bindings.get(tab).keys();
 
             while(ei.hasMoreElements()) {
                 Integer i = (Integer)ei.nextElement();
                 e = newElem(topElement, "entry");
                 e.setAttribute("key", i.toString());
-                addTextNode(e, (String)server.bindings[tab].get(i));
+                addTextNode(e, server.bindings.get(tab).get(i));
             }
 
             topElement = (Element)topElement.getParentNode();
@@ -236,7 +239,7 @@ public class ImprovedChat implements ChatHookable {
 
         for(int var10 = 0; var10 < server.tabs.size(); ++var10) {
             Tab var9;
-            if((var9 = (Tab)server.tabs.get(var10)) != null) {
+            if((var9 = server.tabs.get(var10)) != null) {
                 topElement = newElem(topElement, "Tab");
                 topElement.setAttribute("prefix", var9.prefix);
                 addTextNode(newElem(topElement, "name"), var9.name);
@@ -346,6 +349,17 @@ public class ImprovedChat implements ChatHookable {
                             ;
                         }
                     }
+                    split = e.getElementsByTagName("ServerTranslations").item(0);
+                    if(split != null && split.getNodeType() == 1) {
+                        translations.clear();
+                        serverList = ((Element)split).getElementsByTagName("server");
+
+                        for(j = 0; j < serverList.getLength(); ++j) {
+                            line = (Element)serverList.item(j);
+                            String[] var25 = new String[]{line.getAttribute("from"), line.getAttribute("to")};
+                            translations.put(line.getTextContent(), var25);
+                        }
+                    }
                 }
 
                 line = (Element)e.getElementsByTagName("ChatHistory").item(0);
@@ -389,12 +403,12 @@ public class ImprovedChat implements ChatHookable {
                                 name = Integer.parseInt(tabEl);
                             }
 
-                            server.bindings[name].clear();
+                            server.bindings.get(name).clear();
                             NodeList tab = i.getElementsByTagName("entry");
 
                             for(int nl2 = 0; nl2 < tab.getLength(); ++nl2) {
                                 line = (Element)tab.item(nl2);
-                                server.bindings[name].put(Integer.parseInt(line.getAttribute("key")), line.getTextContent());
+                                server.bindings.get(name).put(Integer.parseInt(line.getAttribute("key")), line.getTextContent());
                             }
                         }
 
@@ -476,7 +490,7 @@ public class ImprovedChat implements ChatHookable {
     }
 
     public static int getColorHex(String name) {
-        Integer I = (Integer)colorHex.get(name);
+        Integer I = colorHex.get(name);
         return I == null?-1:I.intValue();
     }
 
@@ -488,22 +502,22 @@ public class ImprovedChat implements ChatHookable {
         Integer I;
         int i;
         for(i = 0; i < 4; ++i) {
-            ei = Global.bindings[i].keys();
+            ei = Global.bindings.get(i).keys();
 
             while(ei.hasMoreElements()) {
                 I = (Integer)ei.nextElement();
-                unProccessedInput(pr[i] + Keyboard.getKeyName(I.intValue()) + ": " + (String)Global.bindings[i].get(I));
+                unProccessedInput(pr[i] + Keyboard.getKeyName(I.intValue()) + ": " + Global.bindings.get(i).get(I));
             }
         }
 
         unProccessedInput("Server specific key bindings");
 
         for(i = 0; i < 4; ++i) {
-            ei = Current.bindings[i].keys();
+            ei = Current.bindings.get(i).keys();
 
             while(ei.hasMoreElements()) {
                 I = (Integer)ei.nextElement();
-                unProccessedInput(pr[i] + Keyboard.getKeyName(I.intValue()) + ": " + (String)Current.bindings[i].get(I));
+                unProccessedInput(pr[i] + Keyboard.getKeyName(I.intValue()) + ": " + Current.bindings.get(i).get(I));
             }
         }
 
@@ -526,7 +540,7 @@ public class ImprovedChat implements ChatHookable {
         if(kv == 0) {
             stderr("There is no key with name " + key);
         } else {
-            Current.bindings[type].put(new Integer(kv), command);
+            Current.bindings.get(type).put(new Integer(kv), command);
         }
     }
 
@@ -544,7 +558,7 @@ public class ImprovedChat implements ChatHookable {
         }
 
         int kv = Keyboard.getKeyIndex(key);
-        String r = (String)Current.bindings[type].remove(new Integer(kv));
+        String r = Current.bindings.get(type).remove(new Integer(kv));
         return r != null;
     }
 
@@ -581,7 +595,7 @@ public class ImprovedChat implements ChatHookable {
 
             String r;
             if(v == null) {
-                r = (String)constantVar.get(name);
+                r = constantVar.get(name);
             } else {
                 r = v.value;
             }
@@ -736,7 +750,7 @@ public class ImprovedChat implements ChatHookable {
                         {
                             if(colors.size() > 1)
                                 colors.pop();
-                            Character character1 = (Character)colors.peek();
+                            Character character1 = colors.peek();
                             sb.append((new StringBuilder("\247")).append(character1).toString());
                             var15 += 2;
                             break;
@@ -751,7 +765,7 @@ public class ImprovedChat implements ChatHookable {
                             if(var16 == 0)
                             {
                                 var16 = sb.length();
-                                newLineColor = (Character)colors.peek();
+                                newLineColor = colors.peek();
                             }
                             r.add(colorCrashFix.matcher(sb.substring(0, var16)).replaceAll(""));
                             sb.delete(0, var16).append(s1);
@@ -776,6 +790,20 @@ public class ImprovedChat implements ChatHookable {
     public static List<String> processInput(String line) {
         line = buxvillFix.matcher(line).replaceAll("/&c");
         line = updateColor.matcher(d[0].process(line)).replaceAll("\u00a7");
+        /* String[] langs = translations.get(m.y.y);
+        if(langs != null) {
+            Matcher m = TranslatablePart.matcher(line);
+            int pos = 0;
+
+            StringBuilder out;
+            for(out = new StringBuilder(); m.find(); pos = m.end()) {
+                out.append(line.substring(pos, m.start()));
+                out.append(Translator.translate(langs[1], langs[0], m.group()));
+            }
+
+            out.append(line.substring(pos));
+            line = out.toString();
+        } */
         return format(line, 320);
     }
 
@@ -785,7 +813,7 @@ public class ImprovedChat implements ChatHookable {
         return getFontRenderer().a(str);
     }
 
-    public static kh getFontRenderer()
+    public static abe getFontRenderer()
     {
         return m.q;
     }
@@ -804,8 +832,8 @@ public class ImprovedChat implements ChatHookable {
 
     }
 
-    public static void handle_draw(abj theGuiIngame, kh var8, boolean var35, byte var30) {
-        boolean var36 = false;
+    public static void handle_draw(qd theGuiIngame, abe var8, boolean var35, byte var30) {
+        //boolean var36 = false;
         if(Current != null) {
             int var38;
             int var11;
@@ -869,8 +897,8 @@ public class ImprovedChat implements ChatHookable {
             String var12 = "";
 
             for(var11 = currentTab().chatScroll; var11 < currentTab().e.size() && var11 < var30 + currentTab().chatScroll; ++var11) {
-                if(getUpdateCounterOfChatLine((kq)currentTab().e.get(var11)) < 200 || var35) {
-                    double var13 = (double)getUpdateCounterOfChatLine((kq)currentTab().e.get(var11)) / 200.0D;
+                if(getUpdateCounterOfChatLine(currentTab().e.get(var11)) < 200 || var35) {
+                    double var13 = (double)getUpdateCounterOfChatLine(currentTab().e.get(var11)) / 200.0D;
                     var13 = 1.0D - var13;
                     var13 *= 10.0D;
                     if(var13 < 0.0D) {
@@ -890,7 +918,7 @@ public class ImprovedChat implements ChatHookable {
                     if(var38 > 0) {
                         byte var39 = 2;
                         int var26 = (-var11 + currentTab().chatScroll) * 9;
-                        var12 = getChatMessageOfChatLine((kq)currentTab().e.get(var11));
+                        var12 = getChatMessageOfChatLine(currentTab().e.get(var11));
                         drawRectOnGuiIngame(theGuiIngame, var39, var26 - 1, var39 + 320, var26 + 8, (var38 << 24) + historyColor);
                         GL11.glEnable(3042);
                         drawStringWithShadow(var8, var12, var39, var26, 16777215);
@@ -901,15 +929,15 @@ public class ImprovedChat implements ChatHookable {
 
     }
 
-    public static void drawRectOnGuiIngame(abj theabj, int var1, int var2, int var3, int var4, int var5) {
+    public static void drawRectOnGuiIngame(qd theabj, int var1, int var2, int var3, int var4, int var5) {
         theabj.a(var1, var2, var3, var4, var5);
     }
 
-    public static String getChatMessageOfChatLine(kq thechatline) {
+    public static String getChatMessageOfChatLine(ao thechatline) {
         return thechatline.a;
     }
 
-    public static qs get_thePlayer() {
+    public static di get_thePlayer() {
         return m.h;
     }
 
@@ -917,50 +945,50 @@ public class ImprovedChat implements ChatHookable {
         get_thePlayer().a(str);
     }
 
-    public static qr getCurrentScreen() {
-        return m.r;
+    public static xe getCurrentScreen() {
+        return m.s;
     }
 
     public File getAppDir(String str) {
         return Minecraft.a(str);
     }
 
-    public static fv getGameSettings() {
-        return m.z;
+    public static ki getGameSettings() {
+        return m.A;
     }
 
     public static String getLastServer() {
-        return getGameSettings().F;
+        return getGameSettings().G;
     }
 
-    public static int getUpdateCounterOfChatLine(kq thechatline) {
+    public static int getUpdateCounterOfChatLine(ao thechatline) {
         return thechatline.b;
     }
 
-    public static void drawStringWithShadow(kh fontrenderer, String var1, int var2, int var3, int var4) {
-        fontrenderer.a(var1, var2, var3, var4);
+    public static void drawStringWithShadow(abe FontRenderer, String var1, int var2, int var3, int var4) {
+        FontRenderer.a(var1, var2, var3, var4);
     }
 
-    public static void drawString(kh fontrenderer, String var1, int var2, int var3, int var4) {
-        fontrenderer.b(var1, var2, var3, var4);
+    public static void drawString(abe FontRenderer, String var1, int var2, int var3, int var4) {
+        FontRenderer.b(var1, var2, var3, var4);
     }
 
-    public static int getUpdateCounterOfGuiIngame(abj theabj) {
-        return theabj.i;
+    public static int getUpdateCounterOfGuiIngame(qd theabj) {
+        return theabj.h;
     }
 
-    public static void displayGuiScreen(qr guiscreen) {
+    public static void displayGuiScreen(xe guiscreen) {
         m.a(guiscreen);
     }
 
     public static String getAllowedCharacters() {
-        return sb.a;
+        return age.a;
     }
 
     public static Server getCurrentServer() {
         String s = getLastServer();
         if(s != Current.name) {
-            setCurrentServer((Server)servers.get(s));
+            setCurrentServer(servers.get(s));
             if(Current == null) {
                 servers.put(s, Current = new Server(s));
             }
@@ -989,14 +1017,14 @@ public class ImprovedChat implements ChatHookable {
         }
 
         Integer I = new Integer(i);
-        String command = (String)Current.bindings[type].get(I);
+        String command = Current.bindings.get(type).get(I);
         if(command == null) {
-            command = (String)Global.bindings[type].get(I);
+            command = Global.bindings.get(type).get(I);
         }
 
         if(command != null) {
             if(command.endsWith("\\")) {
-                so win = new so();
+                gx win = new gx();
                 win.cursorPosition = (win.a = replaceVarsInBind(command.substring(0, command.length() - 1))).length();
                 m.a(win);
             } else {
@@ -1051,7 +1079,7 @@ public class ImprovedChat implements ChatHookable {
 
         while(es.hasMoreElements()) {
             String elem = (String)es.nextElement();
-            unProccessedInput(elem + ":" + (String)constantVar.get(elem));
+            unProccessedInput(elem + ":" + constantVar.get(elem));
         }
 
     }
@@ -1104,10 +1132,10 @@ public class ImprovedChat implements ChatHookable {
     public static void stdout(String line) {
         if(line != null && !line.trim().equals("")) {
             List<String> lines = processInput(line);
-            kq[] linesArray = new kq[lines.size()];
+            ao[] linesArray = new ao[lines.size()];
 
             for(int fixed = 0; fixed < linesArray.length; ++fixed) {
-                linesArray[fixed] = new kq(lines.get(fixed));
+                linesArray[fixed] = new ao(lines.get(fixed));
             }
 
             String var11 = colorTags.matcher(line).replaceAll("");
@@ -1117,11 +1145,11 @@ public class ImprovedChat implements ChatHookable {
             while(var5.hasNext()) {
                 tab = (Tab)var5.next();
                 if(tab.valid(var11)) {
-                    kq[] var9 = linesArray;
+                    ao[] var9 = linesArray;
                     int var8 = linesArray.length;
 
                     for(int var7 = 0; var7 < var8; ++var7) {
-                        kq e = var9[var7];
+                        ao e = var9[var7];
                         tab.add(e);
                     }
 
@@ -1133,9 +1161,9 @@ public class ImprovedChat implements ChatHookable {
                 }
             }
 
-            tab = (Tab)Current.tabs.get(Current.currentTabIndex);
+            tab = Current.tabs.get(Current.currentTabIndex);
             tab.blinking = false;
-            if(m.r instanceof so && tab.chatScroll > 0 && tab.valid(var11)) {
+            if(m.s instanceof gx && tab.chatScroll > 0 && tab.valid(var11)) {
                 tab.chatScroll += lines.size();
                 if(tab.chatScroll > tab.e.size() - 16) {
                     tab.chatScroll = tab.e.size() - 16;
@@ -1203,7 +1231,7 @@ public class ImprovedChat implements ChatHookable {
         d[0] = new PatternList();
         d[1] = new PatternList();
         d[2] = new PatternList();
-        constantVar = new Hashtable();
+        constantVar = new Hashtable<String, String>();
 
         try {
             BufferedReader d = new BufferedReader(new FileReader(colors));
@@ -1234,8 +1262,8 @@ public class ImprovedChat implements ChatHookable {
             var8.printStackTrace();
         }
 
-        commands = new Hashtable();
-        commands.put("bind", new ImprovedChat.Command("binds a command to a key.", "bind <keyName> <command>", "Key binding succesfull") {
+        commands = new Hashtable<String, icCommand>();
+        commands.put("bind", new icCommand("binds a command to a key.", "bind <keyName> <command>", "Key binding succesfull") {
             public boolean process(String[] args) {
                 if(args != null && args.length >= 2) {
                     ImprovedChat.addKB(args[0], ImprovedChat.unsplit(args, 1));
@@ -1245,7 +1273,7 @@ public class ImprovedChat implements ChatHookable {
                 }
             }
         });
-        commands.put("bgcolor", new ImprovedChat.Command("changes the backround color of the chat box.", "~bgColor <colorName>", "Background color of the chat bar successfully changed") {
+        commands.put("bgcolor", new icCommand("changes the backround color of the chat box.", "~bgColor <colorName>", "Background color of the chat bar successfully changed") {
             public boolean process(String[] args) {
                 if(args != null && args.length >= 1) {
                     int color = ImprovedChat.getColorHex(args[0].toLowerCase());
@@ -1262,7 +1290,7 @@ public class ImprovedChat implements ChatHookable {
                 }
             }
         });
-        commands.put("bgopacity", new ImprovedChat.Command("changes the opacity of the chat box.", "~bgOpacity <num>", "Opacity of the chat bar successfully changed") {
+        commands.put("bgopacity", new icCommand("changes the opacity of the chat box.", "~bgOpacity <num>", "Opacity of the chat bar successfully changed") {
             public boolean process(String[] args) {
                 if(args != null && args.length >= 1) {
                     if(!ImprovedChat.isNumeric(args[0])) {
@@ -1282,7 +1310,7 @@ public class ImprovedChat implements ChatHookable {
                 }
             }
         });
-        commands.put("histcolor", new ImprovedChat.Command("changes the backround color of the chat history.", "~histColor <colorName>", "Background color of the chat history successfully changed") {
+        commands.put("histcolor", new icCommand("changes the backround color of the chat history.", "~histColor <colorName>", "Background color of the chat history successfully changed") {
             public boolean process(String[] args) {
                 if(args != null && args.length >= 1) {
                     int color = ImprovedChat.getColorHex(args[0].toLowerCase());
@@ -1299,7 +1327,7 @@ public class ImprovedChat implements ChatHookable {
                 }
             }
         });
-        commands.put("histopacity", new ImprovedChat.Command("changes the opacity of the chat history.", "~histOpacity <num>", "Opacity of the chat history successfully changed") {
+        commands.put("histopacity", new icCommand("changes the opacity of the chat history.", "~histOpacity <num>", "Opacity of the chat history successfully changed") {
             public boolean process(String[] args) {
                 if(args != null && args.length >= 1) {
                     if(!ImprovedChat.isNumeric(args[0])) {
@@ -1319,13 +1347,13 @@ public class ImprovedChat implements ChatHookable {
                 }
             }
         });
-        commands.put("stop", new ImprovedChat.Command("Stops the chatting", (String)null, "") {
+        commands.put("stop", new icCommand("Stops the chatting", (String)null, "") {
             public boolean process(String[] args) {
                 ImprovedChat.access$2(true);
                 return true;
             }
         });
-        commands.put("colorchat", new ImprovedChat.Command("Sets the colorchat setting for this server", (String)null, "") {
+        commands.put("colorchat", new icCommand("Sets the colorchat setting for this server", (String)null, "") {
             public boolean process(String[] args) {
                 if(args != null && args.length>0) {
                     if(args[0].equalsIgnoreCase("true"))
@@ -1339,7 +1367,7 @@ public class ImprovedChat implements ChatHookable {
                 return true;
             }
         });
-        commands.put("chatlines", new ImprovedChat.Command("Sets the amount of lines you see", (String)null, "") {
+        commands.put("chatlines", new icCommand("Sets the amount of lines you see", (String)null, "") {
             public boolean process(String[] args) {
                 if(args != null && args.length>0) {
                     if(args[0].equalsIgnoreCase("small")) { try{ ChatLinesSmall = Byte.parseByte(args[1]); } catch(NumberFormatException ex)  { ImprovedChat.stderr("Caught exception!"); } }
@@ -1350,25 +1378,26 @@ public class ImprovedChat implements ChatHookable {
                 return true;
             }
         });
-        commands.put("start", new ImprovedChat.Command("Starts the chatting", (String)null, "") {
+
+        commands.put("start", new icCommand("Starts the chatting", (String)null, "") {
             public boolean process(String[] args) {
                 ImprovedChat.access$2(false);
                 return true;
             }
         });
-        commands.put("help", new ImprovedChat.Command("Displays this message", (String)null, "") {
+        commands.put("help", new icCommand("Displays this message", (String)null, "") {
             public boolean process(String[] args) {
                 Enumeration keys = ImprovedChat.commands.keys();
 
                 while(keys.hasMoreElements()) {
                     String key = (String)keys.nextElement();
-                    ImprovedChat.console(key + ":" + ((ImprovedChat.Command) ImprovedChat.commands.get(key)).desc);
+                    ImprovedChat.console(key + ":" + ImprovedChat.commands.get(key).desc);
                 }
 
                 return true;
             }
         });
-        commands.put("list", new ImprovedChat.Command("Lists variables, constants and rules(input, output or display)", "~list (bind|var|const|input|output|display|track|ignore)", "") {
+        commands.put("list", new icCommand("Lists variables, constants and rules(input, output or display)", "~list (bind|var|const|input|output|display|track|ignore)", "") {
             public boolean process(String[] args) {
                 if(args != null && args.length >= 1) {
                     if(args[0].equalsIgnoreCase("bind")) {
@@ -1408,7 +1437,7 @@ public class ImprovedChat implements ChatHookable {
                 }
             }
         });
-        commands.put("move", new ImprovedChat.Command("Changes rules priority or moves tab position", "~move (input|output|display|tab) <from> <to>", "") {
+        commands.put("move", new icCommand("Changes rules priority or moves tab position", "~move (input|output|display|tab) <from> <to>", "") {
             public boolean process(String[] args) {
                 if(args != null && args.length >= 3) {
                     if(ImprovedChat.isNumeric(args[1])) {
@@ -1417,7 +1446,7 @@ public class ImprovedChat implements ChatHookable {
                             int to = Integer.parseInt(args[2]);
                             if(args[0].equalsIgnoreCase("tab")) {
                                 if(from >= 0 && to >= 0 && from < ImprovedChat.Current.tabs.size() && to < ImprovedChat.Current.tabs.size()) {
-                                    ImprovedChat.Current.tabs.add(to, (Tab) ImprovedChat.Current.tabs.remove(from));
+                                    ImprovedChat.Current.tabs.add(to, ImprovedChat.Current.tabs.remove(from));
                                     return true;
                                 } else {
                                     ImprovedChat.stderr("Index out of range");
@@ -1437,25 +1466,25 @@ public class ImprovedChat implements ChatHookable {
                 }
             }
         });
-        commands.put("clear", new ImprovedChat.Command("Clears chat history.", (String)null, "") {
+        commands.put("clear", new icCommand("Clears chat history.", (String)null, "") {
             public boolean process(String[] args) {
-                ((Tab) ImprovedChat.Current.tabs.get(ImprovedChat.Current.currentTabIndex)).e.clear();
+                ImprovedChat.Current.tabs.get(ImprovedChat.Current.currentTabIndex).e.clear();
                 return true;
             }
         });
-        commands.put("var", new ImprovedChat.Command("used for creating variables", "~var <varName> <regex>", "Variable created") {
+        commands.put("var", new icCommand("used for creating variables", "~var <varName> <regex>", "Variable created") {
             public boolean process(String[] args) {
                 return args != null && args.length >= 2? ImprovedChat.Current.vars.add(args[0], ImprovedChat.unsplit(args, 1)):false;
             }
         });
-        commands.put("reload", new ImprovedChat.Command("reloads config", (String)null, "Config reloaded") {
+        commands.put("reload", new icCommand("reloads config", (String)null, "Config reloaded") {
             public boolean process(String[] args) {
                 ImprovedChat.load();
                 ImprovedChat.setWorld();
                 return true;
             }
         });
-        commands.put("delete", new ImprovedChat.Command("deletes variables, binds or rules", "~delete (bind|var|input|output|display) <id>", "") {
+        commands.put("delete", new icCommand("deletes variables, binds or rules", "~delete (bind|var|input|output|display) <id>", "") {
             public boolean process(String[] args) {
                 if(args != null && args.length >= 2) {
                     if(args[0].equalsIgnoreCase("bind")) {
@@ -1473,9 +1502,9 @@ public class ImprovedChat implements ChatHookable {
                             } else {
                                 ArrayList list;
                                 if(args[0].equals("ignore")) {
-                                    list = ((Tab) ImprovedChat.Current.tabs.get(ImprovedChat.Current.currentTabIndex)).ignore;
+                                    list = ImprovedChat.Current.tabs.get(ImprovedChat.Current.currentTabIndex).ignore;
                                 } else {
-                                    list = ((Tab) ImprovedChat.Current.tabs.get(ImprovedChat.Current.currentTabIndex)).track;
+                                    list = ImprovedChat.Current.tabs.get(ImprovedChat.Current.currentTabIndex).track;
                                 }
 
                                 if(a >= list.size()) {
@@ -1496,7 +1525,7 @@ public class ImprovedChat implements ChatHookable {
                 }
             }
         });
-        commands.put("script", new ImprovedChat.Command("run scripts from desktop(D:), .minecraft folder(M:) or mod folder", "~script [D:|M:]<scriptName>", "Script executed") {
+        commands.put("script", new icCommand("run scripts from desktop(D:), .minecraft folder(M:) or mod folder", "~script [D:|M:]<scriptName>", "Script executed") {
             public boolean process(String[] args) {
                 if(args != null && args.length >= 1) {
                     String name = args[0];
@@ -1554,7 +1583,7 @@ public class ImprovedChat implements ChatHookable {
                 }
             }
         });
-        commands.put("input", new ImprovedChat.Command("makes rules for formating input window", "~input <regex>  <repl>", "Input rule created") {
+        commands.put("input", new icCommand("makes rules for formating input window", "~input <regex>  <repl>", "Input rule created") {
             public boolean process(String[] args) {
                 if(args != null && args.length >= 3) {
                     for(int i = 1; i < args.length; ++i) {
@@ -1570,7 +1599,7 @@ public class ImprovedChat implements ChatHookable {
                 }
             }
         });
-        commands.put("output", new ImprovedChat.Command("makes rules for formating output messages", "~output <regex>  <repl>", "Output rule created") {
+        commands.put("output", new icCommand("makes rules for formating output messages", "~output <regex>  <repl>", "Output rule created") {
             public boolean process(String[] args) {
                 if(args != null && args.length >= 3) {
                     for(int i = 1; i < args.length; ++i) {
@@ -1586,7 +1615,7 @@ public class ImprovedChat implements ChatHookable {
                 }
             }
         });
-        commands.put("display", new ImprovedChat.Command("makes rules for formating chat box", "~display <regex>  <repl>", "Display rule created") {
+        commands.put("display", new icCommand("makes rules for formating chat box", "~display <regex>  <repl>", "Display rule created") {
             public boolean process(String[] args) {
                 if(args != null && args.length >= 3) {
                     for(int i = 1; i < args.length; ++i) {
@@ -1602,7 +1631,44 @@ public class ImprovedChat implements ChatHookable {
                 }
             }
         });
-        commands.put("close", new ImprovedChat.Command("Used for closing the curent tab", "~close", "") {
+        commands.put("seed", new icCommand("Sets seed for this world (for Rei's minimap", "~setSeed <seed>","Set seed") {
+            public boolean process(String[] args) {
+                if(args != null) {
+                    try{
+                        Long seed = Long.parseLong(args[0]);
+                        //long origseed = m.f.C.
+                        long origseed = m.f.C.b();
+                        int gametype = m.f.C.q();
+                        boolean mapFeatures = m.f.C.r();
+
+                        String worldname = m.f.C.j();
+
+                        try{
+                            Class o = m.f.C.getClass();
+                            Field Seed = o.getDeclaredField("a");
+                            Seed.setAccessible(true);
+                            // Object origSeed = Seed.get(m.f.C);
+                            stdout("Original (obfuscated?) seed : "+Seed.getLong(m.f.C));
+                            // Seed.set(m.f.C, seed);
+                            Seed.setLong(m.f.C, seed);
+                            stdout("After seed : "+Seed.getLong(m.f.C));
+                        } catch (NoSuchFieldException e) {
+                            stderr("No such field!");
+                        } catch (IllegalAccessException e) {
+                            stderr("IllegalAccesException");
+                        }
+
+                        // public rl(dx dx, java.lang.String s) { /* compiled code */ }
+                        // m.f.C.a((dx) newdx);// , (String) worldname);
+                    }
+                    catch(NumberFormatException ex) { return false; }
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        commands.put("close", new icCommand("Used for closing the curent tab", "~close", "") {
             public boolean process(String[] args) {
                 if(ImprovedChat.Current.tabs.size() < 2) {
                     ImprovedChat.stderr("Can not remove only tab.");
@@ -1618,7 +1684,7 @@ public class ImprovedChat implements ChatHookable {
                 }
             }
         });
-        commands.put("blink", new ImprovedChat.Command("Blink on new messages", "~blink (on|off)", "") {
+        commands.put("blink", new icCommand("Blink on new messages", "~blink (on|off)", "") {
             public boolean process(String[] args) {
                 if(args != null && args.length >= 1) {
                     ImprovedChat.Current.currentTab().blink = args[0].equalsIgnoreCase("on");
@@ -1628,7 +1694,7 @@ public class ImprovedChat implements ChatHookable {
                 }
             }
         });
-        commands.put("track", new ImprovedChat.Command("Includes all the messages of given format into this tab", "~track <regex>", "") {
+        commands.put("track", new icCommand("Includes all the messages of given format into this tab", "~track <regex>", "") {
             public boolean process(String[] args) {
                 if(args != null && args.length >= 1) {
                     String regex = ImprovedChat.unsplit(args, 0);
@@ -1639,7 +1705,7 @@ public class ImprovedChat implements ChatHookable {
                 }
             }
         });
-        commands.put("ignore", new ImprovedChat.Command("Excludes all the messages of given format from this tab", "~ignore <regex>", "") {
+        commands.put("ignore", new icCommand("Excludes all the messages of given format from this tab", "~ignore <regex>", "") {
             public boolean process(String[] args) {
                 if(args != null && args.length >= 1) {
                     String regex = ImprovedChat.unsplit(args, 0);
@@ -1650,7 +1716,7 @@ public class ImprovedChat implements ChatHookable {
                 }
             }
         });
-        commands.put("prefix", new ImprovedChat.Command("All messages sent in this tab will start with this prefix", "~prefix <prefix>", "") {
+        commands.put("prefix", new icCommand("All messages sent in this tab will start with this prefix", "~prefix <prefix>", "") {
             public boolean process(String[] args) {
                 if(args != null && args.length >= 1) {
                     ImprovedChat.Current.currentTab().prefix = ImprovedChat.unsplit(args, 0);
@@ -1660,7 +1726,7 @@ public class ImprovedChat implements ChatHookable {
                 }
             }
         });
-        commands.put("tab", new ImprovedChat.Command("Used for creating and renameing tabs.", "~tab [name] <name>", "") {
+        commands.put("tab", new icCommand("Used for creating and renameing tabs.", "~tab [name] <name>", "") {
             public boolean process(String[] args) {
                 if(args != null && args.length >= 1) {
                     if(args[0].equalsIgnoreCase("name")) {
@@ -1697,7 +1763,7 @@ public class ImprovedChat implements ChatHookable {
     public static void process(String line) {
         if(line != null && !line.trim().equals("")) {
             if(!line.startsWith("~") && !line.startsWith("/")) {
-                line = ((Tab)Current.tabs.get(Current.currentTabIndex)).prefix + line;
+                line = Current.tabs.get(Current.currentTabIndex).prefix + line;
             }
 
             if(line.startsWith("~")) {
@@ -1718,12 +1784,12 @@ public class ImprovedChat implements ChatHookable {
                 var7 = space.split(var7[1], 2);
             }
 
-            ImprovedChat.Command var8 = (ImprovedChat.Command)commands.get(var7[0].toLowerCase());
+            icCommand var8 = commands.get(var7[0].toLowerCase());
             if(var8 == null) {
                 console("Command " + var7[0] + " doesn\'t exist.");
             } else {
                 if(var7.length != 2) {
-                    var7 = (String[])null;
+                    var7 = null;
                 } else {
                     var7 = space.split(var7[1], -1);
                 }
@@ -1793,8 +1859,8 @@ public class ImprovedChat implements ChatHookable {
     }
 
     public static void setWorld() {
-        String name = m.z.F;
-        Current = (Server)servers.get(name);
+        String name = m.A.G;
+        Current = servers.get(name);
         if(Current == null) {
             servers.put(name, Current = new Server(name));
         }
@@ -1834,12 +1900,12 @@ public class ImprovedChat implements ChatHookable {
     }
 
     public static void copy(String a) {
-        clipboard.setContents(new StringSelection(a), (ClipboardOwner)null);
+        clipboard.setContents(new StringSelection(a), null);
     }
 
     public static String paste() {
         String str = "";
-        Transferable localTransferable = clipboard.getContents((Object)null);
+        Transferable localTransferable = clipboard.getContents(null);
         if(localTransferable != null && localTransferable.isDataFlavorSupported(DataFlavor.stringFlavor)) {
             try {
                 str = (String)localTransferable.getTransferData(DataFlavor.stringFlavor);
@@ -1881,22 +1947,5 @@ public class ImprovedChat implements ChatHookable {
         } else {
             return false;
         }
-    }
-
-
-    private abstract class Command {
-
-        private String usage;
-        private String desc;
-        private String success;
-
-
-        public Command(String description, String usage, String success) {
-            this.desc = description;
-            this.usage = usage;
-            this.success = success;
-        }
-
-        public abstract boolean process(String[] var1);
     }
 }
