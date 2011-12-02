@@ -22,8 +22,8 @@ public class qd extends ht {
 
 
     public qd(Minecraft var1) {
-        ImprovedChat.init(var1);
         this.g = var1;
+        ImprovedChat.init(var1);
     }
 
     public void a(float var1, boolean var2, int var3, int var4) {
@@ -562,6 +562,7 @@ public class qd extends ht {
         for(int var1 = 0; var1 < this.e.size(); ++var1) {
             ++((ahe)this.e.get(var1)).b;
         }
+
         ImprovedChat.tick();
     }
 
