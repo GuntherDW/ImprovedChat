@@ -6,50 +6,28 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class gx extends xe {
+public class wm extends ug {
 
     protected String a = "";
     private int b = 0;
-    private static final String c = age.a;
+    private static final String c = vx.a;
     private static Pattern prefixPattern = Pattern.compile("~\\(.*?[^\\\\]\\)");
     public int cursorPosition;
 
 
-    public void a() {
+    public void c() {
         Keyboard.enableRepeatEvents(true);
     }
 
-    public void d() {
+    public void e() {
         Keyboard.enableRepeatEvents(false);
     }
 
-    public void s_() {
+    public void a() {
         ++this.b;
     }
 
     protected void a(char var1, int var2) {
-        /* if(var2 == 1) {
-            this.l.a((xe)null);
-        } else if(var2 == 28) {
-            String var3 = this.a.trim();
-            if(var3.length() > 0) {
-                String var4 = this.a.trim();
-                if(!this.l.c(var4)) {
-                    this.l.h.a(var4);
-                }
-            }
-
-            this.l.a((xe)null);
-        } else {
-            if(var2 == 14 && this.a.length() > 0) {
-                this.a = this.a.substring(0, this.a.length() - 1);
-            }
-
-            if(c.indexOf(var1) >= 0 && this.a.length() < 100) {
-                this.a = this.a + var1;
-            }
-
-        } */
         boolean ctrlPressed = Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157);
         if(Keyboard.isKeyDown(203) && this.cursorPosition > 0) {
             --this.cursorPosition;
@@ -110,7 +88,7 @@ public class gx extends xe {
         } else if(var1 == 3) {
             ImprovedChat.copy(this.a);
         } else if(var2 == 1) {
-            this.l.a((xe)null);
+            this.p.a((ug)null);
             ImprovedChat.currentTab().chatScroll = 0;
         } else if(var2 != 28 && var2 != 156) {
             if(var2 == 14 && this.a.length() > 0 && this.cursorPosition > 0) {
@@ -127,15 +105,12 @@ public class gx extends xe {
             ImprovedChat.pastCommands.add(this.a);
             ImprovedChat.commandScroll = 0;
             ImprovedChat.process(this.a);
-            this.l.a((xe)null);
+            this.p.a((ug)null);
             ImprovedChat.currentTab().chatScroll = 0;
         }
     }
 
     public void a(int var1, int var2, float var3) {
-        /* this.a(2, this.n - 14, this.m - 2, this.n - 2, Integer.MIN_VALUE);
-        this.b(this.q, "> " + this.a + (this.b / 6 % 2 == 0?"_":""), 4, this.n - 12, 14737632);
-        super.a(var1, var2, var3); */
         this.checkcursor();
         String line = this.a.substring(0, this.cursorPosition) + (this.b / 6 % 2 == 0?"|":":") + this.a.substring(this.cursorPosition);
         String cm = null;
@@ -162,12 +137,12 @@ public class gx extends xe {
         List<String> vl = ImprovedChat.processDisplay(line);
         int size = vl.size();
         int bg = ((ImprovedChat.bgOpacity & 255) << 24) + ImprovedChat.bgColor;
-        this.a(2, this.n - 4 - size * 12, this.m - 2, this.n - 2, bg);
+        this.a(2, this.r - 4 - size * 12, this.q - 2, this.r - 2, bg);
         Iterator<String> var12 = vl.iterator();
 
         while(var12.hasNext()) {
             String wheel = var12.next();
-            this.b(this.q, cm + wheel, 4, this.n - 12 * size--, 14737632);
+            this.b(this.u, cm + wheel, 4, this.r - 12 * size--, 14737632);
         }
 
         int var13 = Mouse.getDWheel();
@@ -189,31 +164,16 @@ public class gx extends xe {
     }
 
     protected void a(int var1, int var2, int var3) {
-        /* if(var3 == 0) {
-            if(this.l.w.a != null) {
+        if(var3 == 0) {
+            if(this.p.w.a != null) {
                 if(this.a.length() > 0 && !this.a.endsWith(" ")) {
                     this.a = this.a + " ";
                 }
 
-                this.a = this.a + this.l.w.a;
+                this.a = this.a + this.p.w.a;
                 byte var4 = 100;
                 if(this.a.length() > var4) {
                     this.a = this.a.substring(0, var4);
-                }
-            } else {
-                super.a(var1, var2, var3);
-            }
-        } */
-        if(var3 == 0) {
-            if(this.l.w.a != null) {
-                if(this.a.length() > 0 && !this.a.endsWith(" ")) {
-                    this.a = this.a + " ";
-                }
-
-                this.a = this.a + this.l.w.a;
-                short k = 300;
-                if(this.a.length() > k) {
-                    this.a = this.a.substring(0, k);
                 }
             } else {
                 super.a(var1, var2, var3);

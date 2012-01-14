@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class aby {
+public class ads {
 
     public static List a = new ArrayList();
-    public static ob b = new ob();
+    public static zk b = new zk();
     public String c;
     public int d;
     public boolean e;
@@ -15,7 +15,7 @@ public class aby {
 
 
     public static void a(int var0) {
-        aby var1 = (aby)b.a(var0);
+        ads var1 = (ads)b.a(var0);
         if(var1 != null) {
             ++var1.f;
         }
@@ -23,11 +23,11 @@ public class aby {
     }
 
     public static void a(int var0, boolean var1) {
-        aby var2 = (aby)b.a(var0);
+        ads var2 = (ads)b.a(var0);
         if(var2 != null) {
             var2.e = var1;
         }
-        if(ImprovedChat.m.l()) {
+        if(ImprovedChat.minecraft.l()) {
             if(!var1) {
                 ImprovedChat.keyPressed(var0);
             } else if((Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157)) && Keyboard.isKeyDown(15)) {
@@ -44,7 +44,7 @@ public class aby {
         Iterator var0 = a.iterator();
 
         while(var0.hasNext()) {
-            aby var1 = (aby)var0.next();
+            ads var1 = (ads)var0.next();
             var1.d();
         }
 
@@ -55,13 +55,13 @@ public class aby {
         Iterator var0 = a.iterator();
 
         while(var0.hasNext()) {
-            aby var1 = (aby)var0.next();
+            ads var1 = (ads)var0.next();
             b.a(var1.d, var1);
         }
 
     }
 
-    public aby(String var1, int var2) {
+    public ads(String var1, int var2) {
         this.c = var1;
         this.d = var2;
         a.add(this);

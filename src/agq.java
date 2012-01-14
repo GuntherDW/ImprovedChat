@@ -1,19 +1,18 @@
-import net.minecraft.client.Minecraft;
-import org.lwjgl.opengl.GL11;
-
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import net.minecraft.client.Minecraft;
+import org.lwjgl.opengl.GL11;
 
-public class qd extends ht {
+public class agq extends nr {
 
-    private static iw d = new iw();
+    private static su d = new su();
     private List e = new ArrayList();
     private Random f = new Random();
-    private Minecraft g;
+    private Minecraft h;
     public String a = null;
-    public int h = 0;
+    public int i = 0; // ImprovedChat - private -> public
     private String j = "";
     private int k = 0;
     private boolean l = false;
@@ -21,32 +20,32 @@ public class qd extends ht {
     float c = 1.0F;
 
 
-    public qd(Minecraft var1) {
-        this.g = var1;
+    public agq(Minecraft var1) {
+        this.h = var1;
         ImprovedChat.init(var1);
     }
 
     public void a(float var1, boolean var2, int var3, int var4) {
-        ef var5 = new ef(this.g.A, this.g.d, this.g.e);
+        aec var5 = new aec(this.h.A, this.h.d, this.h.e);
         int var6 = var5.a();
         int var7 = var5.b();
-        abe var8 = this.g.q;
-        this.g.u.b();
+        mq var8 = this.h.q;
+        this.h.u.b();
         GL11.glEnable(3042);
         if(Minecraft.s()) {
-            this.a(this.g.h.b(var1), var6, var7);
+            this.a(this.h.h.a(var1), var6, var7);
         } else {
             GL11.glBlendFunc(770, 771);
         }
 
-        dk var9 = this.g.h.by.e(3);
-        if(this.g.A.E == 0 && var9 != null && var9.c == yy.ba.bM) {
+        yq var9 = this.h.h.ap.e(3);
+        if(this.h.A.E == 0 && var9 != null && var9.c == oe.bc.bO) {
             this.a(var6, var7);
         }
 
         float var10;
-        if(!this.g.h.a(abg.k)) {
-            var10 = this.g.h.cb + (this.g.h.ca - this.g.h.cb) * var1;
+        if(!this.h.h.a(yg.k)) {
+            var10 = this.h.h.aS + (this.h.h.aR - this.h.h.aS) * var1;
             if(var10 > 0.0F) {
                 this.b(var10, var6, var7);
             }
@@ -61,40 +60,40 @@ public class qd extends ht {
         int var20;
         int var22;
         int var50;
-        if(!this.g.c.i()) {
+        if(!this.h.c.e()) {
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glBindTexture(3553, this.g.p.b("/gui/gui.png"));
-            x var33 = this.g.h.by;
-            this.i = -90.0F;
+            GL11.glBindTexture(3553, this.h.p.b("/gui/gui.png"));
+            yn var33 = this.h.h.ap;
+            this.g = -90.0F;
             this.b(var6 / 2 - 91, var7 - 22, 0, 0, 182, 22);
             this.b(var6 / 2 - 91 - 1 + var33.c * 20, var7 - 22 - 1, 0, 22, 24, 22);
-            GL11.glBindTexture(3553, this.g.p.b("/gui/icons.png"));
+            GL11.glBindTexture(3553, this.h.p.b("/gui/icons.png"));
             GL11.glEnable(3042);
             GL11.glBlendFunc(775, 769);
             this.b(var6 / 2 - 7, var7 / 2 - 7, 0, 0, 16, 16);
             GL11.glDisable(3042);
-            var11 = this.g.h.ac / 3 % 2 == 1;
-            if(this.g.h.ac < 10) {
+            var11 = this.h.h.Y / 3 % 2 == 1;
+            if(this.h.h.Y < 10) {
                 var11 = false;
             }
 
-            var12 = this.g.h.ag();
-            var13 = this.g.h.aN;
-            this.f.setSeed((long)(this.h * 312871));
+            var12 = this.h.h.aP();
+            var13 = this.h.h.by;
+            this.f.setSeed((long)(this.i * 312871));
             boolean var14 = false;
-            eq var15 = this.g.h.aO();
+            mk var15 = this.h.h.aD();
             var16 = var15.a();
             var17 = var15.b();
             this.c();
             int var19;
-            if(this.g.c.a()) {
+            if(this.h.c.d()) {
                 var18 = var6 / 2 - 91;
                 var19 = var6 / 2 + 91;
-                var20 = this.g.h.aN();
+                var20 = this.h.h.aC();
                 int var23;
                 if(var20 > 0) {
                     short var21 = 182;
-                    var22 = (int)(this.g.h.cf * (float)(var21 + 1));
+                    var22 = (int)(this.h.h.aW * (float)(var21 + 1));
                     var23 = var7 - 32 + 3;
                     this.b(var18, var23, 0, 64, var21, 5);
                     if(var22 > 0) {
@@ -104,10 +103,10 @@ public class qd extends ht {
 
                 var50 = var7 - 39;
                 var22 = var50 - 10;
-                var23 = this.g.h.p();
+                var23 = this.h.h.at();
                 int var24 = -1;
-                if(this.g.h.a(abg.l)) {
-                    var24 = this.h % 25;
+                if(this.h.h.a(yg.l)) {
+                    var24 = this.i % 25;
                 }
 
                 int var25;
@@ -130,7 +129,7 @@ public class qd extends ht {
                     }
 
                     var26 = 16;
-                    if(this.g.h.a(abg.u)) {
+                    if(this.h.h.a(yg.u)) {
                         var26 += 36;
                     }
 
@@ -150,7 +149,7 @@ public class qd extends ht {
                     }
 
                     byte var30 = 0;
-                    if(this.g.f.z().s()) {
+                    if(this.h.f.z().s()) {
                         var30 = 5;
                     }
 
@@ -179,12 +178,12 @@ public class qd extends ht {
                     var26 = var50;
                     var54 = 16;
                     byte var55 = 0;
-                    if(this.g.h.a(abg.s)) {
+                    if(this.h.h.a(yg.s)) {
                         var54 += 36;
                         var55 = 13;
                     }
 
-                    if(this.g.h.aO().d() <= 0.0F && this.h % (var16 * 3 + 1) == 0) {
+                    if(this.h.h.aD().d() <= 0.0F && this.i % (var16 * 3 + 1) == 0) {
                         var26 = var50 + (this.f.nextInt(3) - 1);
                     }
 
@@ -213,9 +212,9 @@ public class qd extends ht {
                     }
                 }
 
-                if(this.g.h.a(p.g)) {
-                    var25 = (int)Math.ceil((double)(this.g.h.Z() - 2) * 10.0D / 300.0D);
-                    var26 = (int)Math.ceil((double)this.g.h.Z() * 10.0D / 300.0D) - var25;
+                if(this.h.h.a(aan.g)) {
+                    var25 = (int)Math.ceil((double)(this.h.h.aa() - 2) * 10.0D / 300.0D);
+                    var26 = (int)Math.ceil((double)this.h.h.aa() * 10.0D / 300.0D) - var25;
 
                     for(var54 = 0; var54 < var25 + var26; ++var54) {
                         if(var54 < var25) {
@@ -229,7 +228,7 @@ public class qd extends ht {
 
             GL11.glDisable(3042);
             GL11.glEnable('\u803a');
-            rt.c();
+            se.c();
 
             for(var18 = 0; var18 < 9; ++var18) {
                 var19 = var6 / 2 - 90 + var18 * 20 + 2;
@@ -237,14 +236,14 @@ public class qd extends ht {
                 this.a(var18, var19, var20, var1);
             }
 
-            rt.a();
+            se.a();
             GL11.glDisable('\u803a');
         }
 
-        if(this.g.h.aL() > 0) {
+        if(this.h.h.aA() > 0) {
             GL11.glDisable(2929);
             GL11.glDisable(3008);
-            int var34 = this.g.h.aL();
+            int var34 = this.h.h.aA();
             float var37 = (float)var34 / 100.0F;
             if(var37 > 1.0F) {
                 var37 = 1.0F - (float)(var34 - 100) / 10.0F;
@@ -258,10 +257,10 @@ public class qd extends ht {
 
         int var39;
         int var43;
-        if(this.g.c.e() && this.g.h.cd > 0) {
+        if(this.h.c.f() && this.h.h.aU > 0) {
             boolean var31 = false;
             var39 = var31?16777215:8453920;
-            String var35 = "" + this.g.h.cd;
+            String var35 = "" + this.h.h.aU;
             var13 = (var6 - var8.a(var35)) / 2;
             var43 = var7 - 31 - 4;
             var8.b(var35, var13 + 1, var43, 0);
@@ -272,17 +271,17 @@ public class qd extends ht {
         }
 
         String var48;
-        if(this.g.A.F) {
+        if(this.h.A.F) {
             GL11.glPushMatrix();
             if(Minecraft.J > 0L) {
                 GL11.glTranslatef(0.0F, 32.0F, 0.0F);
             }
 
-            var8.a("Minecraft 1.0.0 (" + this.g.M + ")", 2, 2, 16777215);
-            var8.a(this.g.m(), 2, 12, 16777215);
-            var8.a(this.g.n(), 2, 22, 16777215);
-            var8.a(this.g.p(), 2, 32, 16777215);
-            var8.a(this.g.o(), 2, 42, 16777215);
+            var8.a("Minecraft 1.1 (" + this.h.M + ")", 2, 2, 16777215);
+            var8.a(this.h.m(), 2, 12, 16777215);
+            var8.a(this.h.n(), 2, 22, 16777215);
+            var8.a(this.h.p(), 2, 32, 16777215);
+            var8.a(this.h.o(), 2, 42, 16777215);
             long var32 = Runtime.getRuntime().maxMemory();
             long var40 = Runtime.getRuntime().totalMemory();
             long var44 = Runtime.getRuntime().freeMemory();
@@ -291,11 +290,11 @@ public class qd extends ht {
             this.b(var8, var48, var6 - var8.a(var48) - 2, 2, 14737632);
             var48 = "Allocated memory: " + var40 * 100L / var32 + "% (" + var40 / 1024L / 1024L + "MB)";
             this.b(var8, var48, var6 - var8.a(var48) - 2, 12, 14737632);
-            this.b(var8, "x: " + this.g.h.s, 2, 64, 14737632);
-            this.b(var8, "y: " + this.g.h.t, 2, 72, 14737632);
-            this.b(var8, "z: " + this.g.h.u, 2, 80, 14737632);
-            this.b(var8, "f: " + (me.c((double)(this.g.h.y * 4.0F / 360.0F) + 0.5D) & 3), 2, 88, 14737632);
-            this.b(var8, "Seed: " + this.g.f.t(), 2, 104, 14737632);
+            this.b(var8, "x: " + this.h.h.o, 2, 64, 14737632);
+            this.b(var8, "y: " + this.h.h.p, 2, 72, 14737632);
+            this.b(var8, "z: " + this.h.h.q, 2, 80, 14737632);
+            this.b(var8, "f: " + (ga.c((double)(this.h.h.u * 4.0F / 360.0F) + 0.5D) & 3), 2, 88, 14737632);
+            this.b(var8, "Seed: " + this.h.f.t(), 2, 104, 14737632);
             GL11.glPopMatrix();
         }
 
@@ -324,7 +323,7 @@ public class qd extends ht {
 
         byte var36 = ImprovedChat.ChatLinesSmall;
         var11 = false;
-        if(this.g.s instanceof gx) {
+        if(this.h.s instanceof wm) {
             var36 = ImprovedChat.ChatLinesBig;
             var11 = true;
         }
@@ -337,8 +336,8 @@ public class qd extends ht {
 
         /* int var42;
         for(var12 = 0; var12 < this.e.size() && var12 < var36; ++var12) {
-            if(((ahe)this.e.get(var12)).b < 200 || var11) {
-                double var38 = (double)((ahe)this.e.get(var12)).b / 200.0D;
+            if(((my)this.e.get(var12)).b < 200 || var11) {
+                double var38 = (double)((my)this.e.get(var12)).b / 200.0D;
                 var38 = 1.0D - var38;
                 var38 *= 10.0D;
                 if(var38 < 0.0D) {
@@ -358,18 +357,19 @@ public class qd extends ht {
                 if(var42 > 0) {
                     byte var45 = 2;
                     var17 = -var12 * 9;
-                    var48 = ((ahe)this.e.get(var12)).a;
+                    var48 = ((my)this.e.get(var12)).a;
                     this.a(var45, var17 - 1, var45 + 320, var17 + 8, var42 / 2 << 24);
                     GL11.glEnable(3042);
                     var8.a(var48, var45, var17, 16777215 + (var42 << 24));
                 }
             }
         } */
+
         ImprovedChat.handle_draw(this, var8, var11, var36);
 
         GL11.glPopMatrix();
-        if(this.g.h instanceof cx && this.g.A.y.e) {
-            abp var41 = ((cx)this.g.h).a;
+        if(this.h.h instanceof afr && this.h.A.y.e) {
+            abm var41 = ((afr)this.h.h).cl;
             List var46 = var41.c;
             var43 = var41.d;
             int var42 = var43;
@@ -394,9 +394,9 @@ public class qd extends ht {
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                 GL11.glEnable(3008);
                 if(var20 < var46.size()) {
-                    ao var53 = (ao)var46.get(var20);
+                    af var53 = (af)var46.get(var20);
                     var8.a(var53.a, var50, var22, 16777215);
-                    this.g.p.b(this.g.p.b("/gui/icons.png"));
+                    this.h.p.b(this.h.p.b("/gui/icons.png"));
                     boolean var51 = false;
                     boolean var56 = false;
                     byte var52 = 0;
@@ -416,9 +416,9 @@ public class qd extends ht {
                         var57 = 4;
                     }
 
-                    this.i += 100.0F;
+                    this.g += 100.0F;
                     this.b(var50 + var17 - 12, var22, 0 + var52 * 10, 176 + var57 * 8, 10, 8);
-                    this.i -= 100.0F;
+                    this.g -= 100.0F;
                 }
             }
         }
@@ -429,15 +429,15 @@ public class qd extends ht {
     }
 
     private void c() {
-        if(ado.a != null) {
-            oo var1 = ado.a;
-            ado.a = null;
-            abe var2 = this.g.q;
-            ef var3 = new ef(this.g.A, this.g.d, this.g.e);
+        if(nu.c != null) {
+            nt var1 = nu.c;
+            nu.c = null;
+            mq var2 = this.h.q;
+            aec var3 = new aec(this.h.A, this.h.d, this.h.e);
             int var4 = var3.a();
             short var5 = 182;
             int var6 = var4 / 2 - var5 / 2;
-            int var7 = (int)((float)var1.ax() / (float)var1.f_() * (float)(var5 + 1));
+            int var7 = (int)((float)var1.x() / (float)var1.c() * (float)(var5 + 1));
             byte var8 = 12;
             this.b(var6, var8, 0, 74, var5, 5);
             this.b(var6, var8, 0, 74, var5, 5);
@@ -448,7 +448,7 @@ public class qd extends ht {
             String var9 = "Boss health";
             var2.a(var9, var4 / 2 - var2.a(var9) / 2, var8 - 10, 16711935);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glBindTexture(3553, this.g.p.b("/gui/icons.png"));
+            GL11.glBindTexture(3553, this.h.p.b("/gui/icons.png"));
         }
     }
 
@@ -458,8 +458,8 @@ public class qd extends ht {
         GL11.glBlendFunc(770, 771);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(3008);
-        GL11.glBindTexture(3553, this.g.p.b("%blur%/misc/pumpkinblur.png"));
-        cv var3 = cv.a;
+        GL11.glBindTexture(3553, this.h.p.b("%blur%/misc/pumpkinblur.png"));
+        aby var3 = aby.a;
         var3.b();
         var3.a(0.0D, (double)var2, -90.0D, 0.0D, 1.0D);
         var3.a((double)var1, (double)var2, -90.0D, 1.0D, 1.0D);
@@ -487,8 +487,8 @@ public class qd extends ht {
         GL11.glDepthMask(false);
         GL11.glBlendFunc(0, 769);
         GL11.glColor4f(this.c, this.c, this.c, 1.0F);
-        GL11.glBindTexture(3553, this.g.p.b("%blur%/misc/vignette.png"));
-        cv var4 = cv.a;
+        GL11.glBindTexture(3553, this.h.p.b("%blur%/misc/vignette.png"));
+        aby var4 = aby.a;
         var4.b();
         var4.a(0.0D, (double)var3, -90.0D, 0.0D, 1.0D);
         var4.a((double)var2, (double)var3, -90.0D, 1.0D, 1.0D);
@@ -513,12 +513,12 @@ public class qd extends ht {
         GL11.glDepthMask(false);
         GL11.glBlendFunc(770, 771);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, var1);
-        GL11.glBindTexture(3553, this.g.p.b("/terrain.png"));
-        float var4 = (float)(yy.be.bL % 16) / 16.0F;
-        float var5 = (float)(yy.be.bL / 16) / 16.0F;
-        float var6 = (float)(yy.be.bL % 16 + 1) / 16.0F;
-        float var7 = (float)(yy.be.bL / 16 + 1) / 16.0F;
-        cv var8 = cv.a;
+        GL11.glBindTexture(3553, this.h.p.b("/terrain.png"));
+        float var4 = (float)(oe.bg.bN % 16) / 16.0F;
+        float var5 = (float)(oe.bg.bN / 16) / 16.0F;
+        float var6 = (float)(oe.bg.bN % 16 + 1) / 16.0F;
+        float var7 = (float)(oe.bg.bN / 16 + 1) / 16.0F;
+        aby var8 = aby.a;
         var8.b();
         var8.a(0.0D, (double)var3, -90.0D, (double)var4, (double)var7);
         var8.a((double)var2, (double)var3, -90.0D, (double)var6, (double)var7);
@@ -532,7 +532,7 @@ public class qd extends ht {
     }
 
     private void a(int var1, int var2, int var3, float var4) {
-        dk var5 = this.g.h.by.a[var1];
+        yq var5 = this.h.h.ap.a[var1];
         if(var5 != null) {
             float var6 = (float)var5.b - var4;
             if(var6 > 0.0F) {
@@ -543,12 +543,12 @@ public class qd extends ht {
                 GL11.glTranslatef((float)(-(var2 + 8)), (float)(-(var3 + 12)), 0.0F);
             }
 
-            d.a(this.g.q, this.g.p, var5, var2, var3);
+            d.a(this.h.q, this.h.p, var5, var2, var3);
             if(var6 > 0.0F) {
                 GL11.glPopMatrix();
             }
 
-            d.b(this.g.q, this.g.p, var5, var2, var3);
+            d.b(this.h.q, this.h.p, var5, var2, var3);
         }
     }
 
@@ -557,13 +557,14 @@ public class qd extends ht {
             --this.k;
         }
 
-        ++this.h;
+        ++this.i;
 
         for(int var1 = 0; var1 < this.e.size(); ++var1) {
-            ++((ahe)this.e.get(var1)).b;
+            ++((my)this.e.get(var1)).b;
         }
 
         ImprovedChat.tick();
+
     }
 
     public void b() {
@@ -571,25 +572,8 @@ public class qd extends ht {
     }
 
     public void a(String var1) {
-        /* while(this.g.q.a(var1) > 320) {
-            int var2;
-            for(var2 = 1; var2 < var1.length() && this.g.q.a(var1.substring(0, var2 + 1)) <= 320; ++var2) {
-                ;
-            }
-
-            this.a(var1.substring(0, var2));
-            var1 = var1.substring(var2);
-        }
-
-        this.e.add(0, new ahe(var1));
-
-        while(this.e.size() > 50) {
-            this.e.remove(this.e.size() - 1);
-        } */
-
-        this.e.add(0, new ahe(var1));
+        this.e.add(0, new my(var1));
         ImprovedChat.receiveLine(var1);
-
     }
 
     public void b(String var1) {
@@ -599,8 +583,8 @@ public class qd extends ht {
     }
 
     public void c(String var1) {
-        qp var2 = qp.a();
-        String var3 = var2.a(var1);
+        abn var2 = abn.a();
+        String var3 = var2.b(var1);
         this.a(var3);
     }
 

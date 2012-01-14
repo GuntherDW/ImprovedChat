@@ -10,7 +10,7 @@ public class Tab {
     public int width;
     public boolean blink = false;
     public boolean blinking = false;
-    public List<ao> e = new ArrayList<ao>();
+    public List<af> e = new ArrayList<af>();
     public ArrayList<Pattern> track = new ArrayList<Pattern>();
     public ArrayList<Pattern> ignore = new ArrayList<Pattern>();
     public int chatScroll = 0;
@@ -19,7 +19,7 @@ public class Tab {
     public Tab(String name) {
         this.name = name;
         this.prefix = "";
-        this.width = ImprovedChat.m.q.a(name);
+        this.width = ImprovedChat.minecraft.q.a(name);
     }
 
     public boolean valid(String line) {
@@ -71,17 +71,17 @@ public class Tab {
     }
 
     public void add(String l) {
-        this.e.add(0, new ao(l));
+        this.e.add(0, new af(l));
         this.blinking = this.blink;
     }
 
-    public void add(ao l) {
+    public void add(af l) {
         this.e.add(0, l);
         this.blinking = this.blink;
     }
 
     public void setName(String name) {
         this.name = name;
-        this.width = ImprovedChat.m.q.a(name);
+        this.width = ImprovedChat.minecraft.q.a(name);
     }
 }
