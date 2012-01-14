@@ -25,8 +25,8 @@ public class PatternList {
     public String process(String line) {
         String repl;
         Matcher m;
-        for(Iterator var4 = this.list.iterator(); var4.hasNext(); line = m.replaceAll(repl)) {
-            PatternList.Entry e = (PatternList.Entry)var4.next();
+        for (Iterator var4 = this.list.iterator(); var4.hasNext(); line = m.replaceAll(repl)) {
+            PatternList.Entry e = (PatternList.Entry) var4.next();
             m = e.pattern.matcher(line);
             repl = ImprovedChat.replaceVars(e.replacement);
             repl = evilDollarSign.matcher(repl).replaceAll("\\\\\\$");
@@ -36,20 +36,20 @@ public class PatternList {
     }
 
     public void list() {
-        for(int i = 0; i < this.list.size(); ++i) {
+        for (int i = 0; i < this.list.size(); ++i) {
             PatternList.Entry e = this.list.get(i);
             ImprovedChat.unProccessedInput(i + ". (" + e.pattern.toString() + ")->(" + e.replacement + ")");
         }
 
-        if(this.list.size() == 0) {
+        if (this.list.size() == 0) {
             ImprovedChat.unProccessedInput("Empty");
         }
 
     }
 
     public String move(int from, int to) {
-        if(from >= 0 && from <= this.list.size()) {
-            if(to >= 0 && to <= this.list.size()) {
+        if (from >= 0 && from <= this.list.size()) {
+            if (to >= 0 && to <= this.list.size()) {
                 this.list.add(to, this.list.remove(from));
                 return "Move: Rule succesfully moved";
             } else {

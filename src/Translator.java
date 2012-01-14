@@ -121,9 +121,9 @@ public class Translator {
     public static boolean validLanguage(String lang) {
         Iterator var2 = languages.iterator();
 
-        while(var2.hasNext()) {
-            String s = (String)var2.next();
-            if(s.equals(lang)) {
+        while (var2.hasNext()) {
+            String s = (String) var2.next();
+            if (s.equals(lang)) {
                 return true;
             }
         }
@@ -135,11 +135,11 @@ public class Translator {
         StringBuilder outputBuilder = new StringBuilder();
 
         try {
-            if(inputStream != null) {
+            if (inputStream != null) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
 
                 String string;
-                while((string = reader.readLine()) != null) {
+                while ((string = reader.readLine()) != null) {
                     outputBuilder.append(string).append('\n');
                 }
             }
@@ -151,13 +151,13 @@ public class Translator {
     }
 
     public static String translate(String from, String to, String text) {
-        if(url == null) {
+        if (url == null) {
             return text;
         } else {
             String result = text;
 
             try {
-                HttpURLConnection uc = (HttpURLConnection)url.openConnection();
+                HttpURLConnection uc = (HttpURLConnection) url.openConnection();
                 uc.setRequestMethod("GET");
                 uc.setDoOutput(true);
                 StringBuilder par = new StringBuilder();
@@ -173,13 +173,13 @@ public class Translator {
 
                 try {
                     String r = inputStreamToString(uc.getInputStream());
-                    if(r.contains("\"responseStatus\": 200")) {
+                    if (r.contains("\"responseStatus\": 200")) {
                         int poc = r.indexOf("\"translatedText\":\"") + 18;
                         result = r.substring(poc, r.indexOf(34, poc)).replaceAll("\\\\u0026#39;", "\'");
                     }
                 } finally {
                     uc.getInputStream().close();
-                    if(uc.getErrorStream() != null) {
+                    if (uc.getErrorStream() != null) {
                         uc.getErrorStream().close();
                     }
 

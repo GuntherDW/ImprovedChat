@@ -36,7 +36,7 @@ public class Server {
         this.lines = 20;
         this.ChatMode = null;
 
-        for(int i = 0; i < 4; ++i) {
+        for (int i = 0; i < 4; ++i) {
             this.bindings.add(new Hashtable<Integer, String>());
         }
 
@@ -49,7 +49,7 @@ public class Server {
     public void nextTab() {
         this.tabs.get(this.currentTabIndex).blinking = false;
         ++this.currentTabIndex;
-        if(this.currentTabIndex >= this.tabs.size()) {
+        if (this.currentTabIndex >= this.tabs.size()) {
             this.currentTabIndex = 0;
         }
 
@@ -59,7 +59,7 @@ public class Server {
     public void previousTab() {
         this.tabs.get(this.currentTabIndex).blinking = false;
         --this.currentTabIndex;
-        if(this.currentTabIndex < 0) {
+        if (this.currentTabIndex < 0) {
             this.currentTabIndex = this.tabs.size() - 1;
         }
 

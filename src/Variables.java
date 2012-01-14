@@ -26,7 +26,7 @@ public class Variables {
 
     public String getPattern(String name) {
         Variables.Variable v = this.vars.get(name);
-        return v != null?v.pattern.toString():"";
+        return v != null ? v.pattern.toString() : "";
     }
 
     public void remove(String name) {
@@ -36,11 +36,11 @@ public class Variables {
     public void process(String line) {
         String name;
         Variables.Variable v;
-        for(Enumeration keys = this.vars.keys(); keys.hasMoreElements(); this.vars.put(name, v)) {
-            name = (String)keys.nextElement();
+        for (Enumeration keys = this.vars.keys(); keys.hasMoreElements(); this.vars.put(name, v)) {
+            name = (String) keys.nextElement();
             v = this.vars.get(name);
             Matcher m = v.pattern.matcher(line);
-            if(m.find()) {
+            if (m.find()) {
                 v.value = m.group();
             }
         }

@@ -23,22 +23,22 @@ public class Tab {
     }
 
     public boolean valid(String line) {
-        if(line != null && !line.trim().equals("")) {
+        if (line != null && !line.trim().equals("")) {
             Iterator var3 = this.ignore.iterator();
 
             Pattern p;
-            while(var3.hasNext()) {
-                p = (Pattern)var3.next();
-                if(p.matcher(line).find()) {
+            while (var3.hasNext()) {
+                p = (Pattern) var3.next();
+                if (p.matcher(line).find()) {
                     return false;
                 }
             }
 
             var3 = this.track.iterator();
 
-            while(var3.hasNext()) {
-                p = (Pattern)var3.next();
-                if(p.matcher(line).find()) {
+            while (var3.hasNext()) {
+                p = (Pattern) var3.next();
+                if (p.matcher(line).find()) {
                     return true;
                 }
             }
@@ -52,9 +52,9 @@ public class Tab {
     public boolean ignored(String line) {
         Iterator var3 = this.ignore.iterator();
 
-        while(var3.hasNext()) {
-            Pattern p = (Pattern)var3.next();
-            if(p.matcher(line).find()) {
+        while (var3.hasNext()) {
+            Pattern p = (Pattern) var3.next();
+            if (p.matcher(line).find()) {
                 return true;
             }
         }
