@@ -1964,15 +1964,27 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
             byte[] packetBytes = packet.c;
             if (packetBytes[0] == (byte) 25) {
                 String chatModeString = "";
-                for (int i = 1; i < packet.b; i++) {
-                    chatModeString += (char) packetBytes[i];
-                }
+                ByteArrayInputStream bis = new ByteArrayInputStream(packetBytes, 1, packet.b-1);
+                chatModeString = toString(bis).replace("&c", "§");
                 if (chatModeString.equals("null"))
                     getCurrentServer().ChatMode = null;
-                else
+                else {
                     getCurrentServer().ChatMode = chatModeString;
+                }
             }
         }
+    }
+
+    public String toString(ByteArrayInputStream is) {
+        int size = is.available();
+        char[] theChars = new char[size];
+        byte[] bytes    = new byte[size];
+
+        is.read(bytes, 0, size);
+        for (int i = 0; i < size;)
+            theChars[i] = (char)(bytes[i++]&0xff);
+
+        return new String(theChars);
     }
 
     @Override
@@ -1981,7 +1993,7 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
     }
 
     @Override
-    public dz register() {
+    public dz getRegisterPacket() {
         dz registerPacket = new dz();
         registerPacket.a = "ImprovedChat";
         registerPacket.c = new byte[1];
