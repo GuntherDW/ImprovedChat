@@ -6,14 +6,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class wm extends ug {
+public class yb extends vl {
 
     protected String a = "";
     private int b = 0;
-    private static final String c = vx.a;
+    // private static final String c = xj.a;
     private static Pattern prefixPattern = Pattern.compile("~\\(.*?[^\\\\]\\)");
     public int cursorPosition;
-
 
     public void c() {
         Keyboard.enableRepeatEvents(true);
@@ -88,7 +87,7 @@ public class wm extends ug {
         } else if(var1 == 3) {
             ImprovedChat.copy(this.a);
         } else if(var2 == 1) {
-            this.p.a((ug)null);
+            this.p.a((vl)null);
             ImprovedChat.currentTab().chatScroll = 0;
         } else if(var2 != 28 && var2 != 156) {
             if(var2 == 14 && this.a.length() > 0 && this.cursorPosition > 0) {
@@ -96,7 +95,7 @@ public class wm extends ug {
                 --this.cursorPosition;
             }
 
-            if(c.indexOf(var1) >= 0 && this.a.length() < 300 && (!this.a.startsWith("/") || this.a.length() < 100)) {
+            if(ImprovedChat.getAllowedCharacters().indexOf(var1) >= 0 && this.a.length() < 300 && (!this.a.startsWith("/") || this.a.length() < 100)) {
                 this.a = this.a.substring(0, this.cursorPosition) + var1 + this.a.substring(this.cursorPosition);
                 ++this.cursorPosition;
             }
@@ -105,7 +104,7 @@ public class wm extends ug {
             ImprovedChat.pastCommands.add(this.a);
             ImprovedChat.commandScroll = 0;
             ImprovedChat.process(this.a);
-            this.p.a((ug)null);
+            this.p.a((vl)null);
             ImprovedChat.currentTab().chatScroll = 0;
         }
     }
@@ -182,6 +181,7 @@ public class wm extends ug {
 
     }
 
+
     private void checkcursor() {
         if(this.cursorPosition > this.a.length()) {
             this.cursorPosition = this.a.length();
@@ -192,5 +192,4 @@ public class wm extends ug {
         }
 
     }
-
 }

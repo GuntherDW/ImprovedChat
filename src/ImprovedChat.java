@@ -58,9 +58,9 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
     public static byte ChatLinesBig = 20;
     private static Document doc;
     private static Element topElement;
-    private static Pattern colorCrashFix = Pattern.compile("\u00a7(?![0-9a-fA-F])|\u00a7[0-9a-fA-F]?$");
-    private static Pattern colorTags = Pattern.compile("(\u00a7|&c)[0-9a-fA-F]|/&c");
-    private static Pattern updateColor = Pattern.compile("(?<!/)&c(?=[0-9a-fA-F])");
+    private static Pattern colorCrashFix = Pattern.compile("\u00a7(?![0-9a-fA-FkK])|\u00a7[0-9a-fA-FkK]?$");
+    private static Pattern colorTags = Pattern.compile("(\u00a7|&c)[0-9a-fA-FkK]|/&c");
+    private static Pattern updateColor = Pattern.compile("(?<!/)&c(?=[0-9a-fA-FkK])");
     private static Pattern buxvillFix = Pattern.compile("\u00a7\u00a7");
     private static Pattern varP = Pattern.compile("\\$\\w*");
     private static Pattern varPinB = Pattern.compile("\'\\$\\w*\'");
@@ -116,7 +116,6 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
     public static void init(Minecraft minecraftInstance) {
         minecraft = minecraftInstance;
         new ImprovedChat();
-
     }
 
     private static Element newElem(Element parent, String name) {
@@ -828,7 +827,7 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
         return getFontRenderer().a(str);
     }
 
-    public static mq getFontRenderer() {
+    public static ni getFontRenderer() {
         return minecraft.q;
     }
 
@@ -846,7 +845,7 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
 
     }
 
-    public static void handle_draw(agq theGuiIngame, mq fontRenderer, boolean var35, byte var30) {
+    public static void handle_draw(ais theGuiIngame, ni fontRenderer, boolean var35, byte var30) {
         //boolean var36 = false;
         if (Current != null) {
             int var38;
@@ -943,15 +942,15 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
 
     }
 
-    public static void drawRectOnGuiIngame(agq inGameGUI, int var1, int var2, int var3, int var4, int var5) {
+    public static void drawRectOnGuiIngame(ais inGameGUI, int var1, int var2, int var3, int var4, int var5) {
         inGameGUI.a(var1, var2, var3, var4, var5);
     }
 
-    public static String getChatMessageOfChatLine(af thechatline) {
+    public static String getChatMessageOfChatLine(ag thechatline) {
         return thechatline.a;
     }
 
-    public static uh get_thePlayer() {
+    public static vm get_thePlayer() {
         return minecraft.h;
     }
 
@@ -959,7 +958,7 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
         get_thePlayer().a(str);
     }
 
-    public static ug getCurrentScreen() {
+    public static vl getCurrentScreen() {
         return minecraft.s;
     }
 
@@ -967,7 +966,7 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
         return Minecraft.a(str);
     }
 
-    public static hh getGameSettings() {
+    public static hr getGameSettings() {
         return minecraft.A;
     }
 
@@ -976,7 +975,7 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
         // String ad = address+"_"+port;
         if (address.endsWith("_25565")) address = address.substring(0, address.length() - "_25565".length());
         Server server = servers.get(address);
-        ;
+
         if (server == null) {
             server = new Server(address);
             servers.put(address, server);
@@ -992,28 +991,28 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
         getGameSettings().G = server.name;
     }
 
-    public static int getUpdateCounterOfChatLine(af thechatline) {
+    public static int getUpdateCounterOfChatLine(ag thechatline) {
         return thechatline.b;
     }
 
-    public static void drawStringWithShadow(mq fontRenderer, String var1, int var2, int var3, int var4) {
+    public static void drawStringWithShadow(ni fontRenderer, String var1, int var2, int var3, int var4) {
         fontRenderer.a(var1, var2, var3, var4);
     }
 
-    public static void drawString(mq FontRenderer, String var1, int var2, int var3, int var4) {
+    public static void drawString(ni FontRenderer, String var1, int var2, int var3, int var4) {
         FontRenderer.b(var1, var2, var3, var4);
     }
 
-    public static int getUpdateCounterOfGuiIngame(agq inGameUI) {
+    public static int getUpdateCounterOfGuiIngame(ais inGameUI) {
         return inGameUI.i;
     }
 
-    public static void displayGuiScreen(ug guiscreen) {
+    public static void displayGuiScreen(vl guiscreen) {
         minecraft.a(guiscreen);
     }
 
     public static String getAllowedCharacters() {
-        return vx.a;
+        return xj.a;
     }
 
     public static Server getCurrentServer() {
@@ -1048,7 +1047,7 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
 
         if (command != null) {
             if (command.endsWith("\\")) {
-                wm win = new wm();
+                yb win = new yb();
                 win.cursorPosition = (win.a = replaceVarsInBind(command.substring(0, command.length() - 1))).length();
                 minecraft.a(win);
             } else {
@@ -1153,10 +1152,10 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
     public static void stdout(String line) {
         if (line != null && !line.trim().equals("")) {
             List<String> lines = processInput(line);
-            af[] linesArray = new af[lines.size()];
+            ag[] linesArray = new ag[lines.size()];
 
             for (int fixed = 0; fixed < linesArray.length; ++fixed) {
-                linesArray[fixed] = new af(lines.get(fixed));
+                linesArray[fixed] = new ag(lines.get(fixed));
             }
 
             String var11 = colorTags.matcher(line).replaceAll("");
@@ -1166,11 +1165,11 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
             while (var5.hasNext()) {
                 tab = (Tab) var5.next();
                 if (tab.valid(var11)) {
-                    af[] var9 = linesArray;
+                    ag[] var9 = linesArray;
                     int var8 = linesArray.length;
 
                     for (int var7 = 0; var7 < var8; ++var7) {
-                        af e = var9[var7];
+                        ag e = var9[var7];
                         tab.add(e);
                     }
 
@@ -1184,7 +1183,7 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
 
             tab = getCurrentServer().tabs.get(getCurrentServer().currentTabIndex);
             tab.blinking = false;
-            if (minecraft.s instanceof wm && tab.chatScroll > 0 && tab.valid(var11)) {
+            if (minecraft.s instanceof yb && tab.chatScroll > 0 && tab.valid(var11)) {
                 tab.chatScroll += lines.size();
                 if (tab.chatScroll > tab.e.size() - 16) {
                     tab.chatScroll = tab.e.size() - 16;
@@ -1674,21 +1673,21 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
                     try {
                         Long seed = Long.parseLong(args[0]);
                         //long origseed = m.f.C.
-                        long origseed = minecraft.f.C.b();
-                        int gametype = minecraft.f.C.q();
-                        boolean mapFeatures = minecraft.f.C.r();
+                        long origseed = minecraft.f.x.c();
+                        int gametype = minecraft.f.x.q();
+                        boolean mapFeatures = minecraft.f.x.r();
 
-                        String worldname = minecraft.f.C.j();
+                        String worldname = minecraft.f.x.j();
 
                         try {
-                            Class o = minecraft.f.C.getClass();
+                            Class o = minecraft.f.x.getClass();
                             Field Seed = o.getDeclaredField("a");
                             Seed.setAccessible(true);
                             // Object origSeed = Seed.get(m.f.C);
                             stdout("Original (obfuscated?) seed : " + Seed.getLong(minecraft.f.C));
                             // Seed.set(m.f.C, seed);
-                            Seed.setLong(minecraft.f.C, seed);
-                            stdout("After seed : " + Seed.getLong(minecraft.f.C));
+                            Seed.setLong(minecraft.f.x, seed);
+                            stdout("After seed : " + Seed.getLong(minecraft.f.x));
                         } catch (NoSuchFieldException e) {
                             stderr("No such field!");
                         } catch (IllegalAccessException e) {
@@ -1959,7 +1958,7 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
     }
 
     @Override
-    public void receivePacket(dz packet) {
+    public void receivePacket(eb packet) {
         if (packet.b > 0) {
             byte[] packetBytes = packet.c;
             if (packetBytes[0] == (byte) 25) {
@@ -1988,13 +1987,8 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
     }
 
     @Override
-    public void sendPacket(dz dz) {
-        // We don't need this
-    }
-
-    @Override
-    public dz getRegisterPacket() {
-        dz registerPacket = new dz();
+    public eb getRegisterPacket() {
+        eb registerPacket = new eb();
         registerPacket.a = "ImprovedChat";
         registerPacket.c = new byte[1];
         registerPacket.c[0] = (byte) 26;

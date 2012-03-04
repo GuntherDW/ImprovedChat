@@ -10,7 +10,7 @@ public class Tab {
     public int width;
     public boolean blink = false;
     public boolean blinking = false;
-    public List<af> e = new ArrayList<af>();
+    public List<ag> e = new ArrayList<ag>();
     public ArrayList<Pattern> track = new ArrayList<Pattern>();
     public ArrayList<Pattern> ignore = new ArrayList<Pattern>();
     public int chatScroll = 0;
@@ -71,11 +71,11 @@ public class Tab {
     }
 
     public void add(String l) {
-        this.e.add(0, new af(l));
+        this.e.add(0, new ag(l));
         this.blinking = this.blink;
     }
 
-    public void add(af l) {
+    public void add(ag l) {
         this.e.add(0, l);
         this.blinking = this.blink;
     }

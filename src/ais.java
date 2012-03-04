@@ -5,9 +5,9 @@ import java.util.Random;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
-public class agq extends nr {
+public class ais extends ok {
 
-    private static su d = new su();
+    private static ts d = new ts();
     private List e = new ArrayList();
     private Random f = new Random();
     private Minecraft h;
@@ -20,16 +20,16 @@ public class agq extends nr {
     float c = 1.0F;
 
 
-    public agq(Minecraft var1) {
+    public ais(Minecraft var1) {
         this.h = var1;
         ImprovedChat.init(var1);
     }
 
     public void a(float var1, boolean var2, int var3, int var4) {
-        aec var5 = new aec(this.h.A, this.h.d, this.h.e);
+        afy var5 = new afy(this.h.A, this.h.d, this.h.e);
         int var6 = var5.a();
         int var7 = var5.b();
-        mq var8 = this.h.q;
+        ni var8 = this.h.q;
         this.h.u.b();
         GL11.glEnable(3042);
         if(Minecraft.s()) {
@@ -38,13 +38,13 @@ public class agq extends nr {
             GL11.glBlendFunc(770, 771);
         }
 
-        yq var9 = this.h.h.ap.e(3);
-        if(this.h.A.E == 0 && var9 != null && var9.c == oe.bc.bO) {
+        aai var9 = this.h.h.ap.f(3);
+        if(this.h.A.E == 0 && var9 != null && var9.c == ox.ba.bO) {
             this.a(var6, var7);
         }
 
         float var10;
-        if(!this.h.h.a(yg.k)) {
+        if(!this.h.h.a(zy.k)) {
             var10 = this.h.h.aS + (this.h.h.aR - this.h.h.aS) * var1;
             if(var10 > 0.0F) {
                 this.b(var10, var6, var7);
@@ -59,11 +59,11 @@ public class agq extends nr {
         int var18;
         int var20;
         int var22;
-        int var50;
+        int var51;
         if(!this.h.c.e()) {
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glBindTexture(3553, this.h.p.b("/gui/gui.png"));
-            yn var33 = this.h.h.ap;
+            aaf var33 = this.h.h.ap;
             this.g = -90.0F;
             this.b(var6 / 2 - 91, var7 - 22, 0, 0, 182, 22);
             this.b(var6 / 2 - 91 - 1 + var33.c * 20, var7 - 22 - 1, 0, 22, 24, 22);
@@ -77,11 +77,11 @@ public class agq extends nr {
                 var11 = false;
             }
 
-            var12 = this.h.h.aP();
+            var12 = this.h.h.ba();
             var13 = this.h.h.by;
             this.f.setSeed((long)(this.i * 312871));
             boolean var14 = false;
-            mk var15 = this.h.h.aD();
+            nb var15 = this.h.h.aF();
             var16 = var15.a();
             var17 = var15.b();
             this.c();
@@ -89,7 +89,7 @@ public class agq extends nr {
             if(this.h.c.d()) {
                 var18 = var6 / 2 - 91;
                 var19 = var6 / 2 + 91;
-                var20 = this.h.h.aC();
+                var20 = this.h.h.aE();
                 int var23;
                 if(var20 > 0) {
                     short var21 = 182;
@@ -101,11 +101,11 @@ public class agq extends nr {
                     }
                 }
 
-                var50 = var7 - 39;
-                var22 = var50 - 10;
-                var23 = this.h.h.at();
+                var51 = var7 - 39;
+                var22 = var51 - 10;
+                var23 = this.h.h.au();
                 int var24 = -1;
-                if(this.h.h.a(yg.l)) {
+                if(this.h.h.a(zy.l)) {
                     var24 = this.i % 25;
                 }
 
@@ -129,7 +129,7 @@ public class agq extends nr {
                     }
 
                     var26 = 16;
-                    if(this.h.h.a(yg.u)) {
+                    if(this.h.h.a(zy.u)) {
                         var26 += 36;
                     }
 
@@ -139,9 +139,9 @@ public class agq extends nr {
                     }
 
                     int var28 = var18 + var25 * 8;
-                    var29 = var50;
+                    var29 = var51;
                     if(var12 <= 4) {
-                        var29 = var50 + this.f.nextInt(2);
+                        var29 = var51 + this.f.nextInt(2);
                     }
 
                     if(var25 == var24) {
@@ -149,7 +149,7 @@ public class agq extends nr {
                     }
 
                     byte var30 = 0;
-                    if(this.h.f.z().s()) {
+                    if(this.h.f.B().s()) {
                         var30 = 5;
                     }
 
@@ -173,54 +173,54 @@ public class agq extends nr {
                     }
                 }
 
-                int var54;
+                int var55;
                 for(var25 = 0; var25 < 10; ++var25) {
-                    var26 = var50;
-                    var54 = 16;
-                    byte var55 = 0;
-                    if(this.h.h.a(yg.s)) {
-                        var54 += 36;
-                        var55 = 13;
+                    var26 = var51;
+                    var55 = 16;
+                    byte var56 = 0;
+                    if(this.h.h.a(zy.s)) {
+                        var55 += 36;
+                        var56 = 13;
                     }
 
-                    if(this.h.h.aD().d() <= 0.0F && this.i % (var16 * 3 + 1) == 0) {
-                        var26 = var50 + (this.f.nextInt(3) - 1);
+                    if(this.h.h.aF().d() <= 0.0F && this.i % (var16 * 3 + 1) == 0) {
+                        var26 = var51 + (this.f.nextInt(3) - 1);
                     }
 
                     if(var14) {
-                        var55 = 1;
+                        var56 = 1;
                     }
 
                     var29 = var19 - var25 * 8 - 9;
-                    this.b(var29, var26, 16 + var55 * 9, 27, 9, 9);
+                    this.b(var29, var26, 16 + var56 * 9, 27, 9, 9);
                     if(var14) {
                         if(var25 * 2 + 1 < var17) {
-                            this.b(var29, var26, var54 + 54, 27, 9, 9);
+                            this.b(var29, var26, var55 + 54, 27, 9, 9);
                         }
 
                         if(var25 * 2 + 1 == var17) {
-                            this.b(var29, var26, var54 + 63, 27, 9, 9);
+                            this.b(var29, var26, var55 + 63, 27, 9, 9);
                         }
                     }
 
                     if(var25 * 2 + 1 < var16) {
-                        this.b(var29, var26, var54 + 36, 27, 9, 9);
+                        this.b(var29, var26, var55 + 36, 27, 9, 9);
                     }
 
                     if(var25 * 2 + 1 == var16) {
-                        this.b(var29, var26, var54 + 45, 27, 9, 9);
+                        this.b(var29, var26, var55 + 45, 27, 9, 9);
                     }
                 }
 
-                if(this.h.h.a(aan.g)) {
-                    var25 = (int)Math.ceil((double)(this.h.h.aa() - 2) * 10.0D / 300.0D);
-                    var26 = (int)Math.ceil((double)this.h.h.aa() * 10.0D / 300.0D) - var25;
+                if(this.h.h.a(aci.g)) {
+                    var25 = (int)Math.ceil((double)(this.h.h.Y() - 2) * 10.0D / 300.0D);
+                    var26 = (int)Math.ceil((double)this.h.h.Y() * 10.0D / 300.0D) - var25;
 
-                    for(var54 = 0; var54 < var25 + var26; ++var54) {
-                        if(var54 < var25) {
-                            this.b(var19 - var54 * 8 - 9, var22, 16, 18, 9, 9);
+                    for(var55 = 0; var55 < var25 + var26; ++var55) {
+                        if(var55 < var25) {
+                            this.b(var19 - var55 * 8 - 9, var22, 16, 18, 9, 9);
                         } else {
-                            this.b(var19 - var54 * 8 - 9, var22, 25, 18, 9, 9);
+                            this.b(var19 - var55 * 8 - 9, var22, 25, 18, 9, 9);
                         }
                     }
                 }
@@ -228,7 +228,7 @@ public class agq extends nr {
 
             GL11.glDisable(3042);
             GL11.glEnable('\u803a');
-            se.c();
+            tb.c();
 
             for(var18 = 0; var18 < 9; ++var18) {
                 var19 = var6 / 2 - 90 + var18 * 20 + 2;
@@ -236,14 +236,15 @@ public class agq extends nr {
                 this.a(var18, var19, var20, var1);
             }
 
-            se.a();
+            tb.a();
             GL11.glDisable('\u803a');
         }
 
-        if(this.h.h.aA() > 0) {
+        int var34;
+        if(this.h.h.aB() > 0) {
             GL11.glDisable(2929);
             GL11.glDisable(3008);
-            int var34 = this.h.h.aA();
+            var34 = this.h.h.aB();
             float var37 = (float)var34 / 100.0F;
             if(var37 > 1.0F) {
                 var37 = 1.0F - (float)(var34 - 100) / 10.0F;
@@ -255,57 +256,65 @@ public class agq extends nr {
             GL11.glEnable(2929);
         }
 
-        int var39;
-        int var43;
+        int var40;
+        int var44;
         if(this.h.c.f() && this.h.h.aU > 0) {
             boolean var31 = false;
-            var39 = var31?16777215:8453920;
-            String var35 = "" + this.h.h.aU;
-            var13 = (var6 - var8.a(var35)) / 2;
-            var43 = var7 - 31 - 4;
-            var8.b(var35, var13 + 1, var43, 0);
-            var8.b(var35, var13 - 1, var43, 0);
-            var8.b(var35, var13, var43 + 1, 0);
-            var8.b(var35, var13, var43 - 1, 0);
-            var8.b(var35, var13, var43, var39);
+            var40 = var31?16777215:8453920;
+            String var36 = "" + this.h.h.aU;
+            var13 = (var6 - var8.a(var36)) / 2;
+            var44 = var7 - 31 - 4;
+            var8.b(var36, var13 + 1, var44, 0);
+            var8.b(var36, var13 - 1, var44, 0);
+            var8.b(var36, var13, var44 + 1, 0);
+            var8.b(var36, var13, var44 - 1, 0);
+            var8.b(var36, var13, var44, var40);
         }
 
-        String var48;
+        String var49;
         if(this.h.A.F) {
             GL11.glPushMatrix();
             if(Minecraft.J > 0L) {
                 GL11.glTranslatef(0.0F, 32.0F, 0.0F);
             }
 
-            var8.a("Minecraft 1.1 (" + this.h.M + ")", 2, 2, 16777215);
+            var8.a("Minecraft 1.2.3 (" + this.h.M + ")", 2, 2, 16777215);
             var8.a(this.h.m(), 2, 12, 16777215);
             var8.a(this.h.n(), 2, 22, 16777215);
             var8.a(this.h.p(), 2, 32, 16777215);
             var8.a(this.h.o(), 2, 42, 16777215);
             long var32 = Runtime.getRuntime().maxMemory();
-            long var40 = Runtime.getRuntime().totalMemory();
-            long var44 = Runtime.getRuntime().freeMemory();
-            long var47 = var40 - var44;
-            var48 = "Used memory: " + var47 * 100L / var32 + "% (" + var47 / 1024L / 1024L + "MB) of " + var32 / 1024L / 1024L + "MB";
-            this.b(var8, var48, var6 - var8.a(var48) - 2, 2, 14737632);
-            var48 = "Allocated memory: " + var40 * 100L / var32 + "% (" + var40 / 1024L / 1024L + "MB)";
-            this.b(var8, var48, var6 - var8.a(var48) - 2, 12, 14737632);
+            long var41 = Runtime.getRuntime().totalMemory();
+            long var45 = Runtime.getRuntime().freeMemory();
+            long var48 = var41 - var45;
+            var49 = "Used memory: " + var48 * 100L / var32 + "% (" + var48 / 1024L / 1024L + "MB) of " + var32 / 1024L / 1024L + "MB";
+            this.b(var8, var49, var6 - var8.a(var49) - 2, 2, 14737632);
+            var49 = "Allocated memory: " + var41 * 100L / var32 + "% (" + var41 / 1024L / 1024L + "MB)";
+            this.b(var8, var49, var6 - var8.a(var49) - 2, 12, 14737632);
             this.b(var8, "x: " + this.h.h.o, 2, 64, 14737632);
             this.b(var8, "y: " + this.h.h.p, 2, 72, 14737632);
             this.b(var8, "z: " + this.h.h.q, 2, 80, 14737632);
-            this.b(var8, "f: " + (ga.c((double)(this.h.h.u * 4.0F / 360.0F) + 0.5D) & 3), 2, 88, 14737632);
-            this.b(var8, "Seed: " + this.h.f.t(), 2, 104, 14737632);
+            this.b(var8, "f: " + (gh.c((double)(this.h.h.u * 4.0F / 360.0F) + 0.5D) & 3), 2, 88, 14737632);
+            var34 = gh.c(this.h.h.o);
+            var40 = gh.c(this.h.h.p);
+            var12 = gh.c(this.h.h.q);
+            if(this.h.f != null && this.h.f.j(var34, var40, var12)) {
+                acf var38 = this.h.f.c(var34, var12);
+                this.b(var8, "lc: " + (var38.h() + 15) + " b: " + var38.a(var34 & 15, var12 & 15, this.h.f.i()).y + " bl: " + var38.a(wh.b, var34 & 15, var40, var12 & 15) + " sl: " + var38.a(wh.a, var34 & 15, var40, var12 & 15) + " rl: " + var38.c(var34 & 15, var40, var12 & 15, 0), 2, 96, 14737632);
+            }
+
+            this.b(var8, "Seed: " + this.h.f.v(), 2, 112, 14737632);
             GL11.glPopMatrix();
         }
 
         if(this.k > 0) {
             var10 = (float)this.k - var1;
-            var39 = (int)(var10 * 256.0F / 20.0F);
-            if(var39 > 255) {
-                var39 = 255;
+            var40 = (int)(var10 * 256.0F / 20.0F);
+            if(var40 > 255) {
+                var40 = 255;
             }
 
-            if(var39 > 0) {
+            if(var40 > 0) {
                 GL11.glPushMatrix();
                 GL11.glTranslatef((float)(var6 / 2), (float)(var7 - 48), 0.0F);
                 GL11.glEnable(3042);
@@ -315,16 +324,16 @@ public class agq extends nr {
                     var12 = Color.HSBtoRGB(var10 / 50.0F, 0.7F, 0.6F) & 16777215;
                 }
 
-                var8.b(this.j, -var8.a(this.j) / 2, -4, var12 + (var39 << 24));
+                var8.b(this.j, -var8.a(this.j) / 2, -4, var12 + (var40 << 24));
                 GL11.glDisable(3042);
                 GL11.glPopMatrix();
             }
         }
 
-        byte var36 = ImprovedChat.ChatLinesSmall;
+        byte var35 = ImprovedChat.ChatLinesSmall;
         var11 = false;
-        if(this.h.s instanceof wm) {
-            var36 = ImprovedChat.ChatLinesBig;
+        if(this.h.s instanceof yb) {
+            var35 = ImprovedChat.ChatLinesBig;
             var11 = true;
         }
 
@@ -334,47 +343,47 @@ public class agq extends nr {
         GL11.glPushMatrix();
         GL11.glTranslatef(0.0F, (float)(var7 - 48), 0.0F);
 
-        /* int var42;
-        for(var12 = 0; var12 < this.e.size() && var12 < var36; ++var12) {
-            if(((my)this.e.get(var12)).b < 200 || var11) {
-                double var38 = (double)((my)this.e.get(var12)).b / 200.0D;
-                var38 = 1.0D - var38;
-                var38 *= 10.0D;
-                if(var38 < 0.0D) {
-                    var38 = 0.0D;
+        int var42;
+        /*  for(var12 = 0; var12 < this.e.size() && var12 < var35; ++var12) {
+            if(((nq)this.e.get(var12)).b < 200 || var11) {
+                double var39 = (double)((nq)this.e.get(var12)).b / 200.0D;
+                var39 = 1.0D - var39;
+                var39 *= 10.0D;
+                if(var39 < 0.0D) {
+                    var39 = 0.0D;
                 }
 
-                if(var38 > 1.0D) {
-                    var38 = 1.0D;
+                if(var39 > 1.0D) {
+                    var39 = 1.0D;
                 }
 
-                var38 *= var38;
-                var42 = (int)(255.0D * var38);
+                var39 *= var39;
+                var42 = (int)(255.0D * var39);
                 if(var11) {
                     var42 = 255;
                 }
 
                 if(var42 > 0) {
-                    byte var45 = 2;
+                    byte var47 = 2;
                     var17 = -var12 * 9;
-                    var48 = ((my)this.e.get(var12)).a;
-                    this.a(var45, var17 - 1, var45 + 320, var17 + 8, var42 / 2 << 24);
+                    var49 = ((nq)this.e.get(var12)).a;
+                    this.a(var47, var17 - 1, var47 + 320, var17 + 8, var42 / 2 << 24);
                     GL11.glEnable(3042);
-                    var8.a(var48, var45, var17, 16777215 + (var42 << 24));
+                    var8.a(var49, var47, var17, 16777215 + (var42 << 24));
                 }
             }
         } */
 
-        ImprovedChat.handle_draw(this, var8, var11, var36);
+        ImprovedChat.handle_draw(this, var8, var11, var35);
 
         GL11.glPopMatrix();
-        if(this.h.h instanceof afr && this.h.A.y.e) {
-            abm var41 = ((afr)this.h.h).cl;
-            List var46 = var41.c;
-            var43 = var41.d;
-            int var42 = var43;
+        if(this.h.h instanceof ahp && this.h.A.y.e) {
+            adg var43 = ((ahp)this.h.h).cl;
+            List var46 = var43.c;
+            var44 = var43.d;
+            var42 = var44;
 
-            for(var16 = 1; var42 > 20; var42 = (var43 + var16 - 1) / var16) {
+            for(var16 = 1; var42 > 20; var42 = (var44 + var16 - 1) / var16) {
                 ++var16;
             }
 
@@ -384,40 +393,40 @@ public class agq extends nr {
             }
 
             var18 = (var6 - var16 * var17) / 2;
-            byte var49 = 10;
-            this.a(var18 - 1, var49 - 1, var18 + var17 * var16, var49 + 9 * var42, Integer.MIN_VALUE);
+            byte var50 = 10;
+            this.a(var18 - 1, var50 - 1, var18 + var17 * var16, var50 + 9 * var42, Integer.MIN_VALUE);
 
-            for(var20 = 0; var20 < var43; ++var20) {
-                var50 = var18 + var20 % var16 * var17;
-                var22 = var49 + var20 / var16 * 9;
-                this.a(var50, var22, var50 + var17 - 1, var22 + 8, 553648127);
+            for(var20 = 0; var20 < var44; ++var20) {
+                var51 = var18 + var20 % var16 * var17;
+                var22 = var50 + var20 / var16 * 9;
+                this.a(var51, var22, var51 + var17 - 1, var22 + 8, 553648127);
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                 GL11.glEnable(3008);
                 if(var20 < var46.size()) {
-                    af var53 = (af)var46.get(var20);
-                    var8.a(var53.a, var50, var22, 16777215);
+                    ag var54 = (ag)var46.get(var20);
+                    var8.a(var54.a, var51, var22, 16777215);
                     this.h.p.b(this.h.p.b("/gui/icons.png"));
-                    boolean var51 = false;
-                    boolean var56 = false;
-                    byte var52 = 0;
-                    var56 = false;
-                    byte var57;
-                    if(var53.b < 0) {
-                        var57 = 5;
-                    } else if(var53.b < 150) {
-                        var57 = 0;
-                    } else if(var53.b < 300) {
-                        var57 = 1;
-                    } else if(var53.b < 600) {
-                        var57 = 2;
-                    } else if(var53.b < 1000) {
-                        var57 = 3;
+                    boolean var52 = false;
+                    boolean var57 = false;
+                    byte var53 = 0;
+                    var57 = false;
+                    byte var58;
+                    if(var54.b < 0) {
+                        var58 = 5;
+                    } else if(var54.b < 150) {
+                        var58 = 0;
+                    } else if(var54.b < 300) {
+                        var58 = 1;
+                    } else if(var54.b < 600) {
+                        var58 = 2;
+                    } else if(var54.b < 1000) {
+                        var58 = 3;
                     } else {
-                        var57 = 4;
+                        var58 = 4;
                     }
 
                     this.g += 100.0F;
-                    this.b(var50 + var17 - 12, var22, 0 + var52 * 10, 176 + var57 * 8, 10, 8);
+                    this.b(var51 + var17 - 12, var22, 0 + var53 * 10, 176 + var58 * 8, 10, 8);
                     this.g -= 100.0F;
                 }
             }
@@ -429,15 +438,15 @@ public class agq extends nr {
     }
 
     private void c() {
-        if(nu.c != null) {
-            nt var1 = nu.c;
-            nu.c = null;
-            mq var2 = this.h.q;
-            aec var3 = new aec(this.h.A, this.h.d, this.h.e);
+        if(on.c != null) {
+            om var1 = on.c;
+            on.c = null;
+            ni var2 = this.h.q;
+            afy var3 = new afy(this.h.A, this.h.d, this.h.e);
             int var4 = var3.a();
             short var5 = 182;
             int var6 = var4 / 2 - var5 / 2;
-            int var7 = (int)((float)var1.x() / (float)var1.c() * (float)(var5 + 1));
+            int var7 = (int)((float)var1.w() / (float)var1.d() * (float)(var5 + 1));
             byte var8 = 12;
             this.b(var6, var8, 0, 74, var5, 5);
             this.b(var6, var8, 0, 74, var5, 5);
@@ -459,7 +468,7 @@ public class agq extends nr {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(3008);
         GL11.glBindTexture(3553, this.h.p.b("%blur%/misc/pumpkinblur.png"));
-        aby var3 = aby.a;
+        adu var3 = adu.a;
         var3.b();
         var3.a(0.0D, (double)var2, -90.0D, 0.0D, 1.0D);
         var3.a((double)var1, (double)var2, -90.0D, 1.0D, 1.0D);
@@ -488,7 +497,7 @@ public class agq extends nr {
         GL11.glBlendFunc(0, 769);
         GL11.glColor4f(this.c, this.c, this.c, 1.0F);
         GL11.glBindTexture(3553, this.h.p.b("%blur%/misc/vignette.png"));
-        aby var4 = aby.a;
+        adu var4 = adu.a;
         var4.b();
         var4.a(0.0D, (double)var3, -90.0D, 0.0D, 1.0D);
         var4.a((double)var2, (double)var3, -90.0D, 1.0D, 1.0D);
@@ -514,11 +523,11 @@ public class agq extends nr {
         GL11.glBlendFunc(770, 771);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, var1);
         GL11.glBindTexture(3553, this.h.p.b("/terrain.png"));
-        float var4 = (float)(oe.bg.bN % 16) / 16.0F;
-        float var5 = (float)(oe.bg.bN / 16) / 16.0F;
-        float var6 = (float)(oe.bg.bN % 16 + 1) / 16.0F;
-        float var7 = (float)(oe.bg.bN / 16 + 1) / 16.0F;
-        aby var8 = aby.a;
+        float var4 = (float)(ox.be.bN % 16) / 16.0F;
+        float var5 = (float)(ox.be.bN / 16) / 16.0F;
+        float var6 = (float)(ox.be.bN % 16 + 1) / 16.0F;
+        float var7 = (float)(ox.be.bN / 16 + 1) / 16.0F;
+        adu var8 = adu.a;
         var8.b();
         var8.a(0.0D, (double)var3, -90.0D, (double)var4, (double)var7);
         var8.a((double)var2, (double)var3, -90.0D, (double)var6, (double)var7);
@@ -532,7 +541,7 @@ public class agq extends nr {
     }
 
     private void a(int var1, int var2, int var3, float var4) {
-        yq var5 = this.h.h.ap.a[var1];
+        aai var5 = this.h.h.ap.a[var1];
         if(var5 != null) {
             float var6 = (float)var5.b - var4;
             if(var6 > 0.0F) {
@@ -560,7 +569,7 @@ public class agq extends nr {
         ++this.i;
 
         for(int var1 = 0; var1 < this.e.size(); ++var1) {
-            ++((my)this.e.get(var1)).b;
+            ++((nq)this.e.get(var1)).b;
         }
 
         ImprovedChat.tick();
@@ -572,7 +581,7 @@ public class agq extends nr {
     }
 
     public void a(String var1) {
-        this.e.add(0, new my(var1));
+        this.e.add(0, new nq(var1));
         ImprovedChat.receiveLine(var1);
     }
 
@@ -583,7 +592,7 @@ public class agq extends nr {
     }
 
     public void c(String var1) {
-        abn var2 = abn.a();
+        adi var2 = adi.a();
         String var3 = var2.b(var1);
         this.a(var3);
     }
