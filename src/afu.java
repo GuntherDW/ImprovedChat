@@ -31,8 +31,8 @@ public class afu {
         if(ImprovedChat.minecraft.l()) {
             if(!var1) {
                 ImprovedChat.keyPressed(var0);
-            } else if((Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157)) && Keyboard.isKeyDown(15)) {
-                if(Keyboard.isKeyDown(42)) {
+            } else if((Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) && Keyboard.isKeyDown(Keyboard.KEY_TAB)) {
+                if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
                     ImprovedChat.Current.previousTab();
                 } else {
                     ImprovedChat.Current.nextTab();

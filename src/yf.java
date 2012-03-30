@@ -50,36 +50,50 @@ public class yf extends vp {
     }
 
     protected void a(char var1, int var2) {
-        if(var2 == 15) {
+        if(var2 == Keyboard.KEY_TAB) {
             this.d();
         } else {
             this.d = false;
         }
 
-        if(var2 == 1) {
+        if(var2 == Keyboard.KEY_ESCAPE) {
             this.p.a((vp)null);
-        } else if(var2 == 28) {
+        } else if(var2 == Keyboard.KEY_RETURN || var2 == Keyboard.KEY_NUMPADENTER) {
             String var3 = this.a.b().trim();
             if(var3.length() > 0 && !this.p.c(var3)) {
                 // this.p.h.a(var3);
+                ImprovedChat.pastCommands.add(var3);
                 ImprovedChat.process(var3);
+                ImprovedChat.commandScroll = 0;
+                ImprovedChat.currentTab().chatScroll = 0;
             }
-
             this.p.a((vp)null);
-        } else if(var2 == 200) {
-            this.a(-1);
-        } else if(var2 == 208) {
-            this.a(1);
-        } else if(var2 == 201) {
+        } else if(var2 == Keyboard.KEY_UP && ImprovedChat.commandScroll < ImprovedChat.pastCommands.size()) {
+
+            // this.a(-1);
+            ++ImprovedChat.commandScroll;
+            this.a.a(ImprovedChat.pastCommands.get(ImprovedChat.pastCommands.size() - ImprovedChat.commandScroll));
+
+        } else if(var2 == Keyboard.KEY_DOWN && ImprovedChat.commandScroll > 0) {
+            --ImprovedChat.commandScroll;
+            if(ImprovedChat.commandScroll == 0) {
+                this.a.a("");
+            } else {
+                this.a.a(ImprovedChat.pastCommands.get(ImprovedChat.pastCommands.size() - ImprovedChat.commandScroll));
+            }
+            // this.a(1);
+
+        } else if(var2 == Keyboard.KEY_PRIOR) {
             this.p.w.a(1);
-        } else if(var2 == 209) {
+        } else if(var2 == Keyboard.KEY_NEXT) {
             this.p.w.a(-1);
         } else {
             this.a.a(var1, var2);
         }
+
         /*
-        TODO : a whole lot
-         */
+        * TODO : a whole lot
+        */
 
         /* boolean ctrlPressed = Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157);
         if(Keyboard.isKeyDown(203) && this.cursorPosition > 0) {

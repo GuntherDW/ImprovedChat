@@ -401,7 +401,7 @@ public class aiy extends oo {
     }
 
     private List<nt> getImprovedLines() {
-        return ImprovedChat.getCurrentServer().currentTab().e;
+        return ImprovedChat.currentTab().e;
     }
 
     private void a(nl var1) {
@@ -702,7 +702,7 @@ public class aiy extends oo {
             this.o = false;
         }
 
-        ImprovedChat.getCurrentServer().currentTab().chatScroll = this.n;
+        ImprovedChat.currentTab().chatScroll = this.n;
     }
 
     public dx a(int var1, int var2) {
