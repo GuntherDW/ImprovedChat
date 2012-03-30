@@ -845,8 +845,10 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
 
     }
 
-    public static void handle_draw(aiy theGuiIngame, nl fontRenderer, boolean var35, byte var30) {
+    public static int handle_draw(aiy theGuiIngame, nl fontRenderer, boolean var35, byte var30) {
         //boolean var36 = false;
+        int ret = 0;
+
         if (Current != null) {
             int var38;
             int var11;
@@ -928,25 +930,26 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
                         var38 = historyOpacity;
                     }
 
+                    ++ret;
                     if (var38 > 0) {
                         byte var39 = 2;
                         int var26 = (-var11 + currentTab().chatScroll) * 9;
                         var12 = getChatMessageOfChatLine(currentTab().e.get(var11));
                         drawRectOnGuiIngame(theGuiIngame, var39, var26 - 1, var39 + 320, var26 + 8, (var38 << 24) + historyColor);
-                        GL11.glEnable(3042);
+                        GL11.glEnable(GL11.GL_BLEND);
                         drawStringWithShadow(fontRenderer, var12, var39, var26, 16777215);
                     }
                 }
             }
         }
-
+        return ret;
     }
 
     public static void drawRectOnGuiIngame(aiy inGameGUI, int var1, int var2, int var3, int var4, int var5) {
         inGameGUI.a(var1, var2, var3, var4, var5);
     }
 
-    public static String getChatMessageOfChatLine(ah thechatline) {
+    public static String getChatMessageOfChatLine(nt thechatline) {
         return thechatline.a;
     }
 
@@ -991,7 +994,7 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
         getGameSettings().H = server.name;
     }
 
-    public static int getUpdateCounterOfChatLine(ah thechatline) {
+    public static int getUpdateCounterOfChatLine(nt thechatline) {
         return thechatline.b;
     }
 
@@ -1152,10 +1155,10 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
     public static void stdout(String line) {
         if (line != null && !line.trim().equals("")) {
             List<String> lines = processInput(line);
-            ah[] linesArray = new ah[lines.size()];
+            nt[] linesArray = new nt[lines.size()];
 
             for (int fixed = 0; fixed < linesArray.length; ++fixed) {
-                linesArray[fixed] = new ah(lines.get(fixed));
+                linesArray[fixed] = new nt(lines.get(fixed));
             }
 
             String var11 = colorTags.matcher(line).replaceAll("");
@@ -1165,11 +1168,11 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
             while (var5.hasNext()) {
                 tab = (Tab) var5.next();
                 if (tab.valid(var11)) {
-                    ah[] var9 = linesArray;
+                    nt[] var9 = linesArray;
                     int var8 = linesArray.length;
 
                     for (int var7 = 0; var7 < var8; ++var7) {
-                        ah e = var9[var7];
+                        nt e = var9[var7];
                         tab.add(e);
                     }
 

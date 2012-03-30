@@ -9,7 +9,7 @@ import org.lwjgl.input.Mouse;
 
 public class yf extends vp {
 
-    public String b = ""; // ImprovedChat: private -> public
+    public String b = ""; // ImprovedChat
     private int c = -1;
     private boolean d = false;
     private String e = "";
@@ -71,9 +71,9 @@ public class yf extends vp {
         } else if(var2 == 208) {
             this.a(1);
         } else if(var2 == 201) {
-            this.p.w.a(19);
+            this.p.w.a(1);
         } else if(var2 == 209) {
-            this.p.w.a(-19);
+            this.p.w.a(-1);
         } else {
             this.a.a(var1, var2);
         }
@@ -176,9 +176,9 @@ public class yf extends vp {
                 var1 = -1;
             }
 
-            if(!m()) {
+            /* if(!m()) { // m == mousewheel
                 var1 *= 7;
-            }
+            } */
 
             this.p.w.a(var1);
         }

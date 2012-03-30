@@ -400,11 +400,18 @@ public class aiy extends oo {
         GL11.glEnable(3008);
     }
 
+    private List<nt> getImprovedLines() {
+        return ImprovedChat.getCurrentServer().currentTab().e;
+    }
+
     private void a(nl var1) {
         byte var2 = ImprovedChat.ChatLinesSmall; /* ChatLinesSmall */
         boolean var3 = false;
         int var4 = 0;
-        int var5 = this.e.size();
+        // int var5 = this.e.size();
+
+        int var5 = getImprovedLines().size();
+
         if(var5 > 0) {
             if(this.e()) {
                 var2 = ImprovedChat.ChatLinesBig; /* ChatLinesBig */
@@ -416,7 +423,7 @@ public class aiy extends oo {
 
             // TODO : ImprovedChat.handle_draw(this, var8, var11, var35);
 
-            for(var6 = 0; var6 + this.n < this.e.size() && var6 < var2; ++var6) {
+            /* for(var6 = 0; var6 + this.n < this.e.size() && var6 < var2; ++var6) {
                 if(((nt)this.e.get(var6)).b < 200 || var3) {
                     nt var7 = (nt)this.e.get(var6 + this.n);
                     double var8 = (double)var7.b / 200.0D;
@@ -442,11 +449,16 @@ public class aiy extends oo {
                         int var12 = -var6 * 9;
                         String var13 = var7.a;
                         a(var11, var12 - 1, var11 + 320 + 4, var12 + 8, var10 / 2 << 24);
-                        GL11.glEnable(3042);
+                        GL11.glEnable(GL11.GL_BLEND);
                         var1.a(var13, var11, var12, 16777215 + (var10 << 24));
                     }
                 }
-            }
+            } */
+
+
+
+            var4 = ImprovedChat.handle_draw(this, var1, var3, var2);
+            // GL11.glPopMatrix();
 
             // TODO: See previous TODO
 
@@ -598,11 +610,12 @@ public class aiy extends oo {
 
         ++this.j;
 
-        for(int var1 = 0; var1 < this.e.size(); ++var1) {
-            ++((nt)this.e.get(var1)).b;
+        for(int var1 = 0; var1 < getImprovedLines().size(); ++var1) {
+            ++(getImprovedLines().get(var1)).b;
         }
 
         // TODO : ImprovedChat.tick();
+        ImprovedChat.tick();
 
     }
 
@@ -611,7 +624,7 @@ public class aiy extends oo {
         this.f.clear();
     }
 
-    public void receiveLine(String var1) {
+    /* public void receiveLine(String var1) {
         boolean var2 = this.e();
         boolean var3 = true;
 
@@ -636,9 +649,34 @@ public class aiy extends oo {
         while(this.e.size() > 100) {
             this.e.remove(this.e.size() - 1);
         }
-    }
+    } */
 
     public void a(String var1) {
+        /*
+        boolean var2 = this.e();
+        boolean var3 = true;
+        Iterator var4 = this.i.q.c(var1, 320).iterator();
+
+        while(var4.hasNext()) {
+            String var5 = (String)var4.next();
+            if(var2 && this.n > 0) {
+                this.o = true;
+                this.a(1);
+            }
+
+            if(!var3) {
+                var5 = " " + var5;
+            }
+
+            var3 = false;
+            this.e.add(0, new nt(var5));
+        }
+
+        while(this.e.size() > 100) {
+            this.e.remove(this.e.size() - 1);
+        }
+        */
+
         // TODO : ImprovedChat.receiveLine(var1);
         ImprovedChat.receiveLine(var1);
     }
@@ -654,7 +692,7 @@ public class aiy extends oo {
 
     public void a(int var1) {
         this.n += var1;
-        int var2 = this.e.size();
+        int var2 = getImprovedLines().size();
         if(this.n > var2 - 20) {
             this.n = var2 - 20;
         }
@@ -664,6 +702,7 @@ public class aiy extends oo {
             this.o = false;
         }
 
+        ImprovedChat.getCurrentServer().currentTab().chatScroll = this.n;
     }
 
     public dx a(int var1, int var2) {
