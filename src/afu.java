@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class afp {
+public class afu {
 
-    public static List<afp> a = new ArrayList<afp>();
-    public static abc b = new abc();
+    public static List<afu> a = new ArrayList<afu>();
+    public static abh b = new abh();
     public String c;
     public int d;
     public boolean e;
@@ -15,7 +15,7 @@ public class afp {
 
 
     public static void a(int var0) {
-        afp var1 = (afp)b.a(var0);
+        afu var1 = (afu)b.a(var0);
         if(var1 != null) {
             ++var1.f;
         }
@@ -23,10 +23,11 @@ public class afp {
     }
 
     public static void a(int var0, boolean var1) {
-        afp var2 = (afp)b.a(var0);
+        afu var2 = (afu)b.a(var0);
         if(var2 != null) {
             var2.e = var1;
         }
+
         if(ImprovedChat.minecraft.l()) {
             if(!var1) {
                 ImprovedChat.keyPressed(var0);
@@ -38,13 +39,14 @@ public class afp {
                 }
             }
         }
+
     }
 
     public static void a() {
         Iterator var0 = a.iterator();
 
         while(var0.hasNext()) {
-            afp var1 = (afp)var0.next();
+            afu var1 = (afu)var0.next();
             var1.d();
         }
 
@@ -55,13 +57,13 @@ public class afp {
         Iterator var0 = a.iterator();
 
         while(var0.hasNext()) {
-            afp var1 = (afp)var0.next();
+            afu var1 = (afu)var0.next();
             b.a(var1.d, var1);
         }
 
     }
 
-    public afp(String var1, int var2) {
+    public afu(String var1, int var2) {
         this.c = var1;
         this.d = var2;
         a.add(this);
