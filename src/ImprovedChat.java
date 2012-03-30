@@ -120,6 +120,12 @@ public class ImprovedChat implements dzHookable {
         return elem;
     }
 
+    public static int getStringWidth_stripColor(String str) {
+        char COLOR_CHAR = '\u00A7';
+        Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)" + String.valueOf(COLOR_CHAR) + "[0-9A-FK-OR]");
+        return getStringWidth(STRIP_COLOR_PATTERN.matcher(str).replaceAll(""));
+    }
+
     public static String replaceColors(String line) {
         line = updateColor.matcher(d[2].process(line)).replaceAll("\u00a7");
         return line;

@@ -287,6 +287,13 @@ public class agu extends oo {
     }
 
     public void f() {
+        String cm = "";
+        int len = 0;
+        int prefix = 0;
+        if(ImprovedChat.Current.ChatMode!=null) { cm = ImprovedChat.Current.ChatMode+" " ; }
+        if(cm!=null) { len = ImprovedChat.getStringWidth_stripColor(cm); }
+        len = ImprovedChat.getStringWidth_stripColor(cm);
+
         if(this.i()) {
             a(this.b - 1, this.c - 1, this.b + this.d + 1, this.c + this.e + 1, -6250336);
             a(this.b, this.c, this.b + this.d, this.c + this.e, -16777216);
@@ -295,18 +302,28 @@ public class agu extends oo {
         int var1 = this.m?this.q:this.r;
         int var2 = this.o - this.n;
         int var3 = this.p - this.n;
+
         String var4 = this.a.a(this.f.substring(this.n), this.l());
         boolean var5 = var2 >= 0 && var2 <= var4.length();
         boolean var6 = this.l && this.i / 6 % 2 == 0 && var5;
         int var7 = this.j?this.b + 4:this.b;
         int var8 = this.j?this.c + (this.e - 8) / 2:this.c;
         int var9 = var7;
+
+        // System.out.println("var7 : "+var7 + " var8 : "+var8+" var9 : "+var9);
         if(var3 > var4.length()) {
             var3 = var4.length();
         }
 
+        if(cm!=null) {
+            this.a.a(cm, var9, var8, var1);
+            var9 += len;
+        }
+
         if(var4.length() > 0) {
             String var10 = var5?var4.substring(0, var2):var4;
+            var7+=len;
+            var10 = ImprovedChat.replaceColors(var10);
             var9 = this.a.a(var10, var7, var8, var1);
         }
 
@@ -332,7 +349,9 @@ public class agu extends oo {
         }
 
         if(var3 != var2) {
-            int var12 = var7 + this.a.a(var4.substring(0, var3));
+            String line = var4.substring(0, var3);
+            line = ImprovedChat.stripColors(line);
+            int var12 = var7 + this.a.a(line);
             this.c(var11, var8 - 1, var12 - 1, var8 + 1 + this.a.b);
         }
 
