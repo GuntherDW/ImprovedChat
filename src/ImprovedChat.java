@@ -23,11 +23,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/* import wecui.event.ChatEvent;
-import wecui.fevents.Listener;
-import wecui.fevents.Order; */
-
-public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ {
+public class ImprovedChat implements dzHookable {
 
     private static int fade = 0;
     public static int commandScroll = 0;
@@ -58,9 +54,9 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
     public static byte ChatLinesBig = 20;
     private static Document doc;
     private static Element topElement;
-    private static Pattern colorCrashFix = Pattern.compile("\u00a7(?![0-9a-fA-FkK])|\u00a7[0-9a-fA-FkK]?$");
-    private static Pattern colorTags = Pattern.compile("(\u00a7|&c)[0-9a-fA-FkK]|/&c");
-    private static Pattern updateColor = Pattern.compile("(?<!/)&c(?=[0-9a-fA-FkK])");
+    private static Pattern colorCrashFix = Pattern.compile("\u00a7(?![0-9a-fA-FkKlLmMnNoOrR])|\u00a7[0-9a-fA-FkK]?$");
+    private static Pattern colorTags = Pattern.compile("(\u00a7|&c)[0-9a-fA-FkKlLmMnNoOrR]|/&c");
+    private static Pattern updateColor = Pattern.compile("(?<!/)&c(?=[0-9a-fA-FkKlLmMnNoOrR])");
     private static Pattern buxvillFix = Pattern.compile("\u00a7\u00a7");
     private static Pattern varP = Pattern.compile("\\$\\w*");
     private static Pattern varPinB = Pattern.compile("\'\\$\\w*\'");
@@ -122,6 +118,16 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
         Element elem = doc.createElement(name);
         parent.appendChild(elem);
         return elem;
+    }
+
+    public static String replaceColors(String line) {
+        line = updateColor.matcher(d[2].process(line)).replaceAll("\u00a7");
+        return line;
+    }
+
+    public static String stripColors(String line) {
+        line = colorTags.matcher(line).replaceAll("");
+        return line;
     }
 
     private static void addTextNode(Element parent, String text) {
@@ -1375,7 +1381,7 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
         });
         commands.put("stop", new icCommand("Stops the chatting", (String) null, "") {
             public boolean process(String[] args) {
-                ImprovedChat.access$2(true);
+                ImprovedChat.setChatDisabled(true);
                 return true;
             }
         });
@@ -1419,7 +1425,7 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
 
         commands.put("start", new icCommand("Starts the chatting", (String) null, "") {
             public boolean process(String[] args) {
-                ImprovedChat.access$2(false);
+                ImprovedChat.setChatDisabled(false);
                 return true;
             }
         });
@@ -1950,13 +1956,11 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
         return str;
     }
 
-    // $FF: synthetic method
-    static boolean access$1() {
+    public static boolean isChatDisabled() {
         return chatDisabled;
     }
 
-    // $FF: synthetic method
-    static void access$2(boolean var0) {
+    public static void setChatDisabled(boolean var0) {
         chatDisabled = var0;
     }
 
@@ -1965,19 +1969,25 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
         if (packet.b > 0) {
             byte[] packetBytes = packet.c;
             if (packetBytes[0] == (byte) 25) {
-                String chatModeString = "";
-                ByteArrayInputStream bis = new ByteArrayInputStream(packetBytes, 1, packet.b-1);
-                chatModeString = toString(bis).replace("&c", "§");
-                if (chatModeString.equals("null"))
+                try{
+                    String chatModeString = "";
+                    byte[] cleanData = new byte[packetBytes.length-1];
+                    System.arraycopy(packetBytes, 1, cleanData, 0, packetBytes.length-1);
+                    // chatModeString = toString(bis).replace("&c", "§");
+                    chatModeString = new String(cleanData, "UTF-8").replace("&c", "§");
+                    if (chatModeString.equals("null"))
+                        getCurrentServer().ChatMode = null;
+                    else {
+                        getCurrentServer().ChatMode = chatModeString;
+                    }
+                } catch(Exception e) {
                     getCurrentServer().ChatMode = null;
-                else {
-                    getCurrentServer().ChatMode = chatModeString;
                 }
             }
         }
     }
 
-    public String toString(ByteArrayInputStream is) {
+    /* public String toString(ByteArrayInputStream is) {
         int size = is.available();
         char[] theChars = new char[size];
         byte[] bytes    = new byte[size];
@@ -1987,7 +1997,7 @@ public class ImprovedChat implements dzHookable /*  implements ChatHookable  */ 
             theChars[i] = (char)(bytes[i++]&0xff);
 
         return new String(theChars);
-    }
+    } */
 
     @Override
     public ee getRegisterPacket() {
