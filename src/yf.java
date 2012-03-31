@@ -2,10 +2,12 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 public class yf extends vp {
 
@@ -33,7 +35,7 @@ public class yf extends vp {
         Keyboard.enableRepeatEvents(true);
         this.c = this.p.w.c().size();
         this.a = new agu(this.u, 4, this.r - 12, this.q - 4, 12);
-        this.a.f(100);
+        this.a.f(300);
         this.a.a(false);
         this.a.b(true);
         this.a.a(this.k);
@@ -83,9 +85,9 @@ public class yf extends vp {
             }
             // this.a(1);
 
-        } else if(var2 == Keyboard.KEY_PRIOR) {
+        } else if(var2 == Keyboard.KEY_PRIOR) { // Page up
             this.p.w.a(1);
-        } else if(var2 == Keyboard.KEY_NEXT) {
+        } else if(var2 == Keyboard.KEY_NEXT) { // Page down
             this.p.w.a(-1);
         } else {
             this.a.a(var1, var2);
@@ -311,23 +313,322 @@ public class yf extends vp {
         }
     }
 
+    private void drawSelection(int var1, int var2, int var3, int var4) {
+        int var5;
+        if(var1 < var3) {
+            var5 = var1;
+            var1 = var3;
+            var3 = var5;
+        }
+
+        if(var2 < var4) {
+            var5 = var2;
+            var2 = var4;
+            var4 = var5;
+        }
+
+        adz var6 = adz.a;
+        GL11.glColor4f(0.0F, 0.0F, 255.0F, 255.0F);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_COLOR_LOGIC_OP);
+        GL11.glLogicOp(GL11.GL_OR_REVERSE);
+        var6.b();
+        var6.a((double)var1, (double)var4, 0.0D);
+        var6.a((double)var3, (double)var4, 0.0D);
+        var6.a((double)var3, (double)var2, 0.0D);
+        var6.a((double)var1, (double)var2, 0.0D);
+        var6.a();
+        GL11.glDisable(GL11.GL_COLOR_LOGIC_OP);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+    }
+
     public void a(int var1, int var2, float var3) {
 
         // this.a.f();
 
+        int xpos = a.getXPos();
+        int ypos = a.getYPos();
+
+
         String cm = null;
         if(ImprovedChat.Current.ChatMode!=null) { cm = ImprovedChat.Current.ChatMode; }
-        if(cm!=null) { cm = cm + " "; } else { cm = ""; }
+        if(cm!=null) { cm = cm + " "; }
         int bg = ((ImprovedChat.bgOpacity & 255) << 24) + ImprovedChat.bgColor;
 
-        // a(2, this.r - 14,     this.q - 2, this.r - 2, Integer.MIN_VALUE);
-        this.a(2, this.r - 14 /* * 12 */, this.q - 2, this.r - 2, bg);
-        // this.b(this.u, cm + wheel, 4, this.r - 12 * size--, 14737632);
-        //   this.b(this.u, cm, 4, this.r - 12 * 1, 14737632);
+        this.checkcursor();
+        String chatLine = this.a.b();
+        // Character inputLine = this.a.i / 6 % 2 == 0?'|':':';
 
-        this.a.f();
+        String line = chatLine.substring(0, this.a.o) + chatLine.substring(this.a.o);
+
+
+        int len = line.length();
+        int HLFROM1 = this.a.n;
+        int HLFROM = this.a.p;
+        int HLTO = this.a.o;
+        boolean mark = (HLTO - HLFROM1) != (HLFROM - HLFROM1);
+        int markSize = HLFROM - HLFROM1;
+        boolean check = a.isEditing();
+        int ominn = HLTO - HLFROM1;
+
+        byte pos = 100;
+        Matcher m = prefixPattern.matcher(line);
+        int var14;
+        if(m.find()) {
+            var14 = pos + 3;
+        } else {
+            var14 = pos - ImprovedChat.currentTab().prefix.length();
+        }
+
+        if(var14 > this.cursorPosition) {
+            ++var14;
+        }
+
+        if(len > var14) {
+            line = line.substring(0, var14) + "§4" + line.substring(var14);
+        }
+
+        List<String> vl = ImprovedChat.processDisplay(line, this.a);
+
+        int size = vl.size();
+        int lines = size;
+
+        if(size<=0) size = 1;
+
+        this.a(2, this.r - 4 - size * 12, this.q - 2, this.r - 2, bg);
+        Iterator<String> var12 = vl.iterator();
+
+        int x = 0;
+        int linefrom = 0;
+        int lineto = 0;
+
+
+        /**
+         * Draw cursor
+         */
+
+        if(vl.size() == 0) {
+            int heigth = this.r - 12 * size;
+            int width = a.getXPos();
+            oo.a(width, heigth - 1, width + 1, heigth + 1 + u.b, -3092272);
+        } else {
+            int line_index = 0;
+            String w = vl.get(line_index);
+
+            String filtered_string = u.a(w.substring(a.n), a.l());
+            boolean var5 = ominn >= 0 && ominn <= filtered_string.length();
+
+            int height = 0;
+            int width = 0;
+
+            int other_len = a.getXPos();
+            int prev_line_end = 0;
+            int line_ominn = ominn;
+            int line_end = 0;
+            String w_f = "";
+            String w_f_nocolor = "";
+            int extra_Sub = 0;
+            boolean var13 = false;
+
+            if(filtered_string.length()>0) {
+                do {
+
+                    w = vl.get(line_index);
+                    if(line_index > 0)
+                        w = w.substring(2);
+
+                    w = ImprovedChat.stripColors(w);
+
+                    prev_line_end = line_end;
+                    line_end = w.length();
+                    int length_to_grab;
+
+
+                    if(line_index > 0) {
+                        line_ominn -= prev_line_end;
+                        extra_Sub += prev_line_end;
+                    }
+                    int toFetch = a.n;
+
+                    length_to_grab = line_ominn;
+
+                    if(length_to_grab > line_end)
+                        length_to_grab = line_end;
+
+                    if(toFetch < 0) toFetch = 0;
+
+                    filtered_string = u.a(w.substring(toFetch), a.l());
+
+                    w_f = filtered_string.substring(0, length_to_grab);
+                    w_f_nocolor = ImprovedChat.replaceColors(w_f);
+
+                    other_len = a.getXPos() + u.a(w_f_nocolor);
+
+                    height = this.r - 12 * (size - line_index);
+
+
+                    line_index++;
+                    var13 = (a.o - extra_Sub) < filtered_string.length() || filtered_string.length() >= a.g();
+
+                    width = other_len;
+
+                    var5 = line_ominn >= 0 && line_ominn <= filtered_string.length();
+
+                    if(!var5) {
+                        width = a.getWidth();
+                    } else if(var13) {
+                        width = other_len - 1;
+                    }
+
+                } while(line_ominn > line_end);
+            }
+
+            oo.a(width, height - 1, width + 1, height + 1 + u.b, -3092272);
+        }
+
+
+        int line_index = 0;
+        /**
+         * Draw text and possibly selection
+         */
+        while(var12.hasNext()) {
+
+            String w = var12.next();
+            lineto = lineto + w.length();
+            int width = 0;
+
+
+            int height = this.r - 12 * size;
+
+            String wheel = (cm != null?cm:"")+w;
+            String line_noColor = ImprovedChat.stripColors(wheel);
+
+            int stringLen = u.a(line_noColor, 4, height, 14737632);
+            size--;
+
+            if(mark) {
+
+                /* if(line_index > 0)
+                    wheel = */
+
+                System.out.println("HLFROM : "+HLFROM+" HLTO : "+HLTO+" HLFROM1 : "+HLFROM1);
+
+                int sel_width = 0;
+                int countLength = 0;
+                int sub_length = a.o - a.n;
+                int varwidth = 0;
+
+                if(lines == 1) {
+                    // int sub_len = a.o - a.n;
+                    width = a.getLineWidth(line_noColor, a.o, a.n/* , sub_len */);
+                    System.out.println("width :::: "+width);
+                    sel_width = markSize;
+
+                    String rommel = line_noColor.substring(a.n/* sub_length*/);
+                    countLength = u.a(rommel, a.l()).length();
+
+                    System.out.println("sel_width : "+sel_width+" countLength : "+countLength);
+                    System.out.println("rommel : "+rommel);
+
+                    if(sel_width > countLength) {
+                        sel_width = countLength;
+                    }
+
+                    varwidth = xpos + u.a(line_noColor.substring(0, sel_width));
+                    System.out.println("varwidth :::: "+varwidth);
+
+                    // ypos -= yPosPlus;
+                } else {
+
+                    /* if(line_noColor.length() > 0)
+                        line_noColor = line_noColor.substring(0, line_noColor.length() - 1); */
+
+                    if(HLFROM > linefrom -1) {
+                        /* if(HLTO > lineto) { // Volle lijn
+                            // int sub_len = linefrom - lineto;
+                            width = a.getLineWidth(line_noColor, linefrom, lineto);
+                            sel_width = markSize;
+
+                            countLength = u.a(line_noColor, a.l()).length();
+
+                            if(sel_width > countLength) {
+                                sel_width = countLength;
+                            }
+
+                            varwidth = xpos + u.a(line_noColor);
+
+                        } else { // Stuk van lijn */
+                        if(HLFROM < lineto) {
+                            System.out.println("lineFrom : "+linefrom+" lineTo : "+lineto);
+                            System.out.println("HLFROM > linefrom");
+                            System.out.println(HLFROM +" > "+linefrom);
+
+                            int amountSelected = a.o - a.p;
+                            int sel_skip = lineto - linefrom;
+                            int sel_rommel = line_noColor.length() - amountSelected;
+                            /* int input1 = a.n - linefrom;
+                      int input2 = a.p - linefrom; */
+                            int input1 = a.o - linefrom;
+                            int input2 = a.n/*  - linefrom */;
+                            if(input2 > linefrom) input2 -= linefrom;
+
+                            System.out.println("wheel    : "+line_noColor);
+                            System.out.println("calcLen  : "+sel_skip+ " a.p   : "+a.p);
+                            System.out.println("sel_ski  : "+sel_skip+" sel_r : "+sel_rommel);
+                            System.out.println("input1   : "+input1  +" input2: "+input2);
+                            System.out.println("a.o      : "+a.o     +" input2: "+input2);
+
+                            //width = a.getLineWidth(line_noColor, a.o, a.n/* , sub_len */);
+                            width = a.getLineWidth(line_noColor, input1, input2  /* , sub_len */);
+                            System.out.println("width :::: "+width);
+
+                            sel_width = markSize;
+                            // sel_width = lineto - sel_rommel;
+                            // sel_width = HLFROM1 - HLTO;
+
+                            System.out.println("Trying to get "+sel_rommel+" -> "+line_noColor.length());
+                            //String rommel = line_noColor.substring(a.n/* sub_length*/);
+                            String rommel = line_noColor.substring(a.n);
+                            System.out.println("Rommel   : "+rommel);
+
+                            countLength = u.a(line_noColor, a.l()).length();
+
+                            System.out.println("sel_width : "+sel_width+" countLength : "+countLength);
+                            if(sel_width > countLength) {
+                                sel_width = countLength;
+                            }
+
+                            //varwidth = xpos + u.a(line_noColor.substring(0, sel_width));
+                            varwidth = xpos + u.a(line_noColor.substring(0, sel_rommel));
+                            System.out.println("varwidth :::: "+varwidth);
+                        }
+                    }
+                }
+
+                this.drawSelection(width, height - 1, varwidth - 1, height + 1 + u.b);
+            }
+            x++;
+            linefrom = lineto;
+            line_index++;
+        }
+        int var13 = Mouse.getDWheel();
+
+        Tab var10000;
+        if(var13 > 0) {
+            if(ImprovedChat.currentTab().chatScroll <= ImprovedChat.currentTab().e.size() - 11) {
+                var10000 = ImprovedChat.currentTab();
+                var10000.chatScroll += 2;
+            }
+        } else if(var13 < 0) {
+            var10000 = ImprovedChat.currentTab();
+            var10000.chatScroll -= 2;
+            if(ImprovedChat.currentTab().chatScroll < 0) {
+                ImprovedChat.currentTab().chatScroll = 0;
+            }
+        }
 
         super.a(var1, var2, var3);
+
 
         /*
         * TODO: A whole lot
@@ -388,8 +689,11 @@ public class yf extends vp {
     }
 
     private void checkcursor() {
-        if(this.cursorPosition > this.b.length()) {
-            this.cursorPosition = this.b.length();
+        String chatLine = this.a.b();
+        this.cursorPosition = this.a.o;
+
+        if(this.cursorPosition > chatLine.length()) {
+            this.cursorPosition = chatLine.length();
         }
 
         if(this.cursorPosition < 0) {

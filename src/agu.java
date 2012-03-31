@@ -1,3 +1,4 @@
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 public class agu extends oo {
@@ -5,21 +6,24 @@ public class agu extends oo {
     private final nl a;
     private final int b;
     private final int c;
-    private final int d;
+    public final int d;
     private final int e;
-    private String f = "";
+    public String f = "";
     private int h = 32;
-    private int i;
+    public int i;
     private boolean j = true;
     private boolean k = true;
     private boolean l = false;
     private boolean m = true;
-    private int n = 0;
-    private int o = 0;
-    private int p = 0;
+    public int n = 0;
+    public int o = 0;
+    public int p = 0;
     private int q = 14737632;
     private int r = 7368816;
 
+    public boolean isEditing() {
+        return this.o < this.f.length() || this.f.length() >= this.g();
+    }
 
     public agu(nl var1, int var2, int var3, int var4, int var5) {
         this.a = var1;
@@ -59,6 +63,7 @@ public class agu extends oo {
         int var4 = this.o < this.p?this.p:this.o;
         int var5 = this.h - this.f.length() - (var3 - this.p);
         boolean var6 = false;
+
         if(this.f.length() > 0) {
             var2 = var2 + this.f.substring(0, var3);
         }
@@ -182,74 +187,74 @@ public class agu extends oo {
 
     public boolean a(char var1, int var2) {
         if(this.m && this.l) {
-            if(var1 == 1) {
+            if(var1 == Keyboard.KEY_ESCAPE) {
                 this.e();
                 this.g(0);
                 return true;
-            } else if(var1 == 3) {
+            } else if(var1 == Keyboard.KEY_2) {
                 vp.a(this.c());
                 return true;
-            } else if(var1 == 22) {
+            } else if(var1 == Keyboard.KEY_U) {
                 this.b(vp.h());
                 return true;
-            } else if(var1 == 24) {
+            } else if(var1 == Keyboard.KEY_O) {
                 vp.a(this.c());
                 this.b("");
                 return true;
-            } else if(var2 == 203) {
-                if(vp.m()) {
-                    if(vp.l()) {
+            } else if(var2 == Keyboard.KEY_LEFT) {
+                if(vp.m()) { // LShift or RShift
+                    if(vp.l()) { // LControl or RControl
                         this.g(this.a((int)-1, this.k()));
                     } else {
                         this.g(this.k() - 1);
                     }
-                } else if(vp.l()) {
+                } else if(vp.l()) { // LControl or RControl
                     this.e(this.c(-1));
                 } else {
                     this.d(-1);
                 }
 
                 return true;
-            } else if(var2 == 205) {
-                if(vp.m()) {
-                    if(vp.l()) {
+            } else if(var2 == Keyboard.KEY_RIGHT) {
+                if(vp.m()) { // LShift or RShift
+                    if(vp.l()) { // LControl or RControl
                         this.g(this.a((int)1, this.k()));
                     } else {
                         this.g(this.k() + 1);
                     }
-                } else if(vp.l()) {
+                } else if(vp.l()) { // LControl or RControl
                     this.e(this.c(1));
                 } else {
                     this.d(1);
                 }
 
                 return true;
-            } else if(var2 == 14) {
-                if(vp.l()) {
+            } else if(var2 == Keyboard.KEY_BACK) {
+                if(vp.l()) { // LControl or RControl
                     this.a(-1);
                 } else {
                     this.b(-1);
                 }
 
                 return true;
-            } else if(var2 == 211) {
-                if(vp.l()) {
+            } else if(var2 == Keyboard.KEY_DELETE) {
+                if(vp.l()) { // LControl or RControl
                     this.a(1);
                 } else {
                     this.b(1);
                 }
 
                 return true;
-            } else if(var2 == 199) {
-                if(vp.m()) {
+            } else if(var2 == Keyboard.KEY_HOME) {
+                if(vp.m()) { // LShift or RShift
                     this.g(0);
                 } else {
                     this.d();
                 }
 
                 return true;
-            } else if(var2 == 207) {
-                if(vp.m()) {
+            } else if(var2 == Keyboard.KEY_END) {
+                if(vp.m()) { // LShift or RShift
                     this.g(this.f.length());
                 } else {
                     this.e();
@@ -286,13 +291,78 @@ public class agu extends oo {
 
     }
 
+    public void showDebug() {
+        /* System.out.println("a.m : "+m+" a.q : "+q+" a.r : "+r);
+        System.out.println("a.o : "+o+" a.n : "+n);
+        System.out.println("a.p : "+o+" a.n : "+n); */
+    }
+
+    public int getXPos() {
+        return this.j?this.b + 4:this.b;
+    }
+
+    public int getYPos() {
+        return this.j?this.c + (this.e - 8) / 2:this.c;
+    }
+
+    public int getWidth() {
+
+        int var7 = getXPos();
+        int var2 = this.o - this.n;
+
+        /* System.out.println("var2 : "+var2);
+        System.out.println("var7 : "+var7);
+        System.out.println("   d : "+d); */
+
+        return var2 > 0 ? var7 + this.d : var7;
+    }
+
+    public int getLineWidth(String line, int start, int skip/* , int sub_length , int from, int to*/) {
+
+        int len = 0;
+        int var2 = start - skip;
+
+        /* int var1 = this.m?this.q:this.r;
+        int var2 = this.o - this.n;
+        int var3 = this.p - this.n; */
+        System.out.println("a.o : "+o+    " a.p : "+p+" a.q : "+q+" a.n : "+n);
+        System.out.println("sta : "+start+" skp : "+skip+ " lineLength : "+line.length());
+
+        String rommel = line.substring(skip);
+
+        String var4 = this.a.a(rommel, this.l());
+        boolean var5 = var2 >= 0 && var2 <= var4.length();
+        boolean var6 = this.l && this.i / 6 % 2 == 0 && var5;
+        int var7 = this.j?this.b + 4:this.b;
+        int var8 = this.j?this.c + (this.e - 8) / 2:this.c;
+        int var9 = var7;
+
+        if(var4.length() > 0) {
+            String var10 = var5?var4.substring(0, var2):var4;
+            var7 += len;
+            var10 = ImprovedChat.replaceColors(var10);
+            var9 = this.a.a(var10) + getXPos();
+        }
+
+        boolean var13 = this.o < line.length() || line.length() >= this.g();
+
+        int var11 = var9;
+        if(!var5) {
+            // System.out.println("!var5");
+            var11 = var2 > 0?var7 + this.d:var7;
+        } else if(var13) {
+            // System.out.println("var13");
+            var11 = var9 - 1;
+            --var9;
+        }
+
+        return var11;
+    }
+
     public void f() {
-        String cm = "";
+        String cm = null;
         int len = 0;
         int prefix = 0;
-        if(ImprovedChat.Current.ChatMode!=null) { cm = ImprovedChat.Current.ChatMode+" " ; }
-        if(cm!=null) { len = ImprovedChat.getStringWidth_stripColor(cm); }
-        len = ImprovedChat.getStringWidth_stripColor(cm);
 
         if(this.i()) {
             a(this.b - 1, this.c - 1, this.b + this.d + 1, this.c + this.e + 1, -6250336);
@@ -310,19 +380,13 @@ public class agu extends oo {
         int var8 = this.j?this.c + (this.e - 8) / 2:this.c;
         int var9 = var7;
 
-        // System.out.println("var7 : "+var7 + " var8 : "+var8+" var9 : "+var9);
         if(var3 > var4.length()) {
             var3 = var4.length();
         }
 
-        if(cm!=null) {
-            this.a.a(cm, var9, var8, var1);
-            var9 += len;
-        }
-
         if(var4.length() > 0) {
             String var10 = var5?var4.substring(0, var2):var4;
-            var7+=len;
+            var7 += len;
             var10 = ImprovedChat.replaceColors(var10);
             var9 = this.a.a(var10, var7, var8, var1);
         }
@@ -373,17 +437,17 @@ public class agu extends oo {
 
         adz var6 = adz.a;
         GL11.glColor4f(0.0F, 0.0F, 255.0F, 255.0F);
-        GL11.glDisable(3553);
-        GL11.glEnable(3058);
-        GL11.glLogicOp(5387);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_COLOR_LOGIC_OP);
+        GL11.glLogicOp(GL11.GL_OR_REVERSE);
         var6.b();
         var6.a((double)var1, (double)var4, 0.0D);
         var6.a((double)var3, (double)var4, 0.0D);
         var6.a((double)var3, (double)var2, 0.0D);
         var6.a((double)var1, (double)var2, 0.0D);
         var6.a();
-        GL11.glDisable(3058);
-        GL11.glEnable(3553);
+        GL11.glDisable(GL11.GL_COLOR_LOGIC_OP);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
     public void f(int var1) {
@@ -432,6 +496,7 @@ public class agu extends oo {
 
     public void g(int var1) {
         int var2 = this.f.length();
+        int var1_rec = var1;
         if(var1 > var2) {
             var1 = var2;
         }
@@ -444,13 +509,14 @@ public class agu extends oo {
         if(this.a != null) {
             String var3 = this.a.a(this.f.substring(this.n), this.l());
             int var4 = var3.length() + this.n;
-            if(var1 > var4) {
+
+            /* if(var1 > var4) {
+                // Thread.dumpStack();
                 this.n += var1 - var4;
             } else if(var1 <= this.n) {
                 this.n -= this.n - var1;
-            }
+            } */
         }
-
     }
 
     public void c(boolean var1) {
