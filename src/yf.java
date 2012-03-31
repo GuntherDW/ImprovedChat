@@ -401,6 +401,16 @@ public class yf extends vp {
         int x = 0;
         int linefrom = 0;
         int lineto = 0;
+        int[] subSpaces = new int[vl.size()];
+        for(String s : vl) {
+            if(x!=0)
+                s = s.substring(2);
+
+            subSpaces[x] = s.length();
+
+            x++;
+        }
+        x = 0;
 
 
         /**
@@ -507,35 +517,24 @@ public class yf extends vp {
             size--;
 
             if(mark) {
-
-                /* if(line_index > 0)
-                    wheel = */
-
-                System.out.println("HLFROM : "+HLFROM+" HLTO : "+HLTO+" HLFROM1 : "+HLFROM1);
-
                 int sel_width = 0;
                 int countLength = 0;
-                int sub_length = a.o - a.n;
                 int varwidth = 0;
 
                 if(lines == 1) {
                     // int sub_len = a.o - a.n;
-                    width = a.getLineWidth(line_noColor, a.o, a.n/* , sub_len */);
-                    System.out.println("width :::: "+width);
+                    System.out.println("input1 : "+a.o+" input2 : "+a.n);
+                    width = a.getLineWidth(line_noColor, a.n, a.o, a.p, false/* , sub_len */);
+
                     sel_width = markSize;
 
                     String rommel = line_noColor.substring(a.n/* sub_length*/);
                     countLength = u.a(rommel, a.l()).length();
-
-                    System.out.println("sel_width : "+sel_width+" countLength : "+countLength);
-                    System.out.println("rommel : "+rommel);
-
                     if(sel_width > countLength) {
                         sel_width = countLength;
                     }
 
                     varwidth = xpos + u.a(line_noColor.substring(0, sel_width));
-                    System.out.println("varwidth :::: "+varwidth);
 
                     // ypos -= yPosPlus;
                 } else {
@@ -543,8 +542,8 @@ public class yf extends vp {
                     /* if(line_noColor.length() > 0)
                         line_noColor = line_noColor.substring(0, line_noColor.length() - 1); */
 
-                    if(HLFROM > linefrom -1) {
-                        /* if(HLTO > lineto) { // Volle lijn
+                    if(HLFROM > linefrom - 1) {
+                        /* if(HLTO < lineto) { // Volle lijn
                             // int sub_len = linefrom - lineto;
                             width = a.getLineWidth(line_noColor, linefrom, lineto);
                             sel_width = markSize;
@@ -557,50 +556,52 @@ public class yf extends vp {
 
                             varwidth = xpos + u.a(line_noColor);
 
-                        } else { // Stuk van lijn */
-                        if(HLFROM < lineto) {
-                            System.out.println("lineFrom : "+linefrom+" lineTo : "+lineto);
+                        } else */
+
+                        //if(HLTO)
+
+                        System.out.println("lineFrom : "+linefrom+" lineTo : "+lineto);
+
+
+                        if(HLFROM < lineto) { // Stuk van een lijn
                             System.out.println("HLFROM > linefrom");
                             System.out.println(HLFROM +" > "+linefrom);
 
                             int amountSelected = a.o - a.p;
                             int sel_skip = lineto - linefrom;
                             int sel_rommel = line_noColor.length() - amountSelected;
-                            /* int input1 = a.n - linefrom;
-                      int input2 = a.p - linefrom; */
-                            int input1 = a.o - linefrom;
-                            int input2 = a.n/*  - linefrom */;
-                            if(input2 > linefrom) input2 -= linefrom;
 
-                            System.out.println("wheel    : "+line_noColor);
-                            System.out.println("calcLen  : "+sel_skip+ " a.p   : "+a.p);
-                            System.out.println("sel_ski  : "+sel_skip+" sel_r : "+sel_rommel);
-                            System.out.println("input1   : "+input1  +" input2: "+input2);
-                            System.out.println("a.o      : "+a.o     +" input2: "+input2);
+                            int input1 = a.n - linefrom;
+                            if(input1 < 0) input1 = 0;
+                            int input2 = a.o /* - linefrom */;
+                            int input3 = a.p /* - linefrom */;
 
-                            //width = a.getLineWidth(line_noColor, a.o, a.n/* , sub_len */);
-                            width = a.getLineWidth(line_noColor, input1, input2  /* , sub_len */);
-                            System.out.println("width :::: "+width);
+                            System.out.println("input1 : "+input1+" input2 : "+input2);
+                            // if(input2 > linefrom) input2 -= linefrom;
+                            //                                     N       O       P
+                            width = a.getLineWidth(line_noColor, input1, (input2-linefrom), (input3-linefrom), false /* , sub_len */);
+                            varwidth = a.getLineWidth(line_noColor, input1, (input2-linefrom), (input3-linefrom), true /* , sub_len */);
+                            /* int amt = (a.n-linefrom) - a.o;
+
 
                             sel_width = markSize;
-                            // sel_width = lineto - sel_rommel;
-                            // sel_width = HLFROM1 - HLTO;
 
-                            System.out.println("Trying to get "+sel_rommel+" -> "+line_noColor.length());
-                            //String rommel = line_noColor.substring(a.n/* sub_length*/);
-                            String rommel = line_noColor.substring(a.n);
-                            System.out.println("Rommel   : "+rommel);
+                            // String rommel = line_noColor.substring(a.n);
+                            String rommel = line_noColor.substring(input1);
 
                             countLength = u.a(line_noColor, a.l()).length();
 
-                            System.out.println("sel_width : "+sel_width+" countLength : "+countLength);
                             if(sel_width > countLength) {
                                 sel_width = countLength;
                             }
 
-                            //varwidth = xpos + u.a(line_noColor.substring(0, sel_width));
-                            varwidth = xpos + u.a(line_noColor.substring(0, sel_rommel));
-                            System.out.println("varwidth :::: "+varwidth);
+
+                            System.out.println("amt : "+amt);
+                            varwidth = xpos + u.a(line_noColor.substring(0, amt)); */
+
+                            // System.out.println("varwidth :::: "+varwidth);
+                        } else {
+                            System.out.println("HLFROM : "+HLFROM+"    linefrom : "+linefrom+"   lineto : "+lineto);
                         }
                     }
                 }

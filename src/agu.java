@@ -6,9 +6,9 @@ public class agu extends oo {
     private final nl a;
     private final int b;
     private final int c;
-    public final int d;
+    private final int d;
     private final int e;
-    public String f = "";
+    private String f = "";
     private int h = 32;
     public int i;
     private boolean j = true;
@@ -20,6 +20,10 @@ public class agu extends oo {
     public int p = 0;
     private int q = 14737632;
     private int r = 7368816;
+
+    public String getChatLine() {
+        return this.f;
+    }
 
     public boolean isEditing() {
         return this.o < this.f.length() || this.f.length() >= this.g();
@@ -310,27 +314,32 @@ public class agu extends oo {
         int var7 = getXPos();
         int var2 = this.o - this.n;
 
-        /* System.out.println("var2 : "+var2);
-        System.out.println("var7 : "+var7);
-        System.out.println("   d : "+d); */
-
         return var2 > 0 ? var7 + this.d : var7;
     }
 
-    public int getLineWidth(String line, int start, int skip/* , int sub_length , int from, int to*/) {
+    // public int getLineWidth(String line, int start, int skip, int strip/* , int sub_length , int from, int to*/) {
+    public int getLineWidth(String line, int var_n, int var_o, int var_p, boolean show_var12/* , int sub_length , int from, int to*/) {
 
         int len = 0;
-        int var2 = start - skip;
+        // int var2 = start - skip;
 
-        /* int var1 = this.m?this.q:this.r;
-        int var2 = this.o - this.n;
-        int var3 = this.p - this.n; */
+        int var1 = this.m?this.q:this.r;
+        int var2 = var_o - var_n;
+        int var3 = var_p - var_n;
+
+        // int var3 = (this.p-this.n) - strip;
+
         System.out.println("a.o : "+o+    " a.p : "+p+" a.q : "+q+" a.n : "+n);
-        System.out.println("sta : "+start+" skp : "+skip+ " lineLength : "+line.length());
+        System.out.println("v_o : "+var_o+" v_p : "+var_o+ " v_n : "+var_n+" lineLength : "+line.length());
 
-        String rommel = line.substring(skip);
+        // String rommel = line.substring(var_n);
+        String var4 = a.a(line.substring(var_n), this.l());
 
-        String var4 = this.a.a(rommel, this.l());
+        if(var3 > var4.length()) {
+            var3 = var4.length();
+        }
+
+        // String var4 = this.a.a(rommel, this.l());
         boolean var5 = var2 >= 0 && var2 <= var4.length();
         boolean var6 = this.l && this.i / 6 % 2 == 0 && var5;
         int var7 = this.j?this.b + 4:this.b;
@@ -354,6 +363,16 @@ public class agu extends oo {
             // System.out.println("var13");
             var11 = var9 - 1;
             --var9;
+        }
+
+        if(var3 != var2) {
+            System.out.println("getLine -> var3 : "+var3);
+            String lllllll = var4.substring(0, var3);
+            line = ImprovedChat.stripColors(lllllll);
+            int var12 = var7 + this.a.a(lllllll);
+            System.out.println("getLine -> var12 : "+var12);
+            if(show_var12) return var12;
+            // this.c(var11, var8 - 1, var12 - 1, var8 + 1 + this.a.b);
         }
 
         return var11;
