@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ImprovedChat /* implements dzHookable */ {
+public class ImprovedChat implements dzHookable {
 
     private static int fade = 0;
     public static int commandScroll = 0;
@@ -50,8 +50,10 @@ public class ImprovedChat /* implements dzHookable */ {
     public static int bgColor = 0;
     public static int historyOpacity = 128;
     public static int historyColor = 0;
+    public static int historyMaxLines = 300;
     public static byte ChatLinesSmall = 10;
     public static byte ChatLinesBig = 20;
+    public static int scrollLines = 19;
     private static Document doc;
     private static Element topElement;
     private static Pattern colorCrashFix = Pattern.compile("\u00a7(?![0-9a-fA-FkKlLmMnNoOrR])|\u00a7[0-9a-fA-FkKlLmMnNoOrR]?$");
@@ -190,9 +192,11 @@ public class ImprovedChat /* implements dzHookable */ {
         a.setAttribute("Opacity", "" + bgOpacity);
         a.setAttribute("ChatLinesBig", "" + ChatLinesBig);
         a.setAttribute("ChatLinesSmall", "" + ChatLinesSmall);
+        a.setAttribute("ScrollLines", "" + scrollLines);
         a = newElem(topElement, "ChatHistory");
         a.setAttribute("Color", "" + historyColor);
         a.setAttribute("Opacity", "" + historyOpacity);
+        a.setAttribute("MaxLines", "" + historyMaxLines);
         topElement = newElem(topElement, "Servers");
         Enumeration<String> es = servers.keys();
         saveServer(Global);
@@ -370,6 +374,15 @@ public class ImprovedChat /* implements dzHookable */ {
                         }
                     }
 
+                    var27 = line.getAttribute("ScrollLines");
+                    if (var27 != null) {
+                        try {
+                            scrollLines = Integer.parseInt(var27);
+                        } catch (NumberFormatException ex) {
+                            ;
+                        }
+                    }
+
                     var27 = line.getAttribute("Opacity");
                     if (var27 != null) {
                         try {
@@ -398,6 +411,15 @@ public class ImprovedChat /* implements dzHookable */ {
                     if (var27 != null) {
                         try {
                             historyColor = Integer.parseInt(var27);
+                        } catch (NumberFormatException var17) {
+                            ;
+                        }
+                    }
+
+                    var27 = line.getAttribute("MaxLines");
+                    if (var27 != null) {
+                        try {
+                            historyMaxLines = Integer.parseInt(var27);
                         } catch (NumberFormatException var17) {
                             ;
                         }
@@ -1117,6 +1139,7 @@ public class ImprovedChat /* implements dzHookable */ {
     }
 
     public static Server getCurrentServer() {
+        // System.out.println("Current : "+Current.name);
         return Current;
     }
 
@@ -1288,7 +1311,7 @@ public class ImprovedChat /* implements dzHookable */ {
 
                     List var10 = tab.e;
 
-                    while (var10.size() > 300) {
+                    while (var10.size() > historyMaxLines) {
                         var10.remove(var10.size() - 1);
                     }
                 }
@@ -1353,7 +1376,7 @@ public class ImprovedChat /* implements dzHookable */ {
         constantsFile = new File(modDir, "constants.txt");
         colors = new File(modDir, "colors.txt");
 
-        // dzHooksManager.registerHook(this, "ImprovedChat");
+        dzHooksManager.registerHook(this, "ImprovedChat");
 
         if (!settings.exists()) {
             versionConvert();
@@ -1400,6 +1423,7 @@ public class ImprovedChat /* implements dzHookable */ {
 
         commands = new Hashtable<String, icCommand>();
         commands.put("bind", new icCommand("binds a command to a key.", "bind <keyName> <command>", "Key binding succesfull") {
+            @Override
             public boolean process(String[] args) {
                 if (args != null && args.length >= 2) {
                     ImprovedChat.addKB(args[0], ImprovedChat.unsplit(args, 1));
@@ -1410,6 +1434,7 @@ public class ImprovedChat /* implements dzHookable */ {
             }
         });
         commands.put("bgcolor", new icCommand("changes the backround color of the chat box.", "~bgColor <colorName>", "Background color of the chat bar successfully changed") {
+            @Override
             public boolean process(String[] args) {
                 if (args != null && args.length >= 1) {
                     int color = ImprovedChat.getColorHex(args[0].toLowerCase());
@@ -1427,6 +1452,7 @@ public class ImprovedChat /* implements dzHookable */ {
             }
         });
         commands.put("bgopacity", new icCommand("changes the opacity of the chat box.", "~bgOpacity <num>", "Opacity of the chat bar successfully changed") {
+            @Override
             public boolean process(String[] args) {
                 if (args != null && args.length >= 1) {
                     if (!ImprovedChat.isNumeric(args[0])) {
@@ -1446,7 +1472,8 @@ public class ImprovedChat /* implements dzHookable */ {
                 }
             }
         });
-        commands.put("histcolor", new icCommand("changes the backround color of the chat history.", "~histColor <colorName>", "Background color of the chat history successfully changed") {
+        commands.put("histcolor", new icCommand("changes the background color of the chat history.", "~histColor <colorName>", "Background color of the chat history successfully changed") {
+            @Override
             public boolean process(String[] args) {
                 if (args != null && args.length >= 1) {
                     int color = ImprovedChat.getColorHex(args[0].toLowerCase());
@@ -1463,7 +1490,38 @@ public class ImprovedChat /* implements dzHookable */ {
                 }
             }
         });
+        commands.put("histscroll", new icCommand("changes the amount of lines you scroll per scroll.", "~histscroll <number>", "Number of lines successfully changed") {
+            @Override
+            public boolean process(String[] args) {
+                if (args != null && args.length >= 1) {
+                    if(!ImprovedChat.isNumeric(args[0]))
+                        return false;
+
+                    ImprovedChat.scrollLines = Integer.parseInt(args[0]);
+
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+        commands.put("histlines", new icCommand("changes the amount of lines you see in the history.", "~histlines <number>", "Number of lines successfully changed") {
+            @Override
+            public boolean process(String[] args) {
+                if (args != null && args.length >= 1) {
+                    if(!ImprovedChat.isNumeric(args[0]))
+                        return false;
+
+                    ImprovedChat.historyMaxLines = Integer.parseInt(args[0]);
+
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
         commands.put("histopacity", new icCommand("changes the opacity of the chat history.", "~histOpacity <num>", "Opacity of the chat history successfully changed") {
+            @Override
             public boolean process(String[] args) {
                 if (args != null && args.length >= 1) {
                     if (!ImprovedChat.isNumeric(args[0])) {
@@ -1484,12 +1542,14 @@ public class ImprovedChat /* implements dzHookable */ {
             }
         });
         commands.put("stop", new icCommand("Stops the chatting", (String) null, "") {
+            @Override
             public boolean process(String[] args) {
                 ImprovedChat.setChatDisabled(true);
                 return true;
             }
         });
         commands.put("colorchat", new icCommand("Sets the colorchat setting for this server", (String) null, "") {
+            @Override
             public boolean process(String[] args) {
                 if (args != null && args.length > 0) {
                     if (args[0].equalsIgnoreCase("true"))
@@ -1504,6 +1564,7 @@ public class ImprovedChat /* implements dzHookable */ {
             }
         });
         commands.put("chatlines", new icCommand("Sets the amount of lines you see", (String) null, "") {
+            @Override
             public boolean process(String[] args) {
                 if (args != null && args.length > 0) {
                     if (args[0].equalsIgnoreCase("small")) {
@@ -1528,12 +1589,14 @@ public class ImprovedChat /* implements dzHookable */ {
         });
 
         commands.put("start", new icCommand("Starts the chatting", (String) null, "") {
+            @Override
             public boolean process(String[] args) {
                 ImprovedChat.setChatDisabled(false);
                 return true;
             }
         });
         commands.put("help", new icCommand("Displays this message", (String) null, "") {
+            @Override
             public boolean process(String[] args) {
                 Enumeration keys = ImprovedChat.commands.keys();
 
@@ -1546,6 +1609,7 @@ public class ImprovedChat /* implements dzHookable */ {
             }
         });
         commands.put("list", new icCommand("Lists variables, constants and rules(input, output or display)", "~list (bind|var|const|input|output|display|track|ignore)", "") {
+            @Override
             public boolean process(String[] args) {
                 if (args != null && args.length >= 1) {
                     if (args[0].equalsIgnoreCase("bind")) {
@@ -1586,6 +1650,7 @@ public class ImprovedChat /* implements dzHookable */ {
             }
         });
         commands.put("move", new icCommand("Changes rules priority or moves tab position", "~move (input|output|display|tab) <from> <to>", "") {
+            @Override
             public boolean process(String[] args) {
                 if (args != null && args.length >= 3) {
                     if (ImprovedChat.isNumeric(args[1])) {
@@ -1615,17 +1680,20 @@ public class ImprovedChat /* implements dzHookable */ {
             }
         });
         commands.put("clear", new icCommand("Clears chat history.", (String) null, "") {
+            @Override
             public boolean process(String[] args) {
                 ImprovedChat.getCurrentServer().tabs.get(ImprovedChat.getCurrentServer().currentTabIndex).e.clear();
                 return true;
             }
         });
         commands.put("var", new icCommand("used for creating variables", "~var <varName> <regex>", "Variable created") {
+            @Override
             public boolean process(String[] args) {
                 return args != null && args.length >= 2 ? ImprovedChat.getCurrentServer().vars.add(args[0], ImprovedChat.unsplit(args, 1)) : false;
             }
         });
         commands.put("reload", new icCommand("reloads config", (String) null, "Config reloaded") {
+            @Override
             public boolean process(String[] args) {
                 ImprovedChat.load();
                 // ImprovedChat.setWorld();
@@ -1634,6 +1702,7 @@ public class ImprovedChat /* implements dzHookable */ {
             }
         });
         commands.put("delete", new icCommand("deletes variables, binds or rules", "~delete (bind|var|input|output|display) <id>", "") {
+            @Override
             public boolean process(String[] args) {
                 if (args != null && args.length >= 2) {
                     if (args[0].equalsIgnoreCase("bind")) {
@@ -1675,6 +1744,7 @@ public class ImprovedChat /* implements dzHookable */ {
             }
         });
         commands.put("script", new icCommand("run scripts from desktop(D:), .minecraft folder(M:) or mod folder", "~script [D:|M:]<scriptName>", "Script executed") {
+            @Override
             public boolean process(String[] args) {
                 if (args != null && args.length >= 1) {
                     String name = args[0];
@@ -1733,6 +1803,7 @@ public class ImprovedChat /* implements dzHookable */ {
             }
         });
         commands.put("input", new icCommand("makes rules for formating input window", "~input <regex>  <repl>", "Input rule created") {
+            @Override
             public boolean process(String[] args) {
                 if (args != null && args.length >= 3) {
                     for (int i = 1; i < args.length; ++i) {
@@ -1749,6 +1820,7 @@ public class ImprovedChat /* implements dzHookable */ {
             }
         });
         commands.put("output", new icCommand("makes rules for formating output messages", "~output <regex>  <repl>", "Output rule created") {
+            @Override
             public boolean process(String[] args) {
                 if (args != null && args.length >= 3) {
                     for (int i = 1; i < args.length; ++i) {
@@ -1765,6 +1837,7 @@ public class ImprovedChat /* implements dzHookable */ {
             }
         });
         commands.put("display", new icCommand("makes rules for formating chat box", "~display <regex>  <repl>", "Display rule created") {
+            @Override
             public boolean process(String[] args) {
                 if (args != null && args.length >= 3) {
                     for (int i = 1; i < args.length; ++i) {
@@ -1781,6 +1854,7 @@ public class ImprovedChat /* implements dzHookable */ {
             }
         });
         commands.put("seed", new icCommand("Sets seed for this world (for Rei's minimap", "~setSeed <seed>", "Set seed") {
+            @Override
             public boolean process(String[] args) {
                 if (args != null) {
                     try {
@@ -1819,6 +1893,7 @@ public class ImprovedChat /* implements dzHookable */ {
         });
 
         commands.put("close", new icCommand("Used for closing the curent tab", "~close", "") {
+            @Override
             public boolean process(String[] args) {
                 if (ImprovedChat.getCurrentServer().tabs.size() < 2) {
                     ImprovedChat.stderr("Can not remove only tab.");
@@ -1835,6 +1910,7 @@ public class ImprovedChat /* implements dzHookable */ {
             }
         });
         commands.put("blink", new icCommand("Blink on new messages", "~blink (on|off)", "") {
+            @Override
             public boolean process(String[] args) {
                 if (args != null && args.length >= 1) {
                     ImprovedChat.getCurrentServer().currentTab().blink = args[0].equalsIgnoreCase("on");
@@ -1845,6 +1921,7 @@ public class ImprovedChat /* implements dzHookable */ {
             }
         });
         commands.put("track", new icCommand("Includes all the messages of given format into this tab", "~track <regex>", "") {
+            @Override
             public boolean process(String[] args) {
                 if (args != null && args.length >= 1) {
                     String regex = ImprovedChat.unsplit(args, 0);
@@ -1856,6 +1933,7 @@ public class ImprovedChat /* implements dzHookable */ {
             }
         });
         commands.put("ignore", new icCommand("Excludes all the messages of given format from this tab", "~ignore <regex>", "") {
+            @Override
             public boolean process(String[] args) {
                 if (args != null && args.length >= 1) {
                     String regex = ImprovedChat.unsplit(args, 0);
@@ -1867,6 +1945,7 @@ public class ImprovedChat /* implements dzHookable */ {
             }
         });
         commands.put("prefix", new icCommand("All messages sent in this tab will start with this prefix", "~prefix <prefix>", "") {
+            @Override
             public boolean process(String[] args) {
                 if (args != null && args.length >= 1) {
                     ImprovedChat.getCurrentServer().currentTab().prefix = ImprovedChat.unsplit(args, 0);
@@ -1877,6 +1956,7 @@ public class ImprovedChat /* implements dzHookable */ {
             }
         });
         commands.put("tab", new icCommand("Used for creating and renameing tabs.", "~tab [name] <name>", "") {
+            @Override
             public boolean process(String[] args) {
                 if (args != null && args.length >= 1) {
                     if (args[0].equalsIgnoreCase("name")) {
@@ -2068,8 +2148,6 @@ public class ImprovedChat /* implements dzHookable */ {
         chatDisabled = var0;
     }
 
-
-    /*
     @Override
     public void receivePacket(ee packet) {
         if (packet.b > 0) {
@@ -2102,6 +2180,5 @@ public class ImprovedChat /* implements dzHookable */ {
         registerPacket.b = 1;
         return registerPacket;
     }
-    */
 
 }

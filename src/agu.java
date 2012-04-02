@@ -327,12 +327,6 @@ public class agu extends oo {
         int var2 = var_o - var_n;
         int var3 = var_p - var_n;
 
-        // int var3 = (this.p-this.n) - strip;
-
-        System.out.println("a.o : "+o+    " a.p : "+p+" a.q : "+q+" a.n : "+n);
-        System.out.println("v_o : "+var_o+" v_p : "+var_o+ " v_n : "+var_n+" lineLength : "+line.length());
-
-        // String rommel = line.substring(var_n);
         String var4 = a.a(line.substring(var_n), this.l());
 
         if(var3 > var4.length()) {
@@ -348,8 +342,7 @@ public class agu extends oo {
 
         if(var4.length() > 0) {
             String var10 = var5?var4.substring(0, var2):var4;
-            var7 += len;
-            var10 = ImprovedChat.replaceColors(var10);
+            var10 = ImprovedChat.stripColors(var10);
             var9 = this.a.a(var10) + getXPos();
         }
 
@@ -366,11 +359,11 @@ public class agu extends oo {
         }
 
         if(var3 != var2) {
-            System.out.println("getLine -> var3 : "+var3);
+            // System.out.println("getLine -> var3 : "+var3);
             String lllllll = var4.substring(0, var3);
             line = ImprovedChat.stripColors(lllllll);
             int var12 = var7 + this.a.a(lllllll);
-            System.out.println("getLine -> var12 : "+var12);
+            // System.out.println("getLine -> var12 : "+var12);
             if(show_var12) return var12;
             // this.c(var11, var8 - 1, var12 - 1, var8 + 1 + this.a.b);
         }
@@ -406,7 +399,7 @@ public class agu extends oo {
         if(var4.length() > 0) {
             String var10 = var5?var4.substring(0, var2):var4;
             var7 += len;
-            var10 = ImprovedChat.replaceColors(var10);
+            var10 = ImprovedChat.stripColors(var10);
             var9 = this.a.a(var10, var7, var8, var1);
         }
 

@@ -17,7 +17,7 @@ public class yf extends vp {
     private String e = "";
     private String f = "";
     private int h = 0;
-    private List i = new ArrayList();
+    private List<ah> i = new ArrayList<ah>();
     private URI j = null;
     protected agu a;
     private String k = "";
@@ -31,6 +31,7 @@ public class yf extends vp {
         this.k = var1;
     }
 
+    @Override
     public void c() {
         Keyboard.enableRepeatEvents(true);
         this.c = this.p.w.c().size();
@@ -42,15 +43,18 @@ public class yf extends vp {
         this.a.c(false);
     }
 
+    @Override
     public void e() {
         Keyboard.enableRepeatEvents(false);
         this.p.w.d();
     }
 
+    @Override
     public void a() {
         this.a.a();
     }
 
+    @Override
     protected void a(char var1, int var2) {
         if(var2 == Keyboard.KEY_TAB) {
             this.d();
@@ -86,9 +90,9 @@ public class yf extends vp {
             // this.a(1);
 
         } else if(var2 == Keyboard.KEY_PRIOR) { // Page up
-            this.p.w.a(1);
+            this.p.w.a(ImprovedChat.scrollLines);
         } else if(var2 == Keyboard.KEY_NEXT) { // Page down
-            this.p.w.a(-1);
+            this.p.w.a(-ImprovedChat.scrollLines);
         } else {
             this.a.a(var1, var2);
         }
@@ -180,6 +184,7 @@ public class yf extends vp {
         */
     }
 
+    @Override
     public void f() {
         super.f();
         int var1 = Mouse.getEventDWheel();
@@ -201,6 +206,7 @@ public class yf extends vp {
 
     }
 
+    @Override
     protected void a(int var1, int var2, int var3) {
         if(var3 == 0) {
             dx var4 = this.p.w.a(Mouse.getX(), Mouse.getY());
@@ -218,6 +224,7 @@ public class yf extends vp {
         super.a(var1, var2, var3);
     }
 
+    @Override
     public void a(boolean var1, int var2) {
         if(var2 == 0) {
             if(var1) {
@@ -342,6 +349,7 @@ public class yf extends vp {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
+    @Override
     public void a(int var1, int var2, float var3) {
 
         // this.a.f();
@@ -420,6 +428,7 @@ public class yf extends vp {
         if(vl.size() == 0) {
             int heigth = this.r - 12 * size;
             int width = a.getXPos();
+            if(cm!=null) width+=u.a(cm+" ");
             oo.a(width, heigth - 1, width + 1, heigth + 1 + u.b, -3092272);
         } else {
             int line_index = 0;
@@ -523,7 +532,7 @@ public class yf extends vp {
 
                 if(lines == 1) {
                     // int sub_len = a.o - a.n;
-                    System.out.println("input1 : "+a.o+" input2 : "+a.n);
+                    // System.out.println("input1 : "+a.o+" input2 : "+a.n);
                     width = a.getLineWidth(line_noColor, a.n, a.o, a.p, false/* , sub_len */);
 
                     sel_width = markSize;
@@ -542,69 +551,44 @@ public class yf extends vp {
                     /* if(line_noColor.length() > 0)
                         line_noColor = line_noColor.substring(0, line_noColor.length() - 1); */
 
-                    if(HLFROM > linefrom - 1) {
-                        /* if(HLTO < lineto) { // Volle lijn
-                            // int sub_len = linefrom - lineto;
-                            width = a.getLineWidth(line_noColor, linefrom, lineto);
-                            sel_width = markSize;
+                    /* System.out.println("HLFROM1: "+HLFROM1);
+                    System.out.println("HLFROM : "+HLFROM + " linefrom : "+linefrom);
+                    System.out.println("HLFTO  : "+HLFROM + " lineto   : "+lineto); */
 
-                            countLength = u.a(line_noColor, a.l()).length();
+                    boolean check_1 = HLFROM > linefrom - 1;
+                    boolean check_2 = HLTO < lineto;
+                    boolean check_3 = !check_1 && (a.o > lineto || a.p > lineto);
+                    boolean check_4 = a.o > lineto || a.p > lineto;
 
-                            if(sel_width > countLength) {
-                                sel_width = countLength;
-                            }
-
-                            varwidth = xpos + u.a(line_noColor);
-
-                        } else */
-
-                        //if(HLTO)
-
-                        System.out.println("lineFrom : "+linefrom+" lineTo : "+lineto);
+                    /* System.out.println("check1 : "+check_1+ "  check2 : "+check_2);
+                    System.out.println("check3 : "+check_3+ "  check4 : "+check_4);
+                    System.out.println("lineto : "+lineto+  "  a.o    : "+a.o);
+                    System.out.println("linefro: "+lineto+  "  a.p    : "+a.p);
 
 
-                        if(HLFROM < lineto) { // Stuk van een lijn
-                            System.out.println("HLFROM > linefrom");
-                            System.out.println(HLFROM +" > "+linefrom);
 
-                            int amountSelected = a.o - a.p;
-                            int sel_skip = lineto - linefrom;
-                            int sel_rommel = line_noColor.length() - amountSelected;
+                    System.out.println("AmountSelected : "+ (a.o - a.p)); */
 
-                            int input1 = a.n - linefrom;
-                            if(input1 < 0) input1 = 0;
-                            int input2 = a.o /* - linefrom */;
-                            int input3 = a.p /* - linefrom */;
+                    if((!check_1 && check_4) || (check_1 && check_2)) { // Stuk van een lijn
 
-                            System.out.println("input1 : "+input1+" input2 : "+input2);
-                            // if(input2 > linefrom) input2 -= linefrom;
-                            //                                     N       O       P
-                            width = a.getLineWidth(line_noColor, input1, (input2-linefrom), (input3-linefrom), false /* , sub_len */);
-                            varwidth = a.getLineWidth(line_noColor, input1, (input2-linefrom), (input3-linefrom), true /* , sub_len */);
-                            /* int amt = (a.n-linefrom) - a.o;
+                        int input1 = a.n - linefrom;
+                        if(input1 < 0) input1 = 0;
+                        int input2 = a.o /* - linefrom */; // START POS
+                        int input3 = a.p /* - linefrom */;
 
+                        // System.out.println("input1 : "+input1+" input2 : "+input2);
 
-                            sel_width = markSize;
+                        // if(input2 > linefrom) input2 -= linefrom;
+                        //                                     N       O       P
+                        width = a.getLineWidth(line_noColor, input1, (input2-linefrom), (input3-linefrom), false /* , sub_len */);
+                        varwidth = a.getLineWidth(line_noColor, input1, (input2-linefrom), (input3-linefrom), true /* , sub_len */);
 
-                            // String rommel = line_noColor.substring(a.n);
-                            String rommel = line_noColor.substring(input1);
-
-                            countLength = u.a(line_noColor, a.l()).length();
-
-                            if(sel_width > countLength) {
-                                sel_width = countLength;
-                            }
-
-
-                            System.out.println("amt : "+amt);
-                            varwidth = xpos + u.a(line_noColor.substring(0, amt)); */
-
-                            // System.out.println("varwidth :::: "+varwidth);
-                        } else {
-                            System.out.println("HLFROM : "+HLFROM+"    linefrom : "+linefrom+"   lineto : "+lineto);
-                        }
                     }
+
                 }
+                // boolean draw = false;
+                // draw = ((linefrom > (a.o)) || (lineto < a.p));
+                // System.out.println("draw? "+draw + " "+linefrom);
 
                 this.drawSelection(width, height - 1, varwidth - 1, height + 1 + u.b);
             }
@@ -617,15 +601,17 @@ public class yf extends vp {
         Tab var10000;
         if(var13 > 0) {
             if(ImprovedChat.currentTab().chatScroll <= ImprovedChat.currentTab().e.size() - 11) {
-                var10000 = ImprovedChat.currentTab();
-                var10000.chatScroll += 2;
+                // var10000 = ImprovedChat.currentTab();
+                this.p.w.a(ImprovedChat.scrollLines);
+                // var10000.chatScroll += ImprovedChat.scrollLines;
             }
         } else if(var13 < 0) {
-            var10000 = ImprovedChat.currentTab();
-            var10000.chatScroll -= 2;
-            if(ImprovedChat.currentTab().chatScroll < 0) {
+            // var10000 = ImprovedChat.currentTab();
+            // var10000.chatScroll -= ImprovedChat.scrollLines;
+            this.p.w.a(-ImprovedChat.scrollLines);
+            /* if(ImprovedChat.currentTab().chatScroll < 0) {
                 ImprovedChat.currentTab().chatScroll = 0;
-            }
+            } */
         }
 
         super.a(var1, var2, var3);

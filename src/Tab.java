@@ -76,6 +76,7 @@ public class Tab {
     }
 
     public void add(nt l) {
+        // l.tabName = this.name;
         this.e.add(0, l);
         this.blinking = this.blink;
     }
