@@ -1,4 +1,3 @@
-import com.sun.xml.internal.ws.util.StringUtils;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
