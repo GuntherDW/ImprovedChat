@@ -1,6 +1,10 @@
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Stack;
+
 public class agu extends oo {
 
     private final nl a;
@@ -295,12 +299,6 @@ public class agu extends oo {
 
     }
 
-    public void showDebug() {
-        /* System.out.println("a.m : "+m+" a.q : "+q+" a.r : "+r);
-        System.out.println("a.o : "+o+" a.n : "+n);
-        System.out.println("a.p : "+o+" a.n : "+n); */
-    }
-
     public int getXPos() {
         return this.j?this.b + 4:this.b;
     }
@@ -317,64 +315,23 @@ public class agu extends oo {
         return var2 > 0 ? var7 + this.d : var7;
     }
 
-    // public int getLineWidth(String line, int start, int skip, int strip/* , int sub_length , int from, int to*/) {
-    public int getLineWidth(String line, int var_n, int var_o, int var_p, boolean show_var12/* , int sub_length , int from, int to*/) {
-
-        int len = 0;
-        // int var2 = start - skip;
-
-        int var1 = this.m?this.q:this.r;
-        int var2 = var_o - var_n;
-        int var3 = var_p - var_n;
-
-        String var4 = a.a(line.substring(var_n), this.l());
-
-        if(var3 > var4.length()) {
-            var3 = var4.length();
-        }
-
-        // String var4 = this.a.a(rommel, this.l());
-        boolean var5 = var2 >= 0 && var2 <= var4.length();
-        boolean var6 = this.l && this.i / 6 % 2 == 0 && var5;
-        int var7 = this.j?this.b + 4:this.b;
-        int var8 = this.j?this.c + (this.e - 8) / 2:this.c;
-        int var9 = var7;
-
-        if(var4.length() > 0) {
-            String var10 = var5?var4.substring(0, var2):var4;
-            var10 = ImprovedChat.stripColors(var10);
-            var9 = this.a.a(var10) + getXPos();
-        }
-
-        boolean var13 = this.o < line.length() || line.length() >= this.g();
-
-        int var11 = var9;
-        if(!var5) {
-            // System.out.println("!var5");
-            var11 = var2 > 0?var7 + this.d:var7;
-        } else if(var13) {
-            // System.out.println("var13");
-            var11 = var9 - 1;
-            --var9;
-        }
-
-        if(var3 != var2) {
-            // System.out.println("getLine -> var3 : "+var3);
-            String lllllll = var4.substring(0, var3);
-            line = ImprovedChat.stripColors(lllllll);
-            int var12 = var7 + this.a.a(lllllll);
-            // System.out.println("getLine -> var12 : "+var12);
-            if(show_var12) return var12;
-            // this.c(var11, var8 - 1, var12 - 1, var8 + 1 + this.a.b);
-        }
-
-        return var11;
+    public int get_M_Q_R() {
+        return this.m?this.q:this.r;
     }
 
     public void f() {
         String cm = null;
-        int len = 0;
+        if(ImprovedChat.getCurrentServer().ChatMode != null)
+            cm = ImprovedChat.getCurrentServer().ChatMode+ " ";
+
+
+        int len = cm!=null?a.a(ImprovedChat.stripColors(cm)):0;
+
         int prefix = 0;
+        StringBuilder sb = new StringBuilder();
+
+        int bg = ((ImprovedChat.bgOpacity & 255) << 24) + ImprovedChat.bgColor;
+
 
         if(this.i()) {
             a(this.b - 1, this.c - 1, this.b + this.d + 1, this.c + this.e + 1, -6250336);
@@ -385,24 +342,33 @@ public class agu extends oo {
         int var2 = this.o - this.n;
         int var3 = this.p - this.n;
 
-        String var4 = this.a.a(this.f.substring(this.n), this.l());
+        // String var4 = this.a.a(this.f.substring(this.n), this.l());
+        String var4 = this.f;
         boolean var5 = var2 >= 0 && var2 <= var4.length();
         boolean var6 = this.l && this.i / 6 % 2 == 0 && var5;
         int var7 = this.j?this.b + 4:this.b;
         int var8 = this.j?this.c + (this.e - 8) / 2:this.c;
         int var9 = var7;
+        var7 = var7 + len;
+
+        char carot = var6?'|':':';
 
         if(var3 > var4.length()) {
             var3 = var4.length();
         }
 
+        String var10 = null;
+
         if(var4.length() > 0) {
-            String var10 = var5?var4.substring(0, var2):var4;
-            var7 += len;
-            var10 = ImprovedChat.stripColors(var10);
-            var9 = this.a.a(var10, var7, var8, var1);
+            var10 = var5?var4.substring(0, var2):var4;
+            var10 = ImprovedChat.replaceColors(var10);
+            // var9 = this.a.a(var10, var7, var8, var1);
+            sb.append(var10);
         }
 
+        System.out.println("this.g() : "+this.g());
+        System.out.println("this.o   : "+this.o);
+        System.out.println("this.f.le: "+this.f.length());
         boolean var13 = this.o < this.f.length() || this.f.length() >= this.g();
         int var11 = var9;
         if(!var5) {
@@ -412,11 +378,61 @@ public class agu extends oo {
             --var9;
         }
 
+        // System.out.println("var5 : "+var5);
+
         if(var4.length() > 0 && var5 && var2 < var4.length()) {
-            this.a.a(var4.substring(var2), var9, var8, var1);
+            Character lastColor = ImprovedChat.getLastColor(var10);
+            String afterString = carot+var4.substring(var2);
+            afterString = ImprovedChat.replaceColors(afterString);
+            if(lastColor!=null) sb.append("§").append(lastColor);
+            sb.append(afterString);
+            // this.a.a((lastColor!=null?"§"+lastColor:"")+afterString, var9, var8, var1);
         }
 
-        if(var6) {
+
+
+
+        /* if(!var13)
+            sb.append(carot); */
+
+
+
+        /* if(var6 && !var13) {
+            // this.a.a("_", var11, var8, var1);
+            sb.append("_");
+        } */
+
+        String toString = sb.toString();
+
+        byte maxLineLength = 100;
+        if(toString.length() >= maxLineLength) {
+            String toString_temp = toString;
+            toString = toString_temp.substring(0, maxLineLength) + "§4" + toString_temp.substring(maxLineLength);
+        }
+        if(!var13)
+            toString+=carot;
+
+        List<String> vl = ImprovedChat.processDisplay(toString+" ");
+        Iterator<String> var12 = vl.iterator();
+        int size = vl.size();
+        /* System.out.println("var6 : "+var6);
+        System.out.println("var13: "+var13); */
+
+        int height = (this.c+12) - 4 - (size<=0?1:size) * 12;
+
+        this.a(this.b - 1, height, this.b + this.d + 1, (this.c+12) - 2, bg);
+        // a(2, this.c - 2, this.q - 2, this.r - 2, bg);
+
+        while(var12.hasNext()) {
+            String wheel = var12.next();
+            System.out.println("wheel : "+wheel);
+
+            this.a.a(cm, this.j?this.b + 4:this.b, (this.c + 12) - 12 * size, var1);// 14737632);
+            this.a.a(wheel, var7, (this.c + 12) - 12 * size, var1);// 14737632);
+
+            size--;
+        }
+        /* if(var6) {
             if(var13) {
                 oo.a(var11, var8 - 1, var11 + 1, var8 + 1 + this.a.b, -3092272);
             } else {
@@ -429,7 +445,7 @@ public class agu extends oo {
             line = ImprovedChat.stripColors(line);
             int var12 = var7 + this.a.a(line);
             this.c(var11, var8 - 1, var12 - 1, var8 + 1 + this.a.b);
-        }
+        } */
 
     }
 
@@ -464,6 +480,7 @@ public class agu extends oo {
 
     public void f(int var1) {
         this.h = var1;
+        System.out.println("f() "+var1);
         if(this.f.length() > var1) {
             this.f = this.f.substring(0, var1);
         }

@@ -1,3 +1,4 @@
+import com.sun.xml.internal.ws.util.StringUtils;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -58,6 +59,7 @@ public class ImprovedChat implements dzHookable {
     private static Element topElement;
     private static Pattern colorCrashFix = Pattern.compile("\u00a7(?![0-9a-fA-FkKlLmMnNoOrR])|\u00a7[0-9a-fA-FkKlLmMnNoOrR]?$");
     private static Pattern colorTags = Pattern.compile("(\u00a7|&c)[0-9a-fA-FkKlLmMnNoOrR]|/&c");
+    private static Pattern colorTags2 = Pattern.compile("(\u00a7|&c)[0-9a-fA-FkKlLmMnNoOrR]");
     private static Pattern updateColor = Pattern.compile("(?<!/)&c(?=[0-9a-fA-FkKlLmMnNoOrR])");
     private static Pattern buxvillFix = Pattern.compile("\u00a7\u00a7");
     private static Pattern varP = Pattern.compile("\\$\\w*");
@@ -131,6 +133,13 @@ public class ImprovedChat implements dzHookable {
     public static String replaceColors(String line) {
         line = updateColor.matcher(d[2].process(line)).replaceAll("\u00a7");
         return line;
+    }
+
+    public static int colorCount(String line) {
+        // return colorTags2.matcher(line).groupCount();
+        /* Matcher m = Pattern.compile("\\§").matcher(line);
+        return m.groupCount(); */
+        return line.split("\\§").length-1;
     }
 
     public static String stripColors(String line) {
@@ -750,90 +759,18 @@ public class ImprovedChat implements dzHookable {
         return r;
     }
 
-    private static List<String> format(String line, int lineSize, int hlFrom, int hlTo) {
-        List<String> r = new ArrayList<String>();
-        line = colorCrashFix.matcher(line).replaceAll("");
-        if (line.length() == 0) {
-            return r;
-        } else {
-            boolean pos = false;
-            boolean curSize = false;
-            boolean spacePos = false;
-            Stack<Character> colors = new Stack<Character>();
-            Character newLineColor = new Character('f');
-            colors.push(newLineColor);
-            String[] lines = line.split("\n");
-            StringBuilder sb = (new StringBuilder()).append(lines[0]);
+    public static Character getLastColor(String line) {
+        Character col = null;
+        // Stack<Character> colors = new Stack<Character>();
 
-            for (int ch = 1; ch < lines.length; ++ch) {
-                if (minecraft.q.a(lines[ch - 1] + firstChar(lines[ch])) < 318) {
-                    sb.append('\n');
-                }
 
-                sb.append(lines[ch]);
-            }
-
-            line = sb.toString();
-            sb = new StringBuilder();
-            int var16 = 0;
-            int var15 = 0;
-
-            for (int var12 = 0; var15 < line.length(); ++var15) {
-                switch (line.charAt(var15)) {
-                    case 10: // '\n'
-                        r.add(colorCrashFix.matcher(sb.toString()).replaceAll(""));
-                        sb.delete(0, sb.length()).append((new StringBuilder("\247")).append(colors.peek()).toString());
-                        var16 = 0;
-                        var12 = 0;
-                        break;
-
-                    case 167:
-                        sb.append(line.substring(var15, var15 + 2));
-                        var15++;
-                        colors.push(new Character(line.charAt(var15)));
-                        break;
-
-                    case 32: // ' '
-                        var16 = sb.length() + 1;
-                        newLineColor = colors.peek();
-                        // fall through
-
-                    case 47: // '/'
-                        if (line.substring(var15).startsWith("/&c")) {
-                            if (colors.size() > 1)
-                                colors.pop();
-                            Character character1 = colors.peek();
-                            sb.append((new StringBuilder("\247")).append(character1).toString());
-                            var15 += 2;
-                            break;
-                        }
-                        // fall through
-
-                    default:
-                        String s1 = line.substring(var15, var15 + 1);
-                        int j1 = getStringWidth(s1);
-                        if (var12 + j1 > lineSize && !s1.equals(" ")) {
-                            if (var16 == 0) {
-                                var16 = sb.length();
-                                newLineColor = colors.peek();
-                            }
-                            r.add(colorCrashFix.matcher(sb.substring(0, var16)).replaceAll(""));
-                            sb.delete(0, var16).append(s1);
-                            sb.insert(0, (new StringBuilder("\247")).append(newLineColor).toString());
-                            var12 = getStringWidth(sb.toString());
-                            var16 = 0;
-                        } else {
-                            sb.append(s1);
-                            var12 += j1;
-                        }
-                        break;
-                }
-            }
-
-            // r.add(colorCrashFix.matcher(
-            r.add(colorCrashFix.matcher(sb.toString()).replaceAll(""));
-            return r;
+        for (int var12 = 0; var12 < line.length(); var12++) {
+            char c = line.charAt(var12);
+            if(c == '§' && line.length() > var12)
+                col = line.charAt(var12+1);
         }
+
+        return col;
     }
 
     private static List<String> format(String line, int lineSize) {
@@ -1145,18 +1082,6 @@ public class ImprovedChat implements dzHookable {
 
     private static void setCurrentServer(Server new_server) {
         setLastServer(Current = new_server);
-    }
-
-    public static List<String> processDisplay(String line, agu agu1) {
-        int hlFrom = agu1.p;
-        int hlTo = agu1.o;
-        if( hlFrom != hlTo ) {
-            return format(line, 316, hlFrom, hlTo);
-        } else {
-            return format(line, 316);
-        }
-
-
     }
 
     public static List<String> processDisplay(String line) {
@@ -2158,7 +2083,8 @@ public class ImprovedChat implements dzHookable {
                     byte[] cleanData = new byte[packetBytes.length-1];
                     System.arraycopy(packetBytes, 1, cleanData, 0, packetBytes.length-1);
                     // chatModeString = toString(bis).replace("&c", "§");
-                    chatModeString = new String(cleanData, "UTF-8").replace("&c", "§");
+                    chatModeString = new String(cleanData, "UTF-8");
+                    chatModeString = chatModeString.replaceAll("&c", "§");
                     if (chatModeString.equals("null"))
                         getCurrentServer().ChatMode = null;
                     else {
