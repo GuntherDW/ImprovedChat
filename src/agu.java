@@ -366,9 +366,6 @@ public class agu extends oo {
             sb.append(var10);
         }
 
-        System.out.println("this.g() : "+this.g());
-        System.out.println("this.o   : "+this.o);
-        System.out.println("this.f.le: "+this.f.length());
         boolean var13 = this.o < this.f.length() || this.f.length() >= this.g();
         int var11 = var9;
         if(!var5) {
@@ -378,8 +375,6 @@ public class agu extends oo {
             --var9;
         }
 
-        // System.out.println("var5 : "+var5);
-
         if(var4.length() > 0 && var5 && var2 < var4.length()) {
             Character lastColor = ImprovedChat.getLastColor(var10);
             String afterString = carot+var4.substring(var2);
@@ -388,19 +383,6 @@ public class agu extends oo {
             sb.append(afterString);
             // this.a.a((lastColor!=null?"§"+lastColor:"")+afterString, var9, var8, var1);
         }
-
-
-
-
-        /* if(!var13)
-            sb.append(carot); */
-
-
-
-        /* if(var6 && !var13) {
-            // this.a.a("_", var11, var8, var1);
-            sb.append("_");
-        } */
 
         String toString = sb.toString();
 
@@ -425,13 +407,13 @@ public class agu extends oo {
 
         while(var12.hasNext()) {
             String wheel = var12.next();
-            System.out.println("wheel : "+wheel);
 
             this.a.a(cm, this.j?this.b + 4:this.b, (this.c + 12) - 12 * size, var1);// 14737632);
             this.a.a(wheel, var7, (this.c + 12) - 12 * size, var1);// 14737632);
 
             size--;
         }
+
         /* if(var6) {
             if(var13) {
                 oo.a(var11, var8 - 1, var11 + 1, var8 + 1 + this.a.b, -3092272);
@@ -439,7 +421,12 @@ public class agu extends oo {
                 this.a.a("_", var11, var8, var1);
             }
         }
+        */
 
+        /**
+         *  TODO: Implement in own way?
+         */
+        /*
         if(var3 != var2) {
             String line = var4.substring(0, var3);
             line = ImprovedChat.stripColors(line);
@@ -480,7 +467,6 @@ public class agu extends oo {
 
     public void f(int var1) {
         this.h = var1;
-        System.out.println("f() "+var1);
         if(this.f.length() > var1) {
             this.f = this.f.substring(0, var1);
         }
