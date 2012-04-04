@@ -53,7 +53,7 @@ public class ImprovedChat implements dzHookable {
     public static int historyMaxLines = 300;
     public static byte ChatLinesSmall = 10;
     public static byte ChatLinesBig = 20;
-    public static int scrollLines = 19;
+    public static int scrollLines = 1;
     private static Document doc;
     private static Element topElement;
     private static Pattern colorCrashFix = Pattern.compile("\u00a7(?![0-9a-fA-FkKlLmMnNoOrR])|\u00a7[0-9a-fA-FkKlLmMnNoOrR]?$");

@@ -104,11 +104,11 @@ public class yf extends vp {
         int var1 = Mouse.getEventDWheel();
         if(var1 != 0) {
             if(var1 > 1) {
-                var1 = 1;
+                var1 = ImprovedChat.scrollLines;
             }
 
             if(var1 < -1) {
-                var1 = -1;
+                var1 = -ImprovedChat.scrollLines;
             }
 
             /* if(!m()) { // m == mousewheel
