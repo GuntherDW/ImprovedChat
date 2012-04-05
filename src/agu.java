@@ -66,6 +66,7 @@ public class agu extends oo {
     }
 
     public void b(String var1) {
+        String passed_String = xn.a(var1);
         String var2 = "";
         int var3 = this.o < this.p?this.o:this.p;
         int var4 = this.o < this.p?this.p:this.o;
@@ -77,12 +78,12 @@ public class agu extends oo {
         }
 
         int var7;
-        if(var5 < var1.length()) {
-            var2 = var2 + var1.substring(0, var5);
+        if(var5 < passed_String.length()) {
+            var2 = var2 + passed_String.substring(0, var5);
             var7 = var5;
         } else {
-            var2 = var2 + var1;
-            var7 = var1.length();
+            var2 = var2 + passed_String;
+            var7 = passed_String.length();
         }
 
         if(this.f.length() > 0 && var4 < this.f.length()) {
@@ -179,9 +180,6 @@ public class agu extends oo {
         }
 
         this.g(this.o);
-        if(this.n > var2) {
-            this.n = var2;
-        }
 
     }
 
@@ -288,7 +286,6 @@ public class agu extends oo {
 
         if(this.l && var3 == 0) {
             int var5 = var1 - this.b;
-            int var10000 = var2 - this.c;
             if(this.j) {
                 var5 -= 4;
             }
@@ -522,15 +519,30 @@ public class agu extends oo {
 
         this.p = var1;
         if(this.a != null) {
-            String var3 = this.a.a(this.f.substring(this.n), this.l());
-            int var4 = var3.length() + this.n;
+            if(this.n > var2) {
+                this.n = var2;
+            }
 
-            /* if(var1 > var4) {
-                // Thread.dumpStack();
-                this.n += var1 - var4;
+            int var3 = this.l();
+            String var4 = this.a.a(this.f.substring(this.n), var3);
+            int var5 = var4.length() + this.n;
+            if(var1 == this.n) {
+                this.n -= this.a.a(this.f, var3, true).length();
+            }
+
+            if(var1 > var5) {
+                this.n += var1 - var5;
             } else if(var1 <= this.n) {
                 this.n -= this.n - var1;
-            } */
+            }
+
+            if(this.n < 0) {
+                this.n = 0;
+            }
+
+            if(this.n > var2) {
+                this.n = var2;
+            }
         }
     }
 

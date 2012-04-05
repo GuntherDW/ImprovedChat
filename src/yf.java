@@ -178,7 +178,8 @@ public class yf extends vp {
 
             while(var2.hasNext()) {
                 var3 = (ah)var2.next();
-                if(var3.a(this.f)) {
+                String playerName = ImprovedChat.stripColors(var3.a.toLowerCase());
+                if(playerName.startsWith(this.f)) {
                     this.i.add(var3);
                 }
             }
@@ -195,7 +196,7 @@ public class yf extends vp {
         if(this.i.size() > 1) {
             StringBuilder var4 = new StringBuilder();
 
-            for(var2 = this.i.iterator(); var2.hasNext(); var4.append(var3.a)) {
+            for(var2 = this.i.iterator(); var2.hasNext(); var4.append(ImprovedChat.stripColors(var3.a))) {
                 var3 = (ah)var2.next();
                 if(var4.length() > 0) {
                     var4.append(", ");
@@ -205,7 +206,8 @@ public class yf extends vp {
             this.p.w.a(var4.toString());
         }
 
-        this.a.b(((ah)this.i.get(this.h++)).a);
+        ah playerInfo = this.i.get(this.h++);
+        this.a.b(ImprovedChat.stripColors(playerInfo.a));
     }
 
     public void a(int var1) {
