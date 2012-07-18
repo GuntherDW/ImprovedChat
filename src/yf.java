@@ -64,6 +64,7 @@ public class yf extends vp {
 
         if(var2 == Keyboard.KEY_ESCAPE) {
             this.p.a((vp)null);
+            ImprovedChat.commandScroll = 0;
         } else if(var2 == Keyboard.KEY_RETURN || var2 == Keyboard.KEY_NUMPADENTER) {
             String var3 = this.a.b().trim();
             if(var3.length() > 0 && !this.p.c(var3)) {

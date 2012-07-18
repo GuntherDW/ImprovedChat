@@ -318,7 +318,7 @@ public class agu extends oo {
 
     public void f() {
         String cm = null;
-        if(ImprovedChat.getCurrentServer().ChatMode != null)
+        if(ImprovedChat.getCurrentServer() != null && ImprovedChat.getCurrentServer().ChatMode != null)
             cm = ImprovedChat.getCurrentServer().ChatMode+ " ";
 
 

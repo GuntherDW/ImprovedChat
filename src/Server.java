@@ -8,6 +8,7 @@ public class Server {
     public int currentTabIndex;
     public List<Hashtable<Integer, String>> bindings;
     public Boolean colorchat;
+    public Boolean heroChat;
     public Integer lines;
     public Variables vars;
     public String[] translations;
@@ -32,6 +33,7 @@ public class Server {
         // this.bindings = (Hashtable<Integer, String>[]) new Hashtable<?,?>[4];
         this.bindings = new ArrayList<Hashtable<Integer, String>>();
         this.colorchat = false;
+        this.heroChat = false;
         this.tabs = new ArrayList<Tab>();
         this.lines = 20;
         this.ChatMode = null;

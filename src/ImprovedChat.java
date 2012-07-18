@@ -17,6 +17,8 @@ import java.awt.*;
 import java.awt.datatransfer.*;
 import java.io.*;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -54,6 +56,7 @@ public class ImprovedChat implements dzHookable {
     public static byte ChatLinesSmall = 10;
     public static byte ChatLinesBig = 20;
     public static int scrollLines = 1;
+    public static ImprovedChat instance;
     private static Document doc;
     private static Element topElement;
     private static Pattern colorCrashFix = Pattern.compile("\u00a7(?![0-9a-fA-FkKlLmMnNoOrR])|\u00a7[0-9a-fA-FkKlLmMnNoOrR]?$");
@@ -114,7 +117,7 @@ public class ImprovedChat implements dzHookable {
 
     public static void init(Minecraft minecraftInstance) {
         minecraft = minecraftInstance;
-        new ImprovedChat();
+        instance = new ImprovedChat();
     }
 
     private static Element newElem(Element parent, String name) {
@@ -235,6 +238,11 @@ public class ImprovedChat implements dzHookable {
         topElement.setAttribute("name", server.name);
         topElement.setAttribute("address", server.address);
         topElement.setAttribute("colorchat", server.colorchat ? "true" : "false");
+        topElement.setAttribute("herochat", server.heroChat ? "true" : "false");
+
+        if(server.heroChat && server.ChatMode != null) {
+            topElement.setAttribute("herochat_channel", server.ChatMode);
+        }
 
         Element e;
         for (int tab = 0; tab < 4; ++tab) {
@@ -376,7 +384,7 @@ public class ImprovedChat implements dzHookable {
                     var27 = line.getAttribute("ChatLinesBig");
                     if (var27 != null) {
                         try {
-                            ChatLinesSmall = Byte.parseByte(var27);
+                            ChatLinesBig = Byte.parseByte(var27);
                         } catch (NumberFormatException ex) {
                             ;
                         }
@@ -453,6 +461,14 @@ public class ImprovedChat implements dzHookable {
                         String colorchat = serverElement.getAttribute("colorchat");
                         if (colorchat != null)
                             server.colorchat = colorchat.equalsIgnoreCase("true") ? true : false;
+
+                        String heroChat = serverElement.getAttribute("herochat");
+                            server.heroChat = heroChat.equalsIgnoreCase("true") ? true : false;
+
+                        if(server.heroChat) {
+                            String chan = serverElement.getAttribute("herochat_channel");
+                            server.ChatMode = chan;
+                        }
 
                         NodeList bNL = serverElement.getElementsByTagName("Bindings");
 
@@ -1476,11 +1492,7 @@ public class ImprovedChat implements dzHookable {
             @Override
             public boolean process(String[] args) {
                 if (args != null && args.length > 0) {
-                    if (args[0].equalsIgnoreCase("true"))
-                        getCurrentServer().colorchat = true;
-                    else
-                        getCurrentServer().colorchat = false;
-
+                    getCurrentServer().colorchat = args[0].equalsIgnoreCase("true");
                 } else {
                     ImprovedChat.stdout("Colorchat for this server is : " + (getCurrentServer().colorchat ? "ENABLED" : "DISABLED"));
                 }
@@ -2006,7 +2018,39 @@ public class ImprovedChat implements dzHookable {
         return true;
     }
 
+    public static String getHeroChatChatMode(String line) {
+        String[] splittertje = line.split("§eNow chatting in ");
+        if (splittertje.length > 1) return splittertje[1].substring(0, splittertje[1].length() - 3);
+        return null;
+    }
+
+    // @Override
+    public static void receiveChatPacket(String text) {
+        // String noColorText = ImprovedChat.stripColors(text);
+        if (text.startsWith("§eNow chatting in ")) {
+            String cm = getHeroChatChatMode(text);
+            String chatModeHeroChat = "[" + cm + "§f]";
+            ImprovedChat.getCurrentServer().ChatMode = cm != null ? chatModeHeroChat : null;
+            ImprovedChat.getCurrentServer().heroChat = true;
+            ImprovedChat.save();
+            /* try {
+                Method m = ImprovedChat.class.getDeclaredMethod("save");
+                if (m != null) {
+                    m.setAccessible(true);
+                    m.invoke(ImprovedChat.instance);
+                }
+            } catch (NoSuchMethodException e) {
+                ;
+            } catch (InvocationTargetException e) {
+                ;
+            } catch (IllegalAccessException e) {
+                ;
+            } */
+        }
+    }
+
     public static void receiveLine(String line) {
+        receiveChatPacket(line);
         if (!chatDisabled) {
             varProcess(line);
             stdout(line);
@@ -2084,12 +2128,14 @@ public class ImprovedChat implements dzHookable {
                     // chatModeString = toString(bis).replace("&c", "§");
                     chatModeString = new String(cleanData, "UTF-8");
                     chatModeString = chatModeString.replaceAll("&c", "§");
+                    System.out.println("chatModeString = "+chatModeString);
                     if (chatModeString.equals("null"))
                         getCurrentServer().ChatMode = null;
                     else {
                         getCurrentServer().ChatMode = chatModeString;
                     }
                 } catch(Exception e) {
+                    e.printStackTrace();
                     getCurrentServer().ChatMode = null;
                 }
             }

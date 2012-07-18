@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
@@ -38,7 +39,7 @@ public class aiy extends oo {
         if(Minecraft.s()) {
             this.a(this.i.h.a(var1), var6, var7);
         } else {
-            GL11.glBlendFunc(770, 771);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         }
 
         aan var9 = this.i.h.ap.f(3);
