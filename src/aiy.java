@@ -708,6 +708,7 @@ public class aiy extends oo {
     }
 
     public dx a(int var1, int var2) {
+        // System.out.println("this.e() -> "+this.e());
         if(!this.e()) {
             return null;
         } else {
@@ -715,10 +716,10 @@ public class aiy extends oo {
             var2 = var2 / var3.c - 40;
             var1 = var1 / var3.c - 3;
             if(var1 >= 0 && var2 >= 0) {
-                int var4 = Math.min(20, this.e.size());
+                int var4 = Math.min(20, getImprovedLines().size());
                 if(var1 <= 320 && var2 < this.i.q.b * var4 + var4) {
                     int var5 = var2 / (this.i.q.b + 1) + this.n;
-                    return new dx(this.i.q, (nt)this.e.get(var5), var1, var2 - (var5 - this.n) * this.i.q.b + var5);
+                    return new dx(this.i.q, (nt)getImprovedLines().get(var5), var1, var2 - (var5 - this.n) * this.i.q.b + var5);
                 } else {
                     return null;
                 }
