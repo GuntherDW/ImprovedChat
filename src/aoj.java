@@ -9,103 +9,103 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-public class yf extends vp {
+public class aoj extends apm {
 
     public String b = ""; // ImprovedChat
     private int c = -1;
     private boolean d = false;
-    private String e = "";
-    private String f = "";
-    private int h = 0;
-    private List<ah> i = new ArrayList<ah>();
-    private URI j = null;
-    protected agu a;
-    private String k = "";
+    private boolean m = false;
+    private int n = 0;
+    private List o = new ArrayList();
+    private URI p = null;
+    protected aor a;
+    private String q = "";
 
     private static Pattern prefixPattern = Pattern.compile("~\\(.*?[^\\\\]\\)");
     public int cursorPosition;
 
-    public yf() {}
+    public aoj() {}
 
-    public yf(String var1) {
-        this.k = var1;
+    public aoj(String var1) {
+        this.q = var1;
+    }
+
+    public String getChatLine() {
+        return a.b();
+    }
+
+    @Override
+    public void w_() {
+        Keyboard.enableRepeatEvents(true);
+        this.c = this.e.v.b().b().size();
+        this.a = new aor(this.k, 4, this.g - 12, this.f - 4, 12);
+        this.a.f(100);
+        this.a.a(false);
+        this.a.b(true);
+        this.a.a(this.q);
+        this.a.d(false);
+    }
+
+    @Override
+    public void b() {
+        Keyboard.enableRepeatEvents(false);
+        this.e.v.b().c();
     }
 
     @Override
     public void c() {
-        Keyboard.enableRepeatEvents(true);
-        this.c = this.p.w.c().size();
-        this.a = new agu(this.u, 4, this.r - 12, this.q - 4, 12);
-        this.a.f(300);
-        this.a.a(false);
-        this.a.b(true);
-        this.a.a(this.k);
-        this.a.c(false);
-    }
-
-    public String getChatLine() {
-        return this.k;
-    }
-
-    @Override
-    public void e() {
-        Keyboard.enableRepeatEvents(false);
-        this.p.w.d();
-    }
-
-    @Override
-    public void a() {
         this.a.a();
     }
 
     @Override
     protected void a(char var1, int var2) {
+        this.m = false;
         if(var2 == Keyboard.KEY_TAB) {
-            this.d();
+            this.u_();
         } else {
             this.d = false;
         }
 
         if(var2 == Keyboard.KEY_ESCAPE) {
-            this.p.a((vp)null);
-            ImprovedChat.commandScroll = 0;
+            this.e.a((apm)null);
         } else if(var2 == Keyboard.KEY_RETURN || var2 == Keyboard.KEY_NUMPADENTER) {
             String var3 = this.a.b().trim();
-            if(var3.length() > 0 && !this.p.c(var3)) {
-                // this.p.h.a(var3);
+            if(var3.length() > 0) {
+                /* this.e.v.b().b(var3);
+                if(!this.e.c(var3)) {
+                    this.e.g.d(var3);
+                } */
                 ImprovedChat.pastCommands.add(var3);
                 ImprovedChat.process(var3);
                 ImprovedChat.commandScroll = 0;
                 ImprovedChat.currentTab().chatScroll = 0;
             }
-            this.p.a((vp)null);
-        } else if(var2 == Keyboard.KEY_UP && ImprovedChat.commandScroll < ImprovedChat.pastCommands.size()) {
 
+            this.e.a((apm)null);
+        } else if(var2 == Keyboard.KEY_UP && ImprovedChat.commandScroll < ImprovedChat.pastCommands.size()) {
             // this.a(-1);
             ++ImprovedChat.commandScroll;
             this.a.a(ImprovedChat.pastCommands.get(ImprovedChat.pastCommands.size() - ImprovedChat.commandScroll));
-
         } else if(var2 == Keyboard.KEY_DOWN && ImprovedChat.commandScroll > 0) {
             --ImprovedChat.commandScroll;
-            if(ImprovedChat.commandScroll == 0) {
+            if (ImprovedChat.commandScroll == 0) {
                 this.a.a("");
             } else {
                 this.a.a(ImprovedChat.pastCommands.get(ImprovedChat.pastCommands.size() - ImprovedChat.commandScroll));
             }
-            // this.a(1);
-
         } else if(var2 == Keyboard.KEY_PRIOR) { // Page up
-            this.p.w.a(ImprovedChat.scrollLines);
+            this.e.v.b().b(ImprovedChat.scrollLines);
         } else if(var2 == Keyboard.KEY_NEXT) { // Page down
-            this.p.w.a(-ImprovedChat.scrollLines);
+            this.e.v.b().b(-ImprovedChat.scrollLines);
         } else {
             this.a.a(var1, var2);
         }
+
     }
 
     @Override
-    public void f() {
-        super.f();
+    public void d() {
+        super.d();
         int var1 = Mouse.getEventDWheel();
         if(var1 != 0) {
             if(var1 > 1) {
@@ -120,20 +120,25 @@ public class yf extends vp {
                 var1 *= 7;
             } */
 
-            this.p.w.a(var1);
+            this.e.v.b().b(var1);
         }
 
     }
 
     @Override
     protected void a(int var1, int var2, int var3) {
-        if(var3 == 0) {
-            dx var4 = this.p.w.a(Mouse.getX(), Mouse.getY());
+        if(var3 == 0 && this.e.y.p) {
+            aox var4 = this.e.v.b().a(Mouse.getX(), Mouse.getY());
             if(var4 != null) {
-                URI var5 = var4.b();
+                URI var5 = var4.g();
                 if(var5 != null) {
-                    this.j = var5;
-                    this.p.a((vp)(new be(this, this, var4.a(), 0, var4)));
+                    if(this.e.y.q) {
+                        this.p = var5;
+                        this.e.a((apm)(new aok(this, this, var4.f(), 0, var4)));
+                    } else {
+                        this.a(var5);
+                    }
+
                     return;
                 }
             }
@@ -147,77 +152,77 @@ public class yf extends vp {
     public void a(boolean var1, int var2) {
         if(var2 == 0) {
             if(var1) {
-                try {
-                    Class var3 = Class.forName("java.awt.Desktop");
-                    Object var4 = var3.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
-                    var3.getMethod("browse", new Class[]{URI.class}).invoke(var4, new Object[]{this.j});
-                } catch (Throwable var5) {
-                    var5.printStackTrace();
-                }
+                this.a(this.p);
             }
 
-            this.j = null;
-            this.p.a((vp)this);
+            this.p = null;
+            this.e.a((apm)this);
         }
 
     }
 
-    public void d() {
-        Iterator var2;
-        ah var3;
+    private void a(URI var1) {
+        try {
+            Class var2 = Class.forName("java.awt.Desktop");
+            Object var3 = var2.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
+            var2.getMethod("browse", new Class[]{URI.class}).invoke(var3, new Object[]{var1});
+        } catch (Throwable var4) {
+            var4.printStackTrace();
+        }
+
+    }
+
+    public void u_() {
+        String var3;
         if(this.d) {
-            this.a.a(-1);
-            if(this.h >= this.i.size()) {
-                this.h = 0;
+            this.a.b(this.a.a(-1, this.a.h(), false) - this.a.h());
+            if(this.n >= this.o.size()) {
+                this.n = 0;
             }
         } else {
-            int var1 = this.a.c(-1);
-            if(this.a.h() - var1 < 1) {
-                return;
-            }
-
-            this.i.clear();
-            this.e = this.a.b().substring(var1);
-            this.f = this.e.toLowerCase();
-            var2 = ((ahv)this.p.h).cl.c.iterator();
-
-            while(var2.hasNext()) {
-                var3 = (ah)var2.next();
-                String playerName = ImprovedChat.stripColors(var3.a.toLowerCase());
-                if(playerName.startsWith(this.f)) {
-                    this.i.add(var3);
-                }
-            }
-
-            if(this.i.size() == 0) {
+            int var1 = this.a.a(-1, this.a.h(), false);
+            this.o.clear();
+            this.n = 0;
+            String var2 = this.a.b().substring(var1).toLowerCase();
+            var3 = this.a.b().substring(0, this.a.h());
+            this.a(var3, var2);
+            if(this.o.isEmpty()) {
                 return;
             }
 
             this.d = true;
-            this.h = 0;
             this.a.b(var1 - this.a.h());
         }
 
-        if(this.i.size() > 1) {
+        if(this.o.size() > 1) {
             StringBuilder var4 = new StringBuilder();
 
-            for(var2 = this.i.iterator(); var2.hasNext(); var4.append(ImprovedChat.stripColors(var3.a))) {
-                var3 = (ah)var2.next();
+            for(Iterator var5 = this.o.iterator(); var5.hasNext(); var4.append(ImprovedChat.stripColors(var3))) {
+                var3 = (String)var5.next();
                 if(var4.length() > 0) {
                     var4.append(", ");
                 }
             }
 
-            this.p.w.a(var4.toString());
+            this.e.v.b().a(var4.toString(), 1);
         }
 
-        ah playerInfo = this.i.get(this.h++);
-        this.a.b(ImprovedChat.stripColors(playerInfo.a));
+        // this.a.b();
+        // ah playerInfo = this.o.get(this.n++);
+        String playerName = (String)this.o.get(this.n++);
+        this.a.b(ImprovedChat.stripColors(playerName));
+    }
+
+    private void a(String var1, String var2) {
+        if(var1.length() >= 1) {
+            this.e.g.a.c(new bp(var1));
+            this.m = true;
+        }
     }
 
     public void a(int var1) {
         int var2 = this.c + var1;
-        int var3 = this.p.w.c().size();
+        int var3 = this.e.v.b().b().size();
         if(var2 < 0) {
             var2 = 0;
         }
@@ -235,7 +240,7 @@ public class yf extends vp {
                     this.b = this.a.b();
                 }
 
-                this.a.a((String)this.p.w.c().get(var2));
+                this.a.a((String)this.e.v.b().b().get(var2));
                 this.c = var2;
             }
         }
@@ -245,6 +250,32 @@ public class yf extends vp {
     public void a(int var1, int var2, float var3) {
         this.a.f();
         super.a(var1, var2, var3);
+    }
+
+    public void a(String[] var1) {
+        if(this.m) {
+            this.o.clear();
+            String[] var2 = var1;
+            int var3 = var1.length;
+
+            for(int var4 = 0; var4 < var3; ++var4) {
+                String var5 = var2[var4];
+                if(var5.length() > 0) {
+                    this.o.add(var5);
+                }
+            }
+
+            if(this.o.size() > 0) {
+                this.d = true;
+                this.u_();
+            }
+        }
+
+    }
+
+    @Override
+    public boolean f() {
+        return false;
     }
 
     private void checkcursor() {

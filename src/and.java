@@ -1,4 +1,5 @@
 import net.minecraft.client.Minecraft;
+import org.lwjgl.input.Keyboard;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -7,33 +8,58 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class nt {
+public class and {
 
-    public String a;
-    public int b;
+
+    private final int a;
+    private final String b;
+    private final int c;
+
     private static Map<String, BufferedWriter> out = new HashMap<String, BufferedWriter>();
     private static SimpleDateFormat prefix = null;
     private static SimpleDateFormat sufix = null;
     private static String tabName = null;
 
+    public and(int var1, String var2, int var3) {
+        this.b = var2;
+        this.a = var1;
+        this.c = var3;
+        this.writeLog();
+    }
 
-    public nt(String line) {
-        this.a = line;
-        this.b = 0;
+    public and(String line) {
+        this.b = line;
+        this.a = 0;
+        this.c = 0;
+
         this.tabName = ImprovedChat./* getCurrentServer().currentTab()*/currentTab().name;
         this.writeLog();
     }
 
-    public nt(String line, String tabName) {
-        this.a = line;
-        this.b = 0;
+    public and(String line, String tabName) {
+        this.b = line;
+        this.a = 0;
+        this.c = 0;
+
         this.tabName = tabName;
         this.writeLog();
     }
 
+    public String a() {
+        return this.b;
+    }
+
+    public int b() {
+        return this.a;
+    }
+
+    public int c() {
+        return this.c;
+    }
+
     private void writeLog() {
         try {
-            String line = ImprovedChat.stripColors(this.a);
+            String line = ImprovedChat.stripColors(this.b);
             // line = line.replaceAll("\u00a7[0123456789abcdefABCDEF]", "");
             BufferedWriter e = this.getOut();
             Date now = Calendar.getInstance().getTime();
@@ -152,6 +178,7 @@ public class nt {
                     o.append("\n");
                 } else if(ch == 114) {
                     o.append("\r");
+                // } else if(ch == 102) {
                 } else if(ch == 102) {
                     o.append("\f");
                 } else {
