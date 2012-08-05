@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ImprovedChat /* implements dzHookable */ {
+public class ImprovedChat implements dzHookable {
 
     private static int fade = 0;
     public static int commandScroll = 0;
@@ -1318,7 +1318,7 @@ public class ImprovedChat /* implements dzHookable */ {
         constantsFile = new File(modDir, "constants.txt");
         colors = new File(modDir, "colors.txt");
 
-        // dzHooksManager.registerHook(this, "ImprovedChat");
+        dzHooksManager.registerHook(this, "ImprovedChat");
 
         if (!settings.exists()) {
             versionConvert();
@@ -2148,7 +2148,7 @@ public class ImprovedChat /* implements dzHookable */ {
         chatDisabled = var0;
     }
 
-    /* @Override
+    @Override
     public void receivePacket(ee packet) {
         if (packet.b > 0) {
             byte[] packetBytes = packet.c;
@@ -2182,6 +2182,6 @@ public class ImprovedChat /* implements dzHookable */ {
         registerPacket.c[0] = (byte) 26;
         registerPacket.b = 1;
         return registerPacket;
-    } */
+    }
 
 }
