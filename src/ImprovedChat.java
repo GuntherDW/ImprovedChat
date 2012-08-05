@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ImprovedChat implements dzHookable {
+public class ImprovedChat /* implements dzHookable */ {
 
     private static int fade = 0;
     public static int commandScroll = 0;
@@ -36,6 +36,7 @@ public class ImprovedChat implements dzHookable {
     private static Hashtable<String, String[]> translations;
     private static Hashtable<String, String> constantVar;
     public static List<String> pastCommands = new ArrayList<String>();
+    private static Set<icChannel> icChannels = new HashSet<icChannel>();
     private static PatternList[] d;
     private static File settings;
     private static File constantsFile;
@@ -1123,8 +1124,9 @@ public class ImprovedChat implements dzHookable {
 
         if (command != null) {
             if (command.endsWith("\\")) {
-                yf win = new yf();
-                win.cursorPosition = (win.b = replaceVarsInBind(command.substring(0, command.length() - 1))).length();
+                yf win = new yf(replaceVarsInBind(command.substring(0, command.length() - 1)));
+                // win.k = replaceVarsInBind(command.substring(0, command.length() - 1));
+                win.cursorPosition = win.getChatLine().length();
                 minecraft.a(win);
             } else {
                 process(command);
@@ -1316,7 +1318,7 @@ public class ImprovedChat implements dzHookable {
         constantsFile = new File(modDir, "constants.txt");
         colors = new File(modDir, "colors.txt");
 
-        dzHooksManager.registerHook(this, "ImprovedChat");
+        // dzHooksManager.registerHook(this, "ImprovedChat");
 
         if (!settings.exists()) {
             versionConvert();
@@ -1927,16 +1929,46 @@ public class ImprovedChat implements dzHookable {
         // ChatHook.addHook(this);
     }
 
+    private static boolean startsWithChannelKey(String line) {
+        for(icChannel channel : icChannels) {
+            if(line.startsWith(channel.getPrefix().toString()))
+                return true;
+        }
+        return false;
+    }
+
+    public static void addChannel(icChannel channel) {
+        ImprovedChat.icChannels.add(channel);
+    }
+
+    public static void removeChannel(icChannel channel) {
+        ImprovedChat.icChannels.remove(channel);
+    }
+
     public static void process(String line) {
         if (line != null && !line.trim().equals("")) {
-            if (!line.startsWith("~") && !line.startsWith("/")) {
+            if (!line.startsWith("~") && !line.startsWith("/") && !startsWithChannelKey(line)) {
                 line = getCurrentServer().tabs.get(getCurrentServer().currentTabIndex).prefix + line;
             }
 
             if (line.startsWith("~")) {
                 exec(line.substring(1));
             } else {
-                send(line);
+                boolean fallthrough = true;
+                for(icChannel ic : icChannels) {
+                    if(ic.getPrefix() == line.charAt(0)) {
+                        fallthrough = ic.isFallthrough();
+                        List<String> arguments = new ArrayList<String>();
+                        String[] linesplit = line.substring(1).split(" ");
+                        for(int i = 1; i < linesplit.length; i++) {
+                            if(!linesplit[i].trim().equals(""))
+                                arguments.add(linesplit[i]);
+                        }
+                        ic.process(linesplit[0], arguments.toArray(new String[arguments.size()]));
+                    }
+                }
+                if(fallthrough)
+                    send(line);
             }
 
         }
@@ -2116,7 +2148,7 @@ public class ImprovedChat implements dzHookable {
         chatDisabled = var0;
     }
 
-    @Override
+    /* @Override
     public void receivePacket(ee packet) {
         if (packet.b > 0) {
             byte[] packetBytes = packet.c;
@@ -2150,6 +2182,6 @@ public class ImprovedChat implements dzHookable {
         registerPacket.c[0] = (byte) 26;
         registerPacket.b = 1;
         return registerPacket;
-    }
+    } */
 
 }

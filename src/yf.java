@@ -43,6 +43,10 @@ public class yf extends vp {
         this.a.c(false);
     }
 
+    public String getChatLine() {
+        return this.k;
+    }
+
     @Override
     public void e() {
         Keyboard.enableRepeatEvents(false);
@@ -239,7 +243,6 @@ public class yf extends vp {
 
     @Override
     public void a(int var1, int var2, float var3) {
-
         this.a.f();
         super.a(var1, var2, var3);
     }
