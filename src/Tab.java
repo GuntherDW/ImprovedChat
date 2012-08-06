@@ -19,7 +19,7 @@ public class Tab {
     public Tab(String name) {
         this.name = name;
         this.prefix = "";
-        this.width = ImprovedChat.minecraft.q.a(name);
+        this.width = ImprovedChat.minecraft.p.a(name);
     }
 
     public boolean valid(String line) {
@@ -83,6 +83,6 @@ public class Tab {
 
     public void setName(String name) {
         this.name = name;
-        this.width = ImprovedChat.minecraft.q.a(name);
+        this.width = ImprovedChat.minecraft.p.a(name);
     }
 }

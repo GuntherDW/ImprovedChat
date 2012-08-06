@@ -876,21 +876,8 @@ public class ImprovedChat implements dzHookable {
     public static List<String> processInput(String line) {
         line = buxvillFix.matcher(line).replaceAll("/&c");
         line = updateColor.matcher(d[0].process(line)).replaceAll("\u00a7");
-        /* String[] langs = translations.get(m.y.y);
-        if(langs != null) {
-            Matcher m = TranslatablePart.matcher(line);
-            int pos = 0;
 
-            StringBuilder out;
-            for(out = new StringBuilder(); m.find(); pos = m.end()) {
-                out.append(line.substring(pos, m.start()));
-                out.append(Translator.translate(langs[1], langs[0], m.group()));
-            }
-
-            out.append(line.substring(pos));
-            line = out.toString();
-        } */
-        return format(line, 320);
+        return minecraft.p.c(line, 320);
     }
 
 
@@ -899,7 +886,7 @@ public class ImprovedChat implements dzHookable {
     }
 
     public static aou getFontRenderer() {
-        return minecraft.q;
+        return minecraft.p;
     }
 
     public static String processOutput(String line) {
@@ -1114,7 +1101,7 @@ public class ImprovedChat implements dzHookable {
 
     public static List<String> processDisplay(String line) {
         line = updateColor.matcher(d[2].process(line)).replaceAll("\u00a7");
-        return format(line, 316);
+        return minecraft.p.c(line, 316); // format(line, 316);
     }
 
     public static void keyPressed(int i) {
@@ -1228,7 +1215,7 @@ public class ImprovedChat implements dzHookable {
         if (line != null && !line.trim().equals("")) {
             String fixed = colorTags.matcher("~" + line).replaceAll("");
             if (!getCurrentServer().currentTab().ignored(fixed)) {
-                List lines = format(line, 320);
+                List<String> lines = minecraft.p.c(line, 320); // format(line, 320);
                 Iterator var4 = lines.iterator();
 
                 while (var4.hasNext()) {
