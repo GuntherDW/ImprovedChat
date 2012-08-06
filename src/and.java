@@ -18,7 +18,6 @@ public class and {
     private static Map<String, BufferedWriter> out = new HashMap<String, BufferedWriter>();
     private static SimpleDateFormat prefix = null;
     private static SimpleDateFormat sufix = null;
-    private static String tabName = null;
 
     public and(int var1, String var2, int var3) {
         this.b = var2;
@@ -27,12 +26,17 @@ public class and {
         this.writeLog();
     }
 
+    public and(int var1, String var2) {
+        this.b = var2;
+        this.a = var1;
+        this.c = 0;
+        this.writeLog();
+    }
+
     public and(String line) {
         this.b = line;
-        this.a = 0;
+        this.a = ImprovedChat.minecraft.v.c();
         this.c = 0;
-
-        this.tabName = ImprovedChat./* getCurrentServer().currentTab()*/currentTab().name;
         this.writeLog();
     }
 
@@ -40,8 +44,6 @@ public class and {
         this.b = line;
         this.a = 0;
         this.c = 0;
-
-        this.tabName = tabName;
         this.writeLog();
     }
 

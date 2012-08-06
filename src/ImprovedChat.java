@@ -16,7 +16,6 @@ import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.io.*;
-import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -49,9 +48,10 @@ public class ImprovedChat implements dzHookable {
     private static boolean chatDisabled = false;
     public static int bgOpacity = 128;
     public static int bgColor = 0;
-    public static int historyOpacity = 128;
+    public static int historyOpacity = 255;
     public static int historyColor = 0;
     public static int historyMaxLines = 300;
+    public static int chatLineMaxLength = 300;
     public static byte ChatLinesSmall = 10;
     public static byte ChatLinesBig = 20;
     public static int scrollLines = 1;
@@ -132,7 +132,7 @@ public class ImprovedChat implements dzHookable {
     }
 
     public static String replaceColors(String line) {
-        line = updateColor.matcher(d[2].process(line)).replaceAll("\u00a7");
+        line = updateColor.matcher(d[display].process(line)).replaceAll("\u00a7");
         return line;
     }
 
@@ -163,7 +163,7 @@ public class ImprovedChat implements dzHookable {
         topElement = doc.createElement("Properties");
         doc.appendChild(topElement);
         topElement = newElem(topElement, "Input");
-        Iterator transformer = d[0].list.iterator();
+        Iterator transformer = d[input].list.iterator();
 
         Element a;
         PatternList.Entry e;
@@ -176,7 +176,7 @@ public class ImprovedChat implements dzHookable {
 
         topElement = (Element) topElement.getParentNode();
         topElement = newElem(topElement, "Output");
-        transformer = d[1].list.iterator();
+        transformer = d[output].list.iterator();
 
         while (transformer.hasNext()) {
             e = (PatternList.Entry) transformer.next();
@@ -187,7 +187,7 @@ public class ImprovedChat implements dzHookable {
 
         topElement = (Element) topElement.getParentNode();
         topElement = newElem(topElement, "Display");
-        transformer = d[2].list.iterator();
+        transformer = d[display].list.iterator();
 
         while (transformer.hasNext()) {
             e = (PatternList.Entry) transformer.next();
@@ -325,34 +325,34 @@ public class ImprovedChat implements dzHookable {
                 NodeList serverList;
                 int j;
                 if (split != null && split.getNodeType() == 1) {
-                    d[0].clear();
+                    d[input].clear();
                     serverList = ((Element) split).getElementsByTagName("entry");
 
                     for (j = 0; j < serverList.getLength(); ++j) {
                         line = (Element) serverList.item(j);
-                        d[0].add(line.getAttribute("regex"), line.getTextContent());
+                        d[input].add(line.getAttribute("regex"), line.getTextContent());
                     }
                 }
 
                 split = e.getElementsByTagName("Output").item(0);
                 if (split != null && split.getNodeType() == 1) {
-                    d[1].clear();
+                    d[output].clear();
                     serverList = ((Element) split).getElementsByTagName("entry");
 
                     for (j = 0; j < serverList.getLength(); ++j) {
                         line = (Element) serverList.item(j);
-                        d[1].add(line.getAttribute("regex"), line.getTextContent());
+                        d[output].add(line.getAttribute("regex"), line.getTextContent());
                     }
                 }
 
                 split = e.getElementsByTagName("Display").item(0);
                 if (split != null && split.getNodeType() == 1) {
-                    d[2].clear();
+                    d[display].clear();
                     serverList = ((Element) split).getElementsByTagName("entry");
 
                     for (j = 0; j < serverList.getLength(); ++j) {
                         line = (Element) serverList.item(j);
-                        d[2].add(line.getAttribute("regex"), line.getTextContent());
+                        d[display].add(line.getAttribute("regex"), line.getTextContent());
                     }
                 }
 
@@ -692,11 +692,11 @@ public class ImprovedChat implements dzHookable {
 
     public static void addRule(String cat, String regex, String repl) {
         if (cat.equalsIgnoreCase("input")) {
-            d[0].add(regex, repl);
+            d[input].add(regex, repl);
         } else if (cat.equalsIgnoreCase("output")) {
-            d[1].add(regex, repl);
+            d[output].add(regex, repl);
         } else if (cat.equalsIgnoreCase("display")) {
-            d[2].add(regex, repl);
+            d[display].add(regex, repl);
         }
 
     }
@@ -704,11 +704,11 @@ public class ImprovedChat implements dzHookable {
     public static void removeRule(String type, int id) {
         List<PatternList.Entry> a = null;
         if (type.equalsIgnoreCase("input")) {
-            a = d[0].list;
+            a = d[input].list;
         } else if (type.equalsIgnoreCase("output")) {
-            a = d[1].list;
+            a = d[output].list;
         } else if (type.equalsIgnoreCase("display")) {
-            a = d[2].list;
+            a = d[display].list;
         }
 
         if (a == null) {
@@ -728,15 +728,15 @@ public class ImprovedChat implements dzHookable {
 
     public static boolean moveRule(String type, int from, int to) {
         if (type.equalsIgnoreCase("input")) {
-            console(d[0].move(from, to));
+            console(d[input].move(from, to));
         } else if (type.equalsIgnoreCase("output")) {
-            console(d[1].move(from, to));
+            console(d[output].move(from, to));
         } else {
             if (!type.equalsIgnoreCase("display")) {
                 return false;
             }
 
-            console(d[2].move(from, to));
+            console(d[display].move(from, to));
         }
 
         return true;
@@ -744,15 +744,15 @@ public class ImprovedChat implements dzHookable {
 
     public static boolean list(String type) {
         if (type.equals("input")) {
-            d[0].list();
+            d[input].list();
         } else if (type.equals("output")) {
-            d[1].list();
+            d[output].list();
         } else {
             if (!type.equals("display")) {
                 return false;
             }
 
-            d[2].list();
+            d[display].list();
         }
 
         return true;
@@ -787,97 +787,11 @@ public class ImprovedChat implements dzHookable {
         return col;
     }
 
-    private static List<String> format(String line, int lineSize) {
-        List<String> r = new ArrayList<String>();
-        line = colorCrashFix.matcher(line).replaceAll("");
-        if (line.length() == 0) {
-            return r;
-        } else {
-            boolean pos = false;
-            boolean curSize = false;
-            boolean spacePos = false;
-            Stack<Character> colors = new Stack<Character>();
-            Character newLineColor = new Character('f');
-            colors.push(newLineColor);
-            String[] lines = line.split("\n");
-            StringBuilder sb = (new StringBuilder()).append(lines[0]);
-
-            for (int ch = 1; ch < lines.length; ++ch) {
-                if (minecraft.p.a(lines[ch - 1] + firstChar(lines[ch])) < 318) {
-                    sb.append('\n');
-                }
-
-                sb.append(lines[ch]);
-            }
-
-            line = sb.toString();
-            sb = new StringBuilder();
-            int var16 = 0;
-            int var15 = 0;
-
-            for (int var12 = 0; var15 < line.length(); ++var15) {
-                switch (line.charAt(var15)) {
-                    case 10: // '\n'
-                        r.add(colorCrashFix.matcher(sb.toString()).replaceAll(""));
-                        sb.delete(0, sb.length()).append((new StringBuilder("\247")).append(colors.peek()).toString());
-                        var16 = 0;
-                        var12 = 0;
-                        break;
-
-                    case 167:
-                        sb.append(line.substring(var15, var15 + 2));
-                        var15++;
-                        colors.push(new Character(line.charAt(var15)));
-                        break;
-
-                    case 32: // ' '
-                        var16 = sb.length() + 1;
-                        newLineColor = colors.peek();
-                        // fall through
-
-                    case 47: // '/'
-                        if (line.substring(var15).startsWith("/&c")) {
-                            if (colors.size() > 1)
-                                colors.pop();
-                            Character character1 = colors.peek();
-                            sb.append((new StringBuilder("\247")).append(character1).toString());
-                            var15 += 2;
-                            break;
-                        }
-                        // fall through
-
-                    default:
-                        String s1 = line.substring(var15, var15 + 1);
-                        int j1 = getStringWidth(s1);
-                        if (var12 + j1 > lineSize && !s1.equals(" ")) {
-                            if (var16 == 0) {
-                                var16 = sb.length();
-                                newLineColor = colors.peek();
-                            }
-                            r.add(colorCrashFix.matcher(sb.substring(0, var16)).replaceAll(""));
-                            sb.delete(0, var16).append(s1);
-                            sb.insert(0, (new StringBuilder("\247")).append(newLineColor).toString());
-                            var12 = getStringWidth(sb.toString());
-                            var16 = 0;
-                        } else {
-                            sb.append(s1);
-                            var12 += j1;
-                        }
-                        break;
-                }
-            }
-
-            // r.add(colorCrashFix.matcher(
-            r.add(colorCrashFix.matcher(sb.toString()).replaceAll(""));
-            return r;
-        }
-    }
-
     public static List<String> processInput(String line) {
         line = buxvillFix.matcher(line).replaceAll("/&c");
-        line = updateColor.matcher(d[0].process(line)).replaceAll("\u00a7");
+        line = updateColor.matcher(d[input].process(line)).replaceAll("\u00a7");
 
-        return minecraft.p.c(line, 320);
+        return getFontRenderer().c(line, 320);
     }
 
 
@@ -890,11 +804,11 @@ public class ImprovedChat implements dzHookable {
     }
 
     public static String processOutput(String line) {
-        line = d[1].process(line);
+        line = d[output].process(line);
         line = replaceVars(line);
 
         if (getCurrentServer().colorchat)
-            line = updateColor.matcher(d[1].process(line)).replaceAll("\u00a7");
+            line = updateColor.matcher(d[output].process(line)).replaceAll("\u00a7");
         else
             colorTags.matcher(line).replaceAll("");
 
@@ -974,10 +888,6 @@ public class ImprovedChat implements dzHookable {
             String var12 = "";
 
             for (var11 = currentTab().chatScroll; var11 < currentTab().e.size() && var11 < var30 + currentTab().chatScroll; ++var11) {
-                // int lineUpvar9 = var1 - var8.b();
-                /* var9 = var1 - var8.b();
-                                        if (var9 < 200 || var3) {
-                                            double var10 = (double) var9 / 200.0D; */
                 int tickerLine = updateCounter - getUpdateCounterOfChatLine(currentTab().e.get(var11));
 
                 if (tickerLine < 200 || var35) {
@@ -996,11 +906,11 @@ public class ImprovedChat implements dzHookable {
                     var13 *= var13;
                     var38 = (int) (chatOpacity * var13);
                     if (var35) {
-                        var38 = 255;
+                        var38 = historyOpacity;
                     }
 
                     ++ret;
-                    if (var38 > 0) {
+                    if (var38 > 2) {
                         byte var39 = 2;
                         int var26 = (-var11 + currentTab().chatScroll) * 9;
                         var12 = getChatMessageOfChatLine(currentTab().e.get(var11));
@@ -1100,8 +1010,8 @@ public class ImprovedChat implements dzHookable {
     }
 
     public static List<String> processDisplay(String line) {
-        line = updateColor.matcher(d[2].process(line)).replaceAll("\u00a7");
-        return minecraft.p.c(line, 316); // format(line, 316);
+        line = updateColor.matcher(d[display].process(line)).replaceAll("\u00a7");
+        return getFontRenderer().c(line, 316); // format(line, 316);
     }
 
     public static void keyPressed(int i) {
@@ -1215,7 +1125,7 @@ public class ImprovedChat implements dzHookable {
         if (line != null && !line.trim().equals("")) {
             String fixed = colorTags.matcher("~" + line).replaceAll("");
             if (!getCurrentServer().currentTab().ignored(fixed)) {
-                List<String> lines = minecraft.p.c(line, 320); // format(line, 320);
+                List<String> lines = getFontRenderer().c(line, 320); // format(line, 320);
                 Iterator var4 = lines.iterator();
 
                 while (var4.hasNext()) {
@@ -1332,9 +1242,9 @@ public class ImprovedChat implements dzHookable {
         }
 
         d = new PatternList[3];
-        d[0] = new PatternList();
-        d[1] = new PatternList();
-        d[2] = new PatternList();
+        d[input] = new PatternList();
+        d[output] = new PatternList();
+        d[display] = new PatternList();
         constantVar = new Hashtable<String, String>();
 
         try {
@@ -2154,6 +2064,7 @@ public class ImprovedChat implements dzHookable {
         chatDisabled = var0;
     }
 
+
     @Override
     public void receivePacket(ce packet) {
         if (packet.b > 0) {
@@ -2189,5 +2100,4 @@ public class ImprovedChat implements dzHookable {
         registerPacket.b = 1;
         return registerPacket;
     }
-
 }

@@ -98,29 +98,30 @@ public class aoh extends aow {
             int var4 = 0;
             int var5 = getImprovedLines().size();
             float var6 = this.a.y.r * 0.9F + 0.1F;
+            if (var5 > 0) {
 
+                int var7, var9, var12;
 
-            int var7, var9, var12;
+                if (this.d()) {
+                    var2 = ImprovedChat.ChatLinesBig; /* ChatLinesBig */
+                    var3 = true;
+                }
 
-            if (this.d()) {
-                var2 = ImprovedChat.ChatLinesBig; /* ChatLinesBig */
-                var3 = true;
-            }
+                var4 = ImprovedChat.handle_draw(this, a.p, var3, var2, var1);
 
-            var4 = ImprovedChat.handle_draw(this, a.p, var3, var2, var1);
-
-            if (var3) {
-                var7 = this.a.p.b;
-                GL11.glTranslatef(0.0F, (float) var7, 0.0F);
-                int var16 = var5 * var7 + var5;
-                var9 = var4 * var7 + var4;
-                int var17 = this.d * var9 / var5;
-                int var11 = var9 * var9 / var16;
-                if (var16 != var9) {
-                    var12 = var17 > 0 ? 170 : 96;
-                    int var18 = this.e ? 13382451 : 3355562;
-                    a(0, -var17, 2, -var17 - var11, var18 + (var12 << 24));
-                    a(2, -var17, 1, -var17 - var11, 13421772 + (var12 << 24));
+                if (var3) {
+                    var7 = this.a.p.b;
+                    GL11.glTranslatef(0.0F, (float) var7, 0.0F);
+                    int var16 = var5 * var7 + var5;
+                    var9 = var4 * var7 + var4;
+                    int var17 = this.d * var9 / var5;
+                    int var11 = var9 * var9 / var16;
+                    if (var16 != var9) {
+                        var12 = var17 > 0 ? 170 : 96;
+                        int var18 = this.e ? 13382451 : 3355562;
+                        a(0, -var17, 2, -var17 - var11, var18 + (var12 << 24));
+                        a(2, -var17, 1, -var17 - var11, 13421772 + (var12 << 24));
+                    }
                 }
             }
         }

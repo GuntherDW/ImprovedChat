@@ -19,7 +19,7 @@ public class Tab {
     public Tab(String name) {
         this.name = name;
         this.prefix = "";
-        this.width = ImprovedChat.minecraft.p.a(name);
+        this.width = ImprovedChat.getFontRenderer().a(name);
     }
 
     public boolean valid(String line) {
@@ -71,18 +71,17 @@ public class Tab {
     }
 
     public void add(String l) {
-        this.e.add(0, new and(l));
+        this.e.add(0, new and(ImprovedChat.minecraft.v.c(), l));
         this.blinking = this.blink;
     }
 
     public void add(and l) {
-        // l.tabName = this.name;
         this.e.add(0, l);
         this.blinking = this.blink;
     }
 
     public void setName(String name) {
         this.name = name;
-        this.width = ImprovedChat.minecraft.p.a(name);
+        this.width = ImprovedChat.getFontRenderer().a(name);
     }
 }
