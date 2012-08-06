@@ -803,7 +803,7 @@ public class ImprovedChat implements dzHookable {
             StringBuilder sb = (new StringBuilder()).append(lines[0]);
 
             for (int ch = 1; ch < lines.length; ++ch) {
-                if (minecraft.q.a(lines[ch - 1] + firstChar(lines[ch])) < 318) {
+                if (minecraft.p.a(lines[ch - 1] + firstChar(lines[ch])) < 318) {
                     sb.append('\n');
                 }
 
