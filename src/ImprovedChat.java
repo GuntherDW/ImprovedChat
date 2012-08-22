@@ -48,7 +48,7 @@ public class ImprovedChat implements dzHookable {
     private static boolean chatDisabled = false;
     public static int bgOpacity = 128;
     public static int bgColor = 0;
-    public static int historyOpacity = 255;
+    public static int historyOpacity = 128;
     public static int historyColor = 0;
     public static int historyMaxLines = 300;
     public static int chatLineMaxLength = 300;
@@ -799,7 +799,7 @@ public class ImprovedChat implements dzHookable {
         return getFontRenderer().a(str);
     }
 
-    public static aou getFontRenderer() {
+    public static aov getFontRenderer() {
         return minecraft.p;
     }
 
@@ -817,12 +817,10 @@ public class ImprovedChat implements dzHookable {
 
     }
 
-    public static int handle_draw(aoh theGuiIngame, aou fontRenderer, boolean var35, byte var30, int updateCounter) {
+    public static int handle_draw(aoi theGuiIngame, aov fontRenderer, boolean var35, byte var30, int updateCounter) {
         //boolean var36 = false;
         int ret = 0;
 
-        // if(getGameSettings().n == 2) return 0;
-        // float chatOpacity =
         int chatOpacity = (int) ((getGameSettings().r * 0.9F + 0.1F) * 255);
 
         if (Current != null) {
@@ -904,22 +902,20 @@ public class ImprovedChat implements dzHookable {
                     }
 
                     var13 *= var13;
-                    var38 = (int) (chatOpacity * var13);
-                    if (var35) {
-                        var38 = historyOpacity;
-                    }
+                    int textTrans = var35 ? chatOpacity : (int) (chatOpacity * var13);
+                    int histTrans = /* textTrans / 2; */ ImprovedChat.historyOpacity;
 
                     ++ret;
-                    if (var38 > 2) {
+                    if (textTrans > 4) {
                         byte var39 = 2;
                         int var26 = (-var11 + currentTab().chatScroll) * 9;
                         var12 = getChatMessageOfChatLine(currentTab().e.get(var11));
                         if (!getGameSettings().o) {
-                            var12 = io.a(var12);
+                            var12 = ip.a(var12);
                         }
-                        drawRectOnGuiIngame(theGuiIngame, var39, var26 - 1, var39 + 320, var26 + 8, /* var12 / 2 << 24*/ (var38 / 2) << 24);
+                        drawRectOnGuiIngame(theGuiIngame, var39, var26 - 1, var39 + 320, var26 + 8, /* var12 / 2 << 24*/ addAlpha(historyColor, histTrans));
                         GL11.glEnable(GL11.GL_BLEND);
-                        drawStringWithShadow(fontRenderer, var12, var39, var26, (var38 << 24) + 0xFFFFFF);
+                        drawStringWithShadow(fontRenderer, var12, var39, var26, (textTrans << 24) + 0xFFFFFF);
                     }
                 }
             }
@@ -927,15 +923,27 @@ public class ImprovedChat implements dzHookable {
         return ret;
     }
 
-    public static void drawRectOnGuiIngame(aoh inGameGUI, int var1, int var2, int var3, int var4, int var5) {
+    public static int gethex(int r, int g, int b, int a) {
+        return a << 24 | r << 16 | g << 8 | b;
+    }
+
+    public static int addAlpha(int rgb, int a) {
+        //Color c = Color.getColor()
+        int r = (rgb >> 16) & 0xFF;
+        int g = (rgb >> 8)  & 0xFF;
+        int b = rgb         & 0xFF;
+        return gethex(r, g, b, a);
+    }
+
+    public static void drawRectOnGuiIngame(aoi inGameGUI, int var1, int var2, int var3, int var4, int var5) {
         inGameGUI.a(var1, var2, var3, var4, var5);
     }
 
-    public static String getChatMessageOfChatLine(and thechatline) {
+    public static String getChatMessageOfChatLine(ane thechatline) {
         return thechatline.a();
     }
 
-    public static atf get_thePlayer() {
+    public static atg get_thePlayer() {
         return minecraft.g;
     }
 
@@ -943,7 +951,7 @@ public class ImprovedChat implements dzHookable {
         get_thePlayer().d(str);
     }
 
-    public static apm getCurrentScreen() {
+    public static apn getCurrentScreen() {
         return minecraft.r;
     }
 
@@ -951,7 +959,7 @@ public class ImprovedChat implements dzHookable {
         return Minecraft.a(str);
     }
 
-    public static any getGameSettings() {
+    public static anz getGameSettings() {
         return minecraft.y;
     }
 
@@ -969,26 +977,26 @@ public class ImprovedChat implements dzHookable {
     }
 
     public static String getLastServer() {
-        return getGameSettings().R;
+        return getGameSettings().S;
     }
 
     public static void setLastServer(Server server) {
-        getGameSettings().R = server.name;
+        getGameSettings().S = server.name;
     }
 
-    public static int getUpdateCounterOfChatLine(and thechatline) {
+    public static int getUpdateCounterOfChatLine(ane thechatline) {
         return thechatline.b();
     }
 
-    public static void drawStringWithShadow(aou fontRenderer, String var1, int var2, int var3, int var4) {
+    public static void drawStringWithShadow(aov fontRenderer, String var1, int var2, int var3, int var4) {
         fontRenderer.a(var1, var2, var3, var4);
     }
 
-    public static void drawString(aou fontRenderer, String var1, int var2, int var3, int var4) {
+    public static void drawString(aov fontRenderer, String var1, int var2, int var3, int var4) {
         fontRenderer.b(var1, var2, var3, var4);
     }
 
-    public static int getUpdateCounterOfGuiIngame(aoh inGameUI) {
+    public static int getUpdateCounterOfGuiIngame(aoi inGameUI) {
         return inGameUI.d;
     }
 
@@ -1033,10 +1041,7 @@ public class ImprovedChat implements dzHookable {
 
         if (command != null) {
             if (command.endsWith("\\")) {
-                aoj win = new aoj(replaceVarsInBind(command.substring(0, command.length() - 1)));
-                // win.k = replaceVarsInBind(command.substring(0, command.length() - 1));
-                win.cursorPosition = win.getChatLine().length();
-                minecraft.a(win);
+                minecraft.a( new aok(replaceVarsInBind(command.substring(0, command.length() - 1)) ));
             } else {
                 process(command);
             }
@@ -1094,11 +1099,15 @@ public class ImprovedChat implements dzHookable {
 
     }
 
+    public static int getMaxChatPacketLength() {
+        return 100;
+    }
+
     public static void send(String line) {
         line = line.trim();
         if (line.length() != 0) {
-            for (line = processOutput(line); line.length() > 100; line = line.substring(100)) {
-                sendChatMessage(line.substring(0, 100));
+            for (line = processOutput(line); line.length() > getMaxChatPacketLength(); line = line.substring(getMaxChatPacketLength())) {
+                sendChatMessage(line.substring(0, getMaxChatPacketLength()));
             }
 
             sendChatMessage(line);
@@ -1143,10 +1152,10 @@ public class ImprovedChat implements dzHookable {
     public static void stdout(String line, int tick, int var2) {
         if (line != null && !line.trim().equals("")) {
             List<String> lines = processInput(line);
-            and[] linesArray = new and[lines.size()];
+            ane[] linesArray = new ane[lines.size()];
 
             for (int fixed = 0; fixed < linesArray.length; ++fixed) {
-                linesArray[fixed] = new and(tick, lines.get(fixed), var2);
+                linesArray[fixed] = new ane(tick, lines.get(fixed), var2);
             }
 
             String var11 = colorTags.matcher(line).replaceAll("");
@@ -1156,11 +1165,11 @@ public class ImprovedChat implements dzHookable {
             while (var5.hasNext()) {
                 tab = (Tab) var5.next();
                 if (tab.valid(var11)) {
-                    and[] var9 = linesArray;
+                    ane[] var9 = linesArray;
                     int var8 = linesArray.length;
 
                     for (int var7 = 0; var7 < var8; ++var7) {
-                        and e = var9[var7];
+                        ane e = var9[var7];
                         tab.add(e);
                     }
 
@@ -1333,7 +1342,7 @@ public class ImprovedChat implements dzHookable {
                 if (args != null && args.length >= 1) {
                     int color = ImprovedChat.getColorHex(args[0].toLowerCase());
                     if (color == -1) {
-                        ImprovedChat.bgColor = 0;
+                        ImprovedChat.historyColor = 0;
                         ImprovedChat.stderr("Color " + args[0] + " not defined,");
                     } else {
                         ImprovedChat.historyColor = color;
@@ -2004,17 +2013,6 @@ public class ImprovedChat implements dzHookable {
 
     public static Tab currentTab() {
         return getCurrentServer().currentTab();
-    }
-
-    public static void tick() {
-        if (getCurrentServer() != null) {
-            for (int var0 = 0; var0 < currentTab().e.size(); ++var0) {
-                // ++(currentTab().e.get(var0)).a;
-                /* System.out.println("a : "+(currentTab().e.get(var0)).a());
-                System.out.println("b : "+(currentTab().e.get(var0)).b());
-                System.out.println("c : "+(currentTab().e.get(var0)).c()); */
-            }
-        }
     }
 
     public static String getServer(int serverCursor) {

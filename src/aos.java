@@ -4,9 +4,9 @@ import org.lwjgl.opengl.GL11;
 import java.util.Iterator;
 import java.util.List;
 
-public class aor extends aow {
+public class aos extends aox {
 
-    public final aou a; // ImprovedChat private -> public
+    public final aov fontrenderer; // ImprovedChat private -> public
     private final int b;
     private final int c;
     private final int d;
@@ -26,8 +26,8 @@ public class aor extends aow {
     private boolean s = true;
 
 
-    public aor(aou var1, int var2, int var3, int var4, int var5) {
-        this.a = var1;
+    public aos(aov var1, int var2, int var3, int var4, int var5) {
+        this.fontrenderer = var1;
         this.b = var2;
         this.c = var3;
         this.d = var4;
@@ -194,19 +194,19 @@ public class aor extends aow {
                     this.i(0);
                     return true;
                 case 3:
-                    apm.d(this.c());
+                    apn.d(this.c());
                     return true;
                 case 22:
-                    this.b(apm.l());
+                    this.b(apn.l());
                     return true;
                 case 24:
-                    apm.d(this.c());
+                    apn.d(this.c());
                     this.b("");
                     return true;
                 default:
                     switch (var2) {
                         case Keyboard.KEY_BACK:
-                            if (apm.o()) {
+                            if (apn.o()) {
                                 this.a(-1);
                             } else {
                                 this.b(-1);
@@ -214,7 +214,7 @@ public class aor extends aow {
 
                             return true;
                         case Keyboard.KEY_HOME:
-                            if (apm.p()) {
+                            if (apn.p()) {
                                 this.i(0);
                             } else {
                                 this.d();
@@ -222,13 +222,13 @@ public class aor extends aow {
 
                             return true;
                         case Keyboard.KEY_LEFT:
-                            if (apm.p()) {
-                                if (apm.o()) {
+                            if (apn.p()) {
+                                if (apn.o()) {
                                     this.i(this.a((int) -1, this.n()));
                                 } else {
                                     this.i(this.n() - 1);
                                 }
-                            } else if (apm.o()) {
+                            } else if (apn.o()) {
                                 this.e(this.c(-1));
                             } else {
                                 this.d(-1);
@@ -236,13 +236,13 @@ public class aor extends aow {
 
                             return true;
                         case Keyboard.KEY_RIGHT:
-                            if (apm.p()) {
-                                if (apm.o()) {
+                            if (apn.p()) {
+                                if (apn.o()) {
                                     this.i(this.a((int) 1, this.n()));
                                 } else {
                                     this.i(this.n() + 1);
                                 }
-                            } else if (apm.o()) {
+                            } else if (apn.o()) {
                                 this.e(this.c(1));
                             } else {
                                 this.d(1);
@@ -250,7 +250,7 @@ public class aor extends aow {
 
                             return true;
                         case Keyboard.KEY_END:
-                            if (apm.p()) {
+                            if (apn.p()) {
                                 this.i(this.f.length());
                             } else {
                                 this.e();
@@ -258,7 +258,7 @@ public class aor extends aow {
 
                             return true;
                         case Keyboard.KEY_DELETE:
-                            if (apm.o()) {
+                            if (apn.o()) {
                                 this.a(1);
                             } else {
                                 this.b(1);
@@ -291,8 +291,8 @@ public class aor extends aow {
                 var5 -= 4;
             }
 
-            String var6 = this.a.a(this.f.substring(this.n), this.o());
-            this.e(this.a.a(var6, var5).length() + this.n);
+            String var6 = this.fontrenderer.a(this.f.substring(this.n), this.o());
+            this.e(this.fontrenderer.a(var6, var5).length() + this.n);
         }
 
     }
@@ -304,7 +304,7 @@ public class aor extends aow {
             if (ImprovedChat.getCurrentServer() != null && ImprovedChat.getCurrentServer().ChatMode != null)
                 cm = ImprovedChat.getCurrentServer().ChatMode + " ";
 
-            int len = cm != null && !this.j ? a.a(ImprovedChat.stripColors(cm)) : 0;
+            int len = cm != null && !this.j ? fontrenderer.a(ImprovedChat.stripColors(cm)) : 0;
 
             if (this.i()) {
                 a(this.b - 1, this.c - 1, this.b + this.d + 1, this.c + this.e + 1, 0xffa0a0a0);
@@ -319,7 +319,6 @@ public class aor extends aow {
             int var1 = this.m ? this.q : this.r;
             int var2 = this.o - this.n;
             int var3 = this.p - this.n;
-            // String var4 = this.a.a(this.f.substring(this.n), this.o());
             String var4 = this.f;
             boolean var5 = var2 >= 0 && var2 <= var4.length();
             boolean var6 = this.var_l && this.h / 6 % 2 == 0 && var5;
@@ -339,22 +338,10 @@ public class aor extends aow {
             if (var4.length() > 0) {
                 var10 = var5 ? var4.substring(0, var2) : var4;
                 var10 = ImprovedChat.replaceColors(var10);
-                // var9 = this.a.a(var10, var7, var8, var1);
                 sb.append(var10);
             }
 
             boolean var13 = this.o < this.f.length() || this.f.length() >= this.g();
-            /* int var11 = var9;
-            if (!var5) {
-                var11 = var2 > 0 ? var7 + this.d : var7;
-            } else if (var13) {
-                var11 = var9 - 1;
-                --var9;
-            } */
-
-            /* if (var4.length() > 0 && var5 && var2 < var4.length()) {
-                this.a.a(var4.substring(var2), var9, var8, var1);
-            } */
 
             if (var4.length() > 0 && var5 && var2 < var4.length()) {
                 Character lastColor = ImprovedChat.getLastColor(var10);
@@ -367,11 +354,17 @@ public class aor extends aow {
 
             String toString = sb.toString();
 
-            byte maxLineLength = 100;
+            int maxLineLength = ImprovedChat.getMaxChatPacketLength();
             if (toString.length() >= maxLineLength) {
                 String toString_temp = toString;
                 toString = toString_temp.substring(0, maxLineLength) + "§4" + toString_temp.substring(maxLineLength);
             }
+            int maxLineLength_2 = 202;
+            if (toString.length() >= maxLineLength_2) {
+                String toString_temp = toString;
+                toString = toString_temp.substring(0, maxLineLength_2) + "§e" + toString_temp.substring(maxLineLength_2);
+            }
+
             if (!var13)
                 toString += carot;
 
@@ -380,47 +373,18 @@ public class aor extends aow {
             Iterator<String> var12 = vl.iterator();
             int size = vl.size();
 
-            /* if (var6) {
-                if (var13) {
-                    aow.a(var11, var8 - 1, var11 + 1, var8 + 1 + this.a.b, 0xffd0d0d0);
-                } else {
-                    this.a.a("_", var11, var8, var1);
-                }
-            } */
-
-            /* if (var3 != var2) {
-                int var12 = var7 + this.a.a(var4.substring(0, var3));
-                this.c(var11, var8 - 1, var12 - 1, var8 + 1 + this.a.b);
-            } */
-            // int height = (this.c + 12) - 4 - (size <= 0 ? 1 : size) * 12;
-            // int height = (this.c + 12) - 4 - (size <= 0 ? 1 : size) * 12;
             int height = this.j ? this.c + (this.e - 8) / 2 : (this.c + 12) - 4 - (size <= 0 ? 1 : size) * 12;
 
-            /* System.out.println("this.j : "+this.j);
-            System.out.println("height : "+height); */
-
-            /* System.out.println("this.b : "+this.b);
-            System.out.println("this.d : "+this.d); */
-
             if(!this.i()) this.a(this.b - 1, height, this.b + this.d - 4, (this.c + 12) - 2, bg);
-
-            // this.a(this.b - 1, height, this.b + this.d + 1, (this.c + 12) - 2, bg);
-            // a(2, this.c - 2, this.q - 2, this.r - 2, bg);
 
             while (var12.hasNext()) {
                 String wheel = var12.next();
 
-                if(!this.j) this.a.a(cm, this.j ? this.b + 4 : this.b, (this.c + 12) - 12 * size, var1);// 14737632);
-                this.a.a(wheel, var7, this.j ? var8 + this.a.b - 10 : (this.c + 12) - 12 * size, var1);// 14737632);
+                if(!this.j) this.fontrenderer.a(cm, this.j ? this.b + 4 : this.b, (this.c + 12) - 12 * size, var1);// 14737632);
+                this.fontrenderer.a(wheel, var7, this.j ? var8 + this.fontrenderer.b - 10 : (this.c + 12) - 12 * size, var1);// 14737632);
 
                 size--;
             }
-             /*
-             if(var3 != var2) {
-                int var12 = var7 + this.a.a(var4.substring(0, var3));
-                this.c(var11, var8 - 1, var12 - 1, var8 + 1 + this.a.b);
-             }
-              */
 
         }
     }
@@ -439,19 +403,19 @@ public class aor extends aow {
             var4 = var5;
         }
 
-        avd var6 = avd.a;
+        ave var6 = ave.a;
         GL11.glColor4f(0.0F, 0.0F, 255.0F, 255.0F);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glEnable(GL11.GL_COLOR_LOGIC_OP);
-        GL11.glLogicOp(GL11.GL_OR_REVERSE);
+        GL11.glDisable(3553);
+        GL11.glEnable(3058);
+        GL11.glLogicOp(5387);
         var6.b();
         var6.a((double) var1, (double) var4, 0.0D);
         var6.a((double) var3, (double) var4, 0.0D);
         var6.a((double) var3, (double) var2, 0.0D);
         var6.a((double) var1, (double) var2, 0.0D);
         var6.a();
-        GL11.glDisable(GL11.GL_COLOR_LOGIC_OP);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(3058);
+        GL11.glEnable(3553);
     }
 
     public void f(int var1) {
@@ -513,16 +477,16 @@ public class aor extends aow {
         }
 
         this.p = var1;
-        if (this.a != null) {
+        if (this.fontrenderer != null) {
             if (this.n > var2) {
                 this.n = var2;
             }
 
             int var3 = this.o();
-            String var4 = this.a.a(this.f.substring(this.n), var3);
+            String var4 = this.fontrenderer.a(this.f.substring(this.n), var3);
             int var5 = var4.length() + this.n;
             if (var1 == this.n) {
-                this.n -= this.a.a(this.f, var3, true).length();
+                this.n -= this.fontrenderer.a(this.f, var3, true).length();
             }
 
             if (var1 > var5) {

@@ -2,43 +2,35 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
 
-public class aoj extends apm {
+public class aok extends apn {
 
-    public String b = ""; // ImprovedChat
+    private String b = "";
     private int c = -1;
     private boolean d = false;
     private boolean m = false;
     private int n = 0;
     private List o = new ArrayList();
     private URI p = null;
-    protected aor a;
+    protected aos a;
     private String q = "";
 
     private static Pattern prefixPattern = Pattern.compile("~\\(.*?[^\\\\]\\)");
-    public int cursorPosition;
 
-    public aoj() {}
+    public aok() {}
 
-    public aoj(String var1) {
+    public aok(String var1) {
         this.q = var1;
     }
 
-    public String getChatLine() {
-        return a.b();
-    }
-
-    @Override
     public void w_() {
         Keyboard.enableRepeatEvents(true);
         this.c = this.e.v.b().b().size();
-        this.a = new aor(this.k, 4, this.g - 12, this.f - 4, 12);
+        this.a = new aos(this.k, 4, this.g - 12, this.f - 4, 12);
         this.a.f(ImprovedChat.chatLineMaxLength);
         this.a.a(false);
         this.a.b(true);
@@ -46,18 +38,15 @@ public class aoj extends apm {
         this.a.d(false);
     }
 
-    @Override
     public void b() {
         Keyboard.enableRepeatEvents(false);
         this.e.v.b().c();
     }
 
-    @Override
     public void c() {
         this.a.a();
     }
 
-    @Override
     protected void a(char var1, int var2) {
         this.m = false;
         if(var2 == Keyboard.KEY_TAB) {
@@ -67,23 +56,19 @@ public class aoj extends apm {
         }
 
         if(var2 == Keyboard.KEY_ESCAPE) {
-            this.e.a((apm)null);
+            this.e.a((apn)null);
+            ImprovedChat.commandScroll = 0;
         } else if(var2 == Keyboard.KEY_RETURN || var2 == Keyboard.KEY_NUMPADENTER) {
             String var3 = this.a.b().trim();
             if(var3.length() > 0) {
-                /* this.e.v.b().b(var3);
-                if(!this.e.c(var3)) {
-                    this.e.g.d(var3);
-                } */
                 ImprovedChat.pastCommands.add(var3);
                 ImprovedChat.process(var3);
                 ImprovedChat.commandScroll = 0;
                 ImprovedChat.currentTab().chatScroll = 0;
             }
 
-            this.e.a((apm)null);
+            this.e.a((apn)null);
         } else if(var2 == Keyboard.KEY_UP && ImprovedChat.commandScroll < ImprovedChat.pastCommands.size()) {
-            // this.a(-1);
             ++ImprovedChat.commandScroll;
             this.a.a(ImprovedChat.pastCommands.get(ImprovedChat.pastCommands.size() - ImprovedChat.commandScroll));
         } else if(var2 == Keyboard.KEY_DOWN && ImprovedChat.commandScroll > 0) {
@@ -103,7 +88,6 @@ public class aoj extends apm {
 
     }
 
-    @Override
     public void d() {
         super.d();
         int var1 = Mouse.getEventDWheel();
@@ -125,16 +109,15 @@ public class aoj extends apm {
 
     }
 
-    @Override
     protected void a(int var1, int var2, int var3) {
         if(var3 == 0 && this.e.y.p) {
-            aox var4 = this.e.v.b().a(Mouse.getX(), Mouse.getY());
+            aoy var4 = this.e.v.b().a(Mouse.getX(), Mouse.getY());
             if(var4 != null) {
                 URI var5 = var4.g();
                 if(var5 != null) {
                     if(this.e.y.q) {
                         this.p = var5;
-                        this.e.a((apm)(new aok(this, this, var4.f(), 0, var4)));
+                        this.e.a((apn)(new aol(this, this, var4.f(), 0, var4)));
                     } else {
                         this.a(var5);
                     }
@@ -148,7 +131,6 @@ public class aoj extends apm {
         super.a(var1, var2, var3);
     }
 
-    @Override
     public void a(boolean var1, int var2) {
         if(var2 == 0) {
             if(var1) {
@@ -156,7 +138,7 @@ public class aoj extends apm {
             }
 
             this.p = null;
-            this.e.a((apm)this);
+            this.e.a((apn)this);
         }
 
     }
@@ -246,7 +228,6 @@ public class aoj extends apm {
         }
     }
 
-    @Override
     public void a(int var1, int var2, float var3) {
         this.a.f();
         super.a(var1, var2, var3);
@@ -273,22 +254,7 @@ public class aoj extends apm {
 
     }
 
-    @Override
     public boolean f() {
         return false;
-    }
-
-    private void checkcursor() {
-        String chatLine = this.a.b();
-        this.cursorPosition = this.a.o;
-
-        if(this.cursorPosition > chatLine.length()) {
-            this.cursorPosition = chatLine.length();
-        }
-
-        if(this.cursorPosition < 0) {
-            this.cursorPosition = 0;
-        }
-
     }
 }

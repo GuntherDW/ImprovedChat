@@ -10,7 +10,7 @@ public class Tab {
     public int width;
     public boolean blink = false;
     public boolean blinking = false;
-    public List<and> e = new ArrayList<and>();
+    public List<ane> e = new ArrayList<ane>();
     public ArrayList<Pattern> track = new ArrayList<Pattern>();
     public ArrayList<Pattern> ignore = new ArrayList<Pattern>();
     public int chatScroll = 0;
@@ -71,11 +71,11 @@ public class Tab {
     }
 
     public void add(String l) {
-        this.e.add(0, new and(ImprovedChat.minecraft.v.c(), l));
+        this.e.add(0, new ane(ImprovedChat.minecraft.v.c(), l));
         this.blinking = this.blink;
     }
 
-    public void add(and l) {
+    public void add(ane l) {
         this.e.add(0, l);
         this.blinking = this.blink;
     }
