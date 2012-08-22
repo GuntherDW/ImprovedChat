@@ -60,7 +60,7 @@ public class aow extends aox {
             this.i = -90.0F;
             this.b(var6 / 2 - 91, var7 - 22, 0, 0, 182, 22);
             this.b(var6 / 2 - 91 - 1 + var31.c * 20, var7 - 22 - 1, 0, 22, 24, 22);
-            GL11.glBindTexture(3553, this.d.o.b("/gui/icons.png"));
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.d.o.b("/gui/icons.png"));
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_ONE_MINUS_DST_COLOR, GL11.GL_ONE_MINUS_SRC_COLOR);
             this.b(var6 / 2 - 7, var7 / 2 - 7, 0, 0, 16, 16);
@@ -269,7 +269,7 @@ public class aow extends aox {
         if (this.d.b.f() && this.d.g.ca > 0) {
             this.d.I.a("expLevel");
             var11 = false;
-            var12 = var11 ? 16777215 : 8453920;
+            var12 = var11 ? 0xFFFFFF : 0x80FF20;
             String var35 = "" + this.d.g.ca;
             var40 = (var6 - var8.a(var35)) / 2;
             var38 = var7 - 31 - 4;
@@ -291,18 +291,18 @@ public class aow extends aox {
             }
 
             var12 = var8.a(var36);
-            var8.a(var36, var6 - var12 - 10, 5, 16777215);
+            var8.a(var36, var6 - var12 - 10, 5, 0xFFFFFF);
             this.d.I.b();
         }
 
         if (this.d.y.Q) {
             this.d.I.a("debug");
             GL11.glPushMatrix();
-            var8.a("Minecraft 1.3.2 (" + this.d.K + ")", 2, 2, 16777215);
-            var8.a(this.d.m(), 2, 12, 16777215);
-            var8.a(this.d.n(), 2, 22, 16777215);
-            var8.a(this.d.p(), 2, 32, 16777215);
-            var8.a(this.d.o(), 2, 42, 16777215);
+            var8.a("Minecraft 1.3.2 (" + this.d.K + ")", 2, 2, 0xFFFFFF);
+            var8.a(this.d.m(), 2, 12, 0xFFFFFF);
+            var8.a(this.d.n(), 2, 22, 0xFFFFFF);
+            var8.a(this.d.p(), 2, 32, 0xFFFFFF);
+            var8.a(this.d.o(), 2, 42, 0xFFFFFF);
             long var41 = Runtime.getRuntime().maxMemory();
             long var34 = Runtime.getRuntime().totalMemory();
             long var42 = Runtime.getRuntime().freeMemory();
@@ -341,9 +341,9 @@ public class aow extends aox {
                 GL11.glTranslatef((float) (var6 / 2), (float) (var7 - 48), 0.0F);
                 GL11.glEnable(GL11.GL_BLEND);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                var13 = 16777215;
+                var13 = 0xFFFFFF;
                 if (this.j) {
-                    var13 = Color.HSBtoRGB(var33 / 50.0F, 0.7F, 0.6F) & 16777215;
+                    var13 = Color.HSBtoRGB(var33 / 50.0F, 0.7F, 0.6F) & 0xFFFFFF;
                 }
 
                 var8.b(this.g, -var8.a(this.g) / 2, -4, var13 + (var12 << 24));
@@ -386,12 +386,12 @@ public class aow extends aox {
             for (var19 = 0; var19 < var13; ++var19) {
                 var20 = var17 + var19 % var38 * var16;
                 var47 = var44 + var19 / var38 * 9;
-                a(var20, var47, var20 + var16 - 1, var47 + 8, 553648127);
+                a(var20, var47, var20 + var16 - 1, var47 + 8, 0x20FFFFFF);
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                 GL11.glEnable(GL11.GL_ALPHA_TEST);
                 if (var19 < var39.size()) {
                     ath var46 = (ath) var39.get(var19);
-                    var8.a(var46.a, var20, var47, 16777215);
+                    var8.a(var46.a, var20, var47, 0xFFFFFF);
                     this.d.o.b(this.d.o.b("/gui/icons.png"));
                     byte var51 = 0;
                     boolean var49 = false;
@@ -440,9 +440,9 @@ public class aow extends aox {
             }
 
             String var9 = "Boss health";
-            var2.a(var9, var4 / 2 - var2.a(var9) / 2, var8 - 10, 16711935);
+            var2.a(var9, var4 / 2 - var2.a(var9) / 2, var8 - 10, 0xFF00FF);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glBindTexture(3553, this.d.o.b("/gui/icons.png"));
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.d.o.b("/gui/icons.png"));
         }
     }
 

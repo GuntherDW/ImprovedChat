@@ -359,7 +359,7 @@ public class aos extends aox {
                 String toString_temp = toString;
                 toString = toString_temp.substring(0, maxLineLength) + "§4" + toString_temp.substring(maxLineLength);
             }
-            int maxLineLength_2 = 202;
+            int maxLineLength_2 = (maxLineLength * 2) + 2;
             if (toString.length() >= maxLineLength_2) {
                 String toString_temp = toString;
                 toString = toString_temp.substring(0, maxLineLength_2) + "§e" + toString_temp.substring(maxLineLength_2);
@@ -405,17 +405,17 @@ public class aos extends aox {
 
         ave var6 = ave.a;
         GL11.glColor4f(0.0F, 0.0F, 255.0F, 255.0F);
-        GL11.glDisable(3553);
-        GL11.glEnable(3058);
-        GL11.glLogicOp(5387);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_COLOR_LOGIC_OP);
+        GL11.glLogicOp(GL11.GL_OR_REVERSE);
         var6.b();
         var6.a((double) var1, (double) var4, 0.0D);
         var6.a((double) var3, (double) var4, 0.0D);
         var6.a((double) var3, (double) var2, 0.0D);
         var6.a((double) var1, (double) var2, 0.0D);
         var6.a();
-        GL11.glDisable(3058);
-        GL11.glEnable(3553);
+        GL11.glDisable(GL11.GL_COLOR_LOGIC_OP);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
     public void f(int var1) {
