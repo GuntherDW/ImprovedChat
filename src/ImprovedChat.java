@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ImprovedChat implements dzHookable {
+public class ImprovedChat {
 
     private static int fade = 0;
     public static int commandScroll = 0;
@@ -1156,6 +1156,7 @@ public class ImprovedChat implements dzHookable {
 
             for (int fixed = 0; fixed < linesArray.length; ++fixed) {
                 linesArray[fixed] = new ane(tick, lines.get(fixed), var2);
+                minecraft.v.b().addChatLine(linesArray[fixed]);
             }
 
             String var11 = colorTags.matcher(line).replaceAll("");
@@ -1240,7 +1241,8 @@ public class ImprovedChat implements dzHookable {
         constantsFile = new File(modDir, "constants.txt");
         colors = new File(modDir, "colors.txt");
 
-        dzHooksManager.registerHook(this, "ImprovedChat");
+        try { if (Class.forName("dzHooksManager") != null) new dzHook(); } catch (ClassNotFoundException idontcare) { }
+
 
         if (!settings.exists()) {
             versionConvert();
@@ -2000,17 +2002,12 @@ public class ImprovedChat implements dzHookable {
     }
 
     public static void receiveLine(String line, int tick, int var2) {
+        receiveChatPacket(line);
         if (!chatDisabled) {
             varProcess(line);
             stdout(line, tick, var2);
         }
     }
-
-    public static void receiveLine(String line) {
-        receiveChatPacket(line);
-        receiveLine(line, minecraft.v.c(), 0);
-    }
-
     public static Tab currentTab() {
         return getCurrentServer().currentTab();
     }
@@ -2063,39 +2060,48 @@ public class ImprovedChat implements dzHookable {
     }
 
 
-    @Override
-    public void receivePacket(ce packet) {
-        if (packet.b > 0) {
-            byte[] packetBytes = packet.c;
-            if (packetBytes[0] == (byte) 25) {
-                try{
-                    String chatModeString = "";
-                    byte[] cleanData = new byte[packetBytes.length-1];
-                    System.arraycopy(packetBytes, 1, cleanData, 0, packetBytes.length-1);
-                    // chatModeString = toString(bis).replace("&c", "§");
-                    chatModeString = new String(cleanData, "UTF-8");
-                    chatModeString = chatModeString.replaceAll("&c", "§");
-                    System.out.println("chatModeString = "+chatModeString);
-                    if (chatModeString.equals("null"))
+    public class dzHook implements dzHookable {
+
+        public dzHook() {
+            dzHooksManager.registerHook(this, "ImprovedChat");
+        }
+
+        @Override
+        public void receivePacket(ce packet) {
+            if (packet.b > 0) {
+                byte[] packetBytes = packet.c;
+                if (packetBytes[0] == (byte) 25) {
+                    try {
+                        String chatModeString = "";
+                        byte[] cleanData = new byte[packetBytes.length - 1];
+                        System.arraycopy(packetBytes, 1, cleanData, 0, packetBytes.length - 1);
+                        // chatModeString = toString(bis).replace("&c", "§");
+                        chatModeString = new String(cleanData, "UTF-8");
+                        chatModeString = chatModeString.replaceAll("&c", "§");
+                        System.out.println("chatModeString = " + chatModeString);
+                        if (chatModeString.equals("null"))
+                            getCurrentServer().ChatMode = null;
+                        else {
+                            getCurrentServer().ChatMode = chatModeString;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                         getCurrentServer().ChatMode = null;
-                    else {
-                        getCurrentServer().ChatMode = chatModeString;
                     }
-                } catch(Exception e) {
-                    e.printStackTrace();
-                    getCurrentServer().ChatMode = null;
                 }
             }
         }
+
+        @Override
+        public ce getRegisterPacket() {
+            ce registerPacket = new ce();
+            registerPacket.a = "ImprovedChat";
+            registerPacket.c = new byte[1];
+            registerPacket.c[0] = (byte) 26;
+            registerPacket.b = 1;
+            return registerPacket;
+        }
     }
 
-    @Override
-    public ce getRegisterPacket() {
-        ce registerPacket = new ce();
-        registerPacket.a = "ImprovedChat";
-        registerPacket.c = new byte[1];
-        registerPacket.c[0] = (byte) 26;
-        registerPacket.b = 1;
-        return registerPacket;
-    }
+
 }

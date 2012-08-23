@@ -7,8 +7,8 @@ import org.lwjgl.opengl.GL11;
 public class aoi extends aox {
 
     private final Minecraft a;
-    private final List b = new ArrayList();
-    private final List c = new ArrayList();
+    private final List<String> b = new ArrayList<String>();
+    private final List<ane> c = new ArrayList<ane>();
     public int d = 0; // ImprovedChat private -> public
     private boolean e = false;
 
@@ -131,7 +131,7 @@ public class aoi extends aox {
     }
 
     public void c(int var1) {
-        Iterator var2 = this.c.iterator();
+        Iterator<ane> var2 = this.c.iterator();
 
         ane var3;
         do {
@@ -139,10 +139,15 @@ public class aoi extends aox {
                 return;
             }
 
-            var3 = (ane)var2.next();
+            var3 = var2.next();
         } while(var3.c() != var1);
 
         var2.remove();
+    }
+
+    public void addChatLine(ane line) {
+        this.c.add(line);
+        this.b.add(line.a());
     }
 
     private List<ane> getImprovedLines() {
