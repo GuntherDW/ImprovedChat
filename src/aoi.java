@@ -97,6 +97,7 @@ public class aoi extends aox {
             this.e = false;
         }
 
+        ImprovedChat.currentTab().chatScroll = this.d;
     }
 
     public aoy a(int var1, int var2) {
