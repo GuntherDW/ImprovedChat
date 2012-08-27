@@ -7,8 +7,8 @@ import org.lwjgl.opengl.GL11;
 public class aoi extends aox {
 
     private final Minecraft a;
-    private final List<String> b = new ArrayList<String>();
-    private final List<ane> c = new ArrayList<ane>();
+    private final List b = new ArrayList();
+    private final List c = new ArrayList();
     public int d = 0; // ImprovedChat private -> public
     private boolean e = false;
 

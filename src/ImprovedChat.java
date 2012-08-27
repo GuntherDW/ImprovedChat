@@ -56,6 +56,7 @@ public class ImprovedChat {
     public static byte ChatLinesBig = 20;
     public static int scrollLines = 1;
     public static ImprovedChat instance;
+    private static boolean dzHookEnabled = false;
     private static Document doc;
     private static Element topElement;
     private static Pattern colorCrashFix = Pattern.compile("\u00a7(?![0-9a-fA-FkKlLmMnNoOrR])|\u00a7[0-9a-fA-FkKlLmMnNoOrR]?$");
@@ -1241,8 +1242,10 @@ public class ImprovedChat {
         constantsFile = new File(modDir, "constants.txt");
         colors = new File(modDir, "colors.txt");
 
-        try { if (Class.forName("dzHooksManager") != null) new dzHook(); } catch (ClassNotFoundException idontcare) { }
+        try { if (Class.forName("dzHooksManager") != null) { new dzHook(); dzHookEnabled = true; } } catch (ClassNotFoundException idontcare) { }
 
+        System.out.println("[ImprovedChat] Loading ImprovedChat...");
+        System.out.println("[ImprovedChat] dzHooksManager support ? "+(dzHookEnabled ? "yes": "no"));
 
         if (!settings.exists()) {
             versionConvert();

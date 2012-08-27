@@ -478,29 +478,8 @@ public class aos extends aox {
 
         this.p = var1;
         if (this.fontrenderer != null) {
-            if (this.n > var2) {
-                this.n = var2;
-            }
-
-            int var3 = this.o();
-            String var4 = this.fontrenderer.a(this.f.substring(this.n), var3);
-            int var5 = var4.length() + this.n;
-            if (var1 == this.n) {
-                this.n -= this.fontrenderer.a(this.f, var3, true).length();
-            }
-
-            if (var1 > var5) {
-                this.n += var1 - var5;
-            } else if (var1 <= this.n) {
-                this.n -= this.n - var1;
-            }
-
-            if (this.n < 0) {
+            if (this.n != 0) {
                 this.n = 0;
-            }
-
-            if (this.n > var2) {
-                this.n = var2;
             }
         }
 
