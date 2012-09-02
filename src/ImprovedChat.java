@@ -16,6 +16,9 @@ import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.io.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -956,6 +959,69 @@ public class ImprovedChat {
         return minecraft.r;
     }
 
+    public void setSeed(long seed) {
+        long origseed = getWorld().b();
+
+        try {
+            Class o = getWorld().getClass();
+            Field Seed = o.getDeclaredField("a");
+            Seed.setAccessible(true);
+            // Object origSeed = Seed.get(m.f.C);
+            stdout("Original (obfuscated?) seed : " + origseed);
+            // Seed.set(m.f.C, seed);
+            Seed.set(getWorld(), seed);
+            stdout("After seed : " + getWorld().b());
+            if (Class.forName("reifnsk.minimap.ChunkData") != null) {
+                // reifnsk.minimap.ReiMinimap reiInstance = reifnsk.minimap.ReiMinimap.instance;
+                stdout("Rei's minimap found, setting rei's seed!");
+                Class reiData = Class.forName("reifnsk.minimap.ChunkData");
+                Class reiMiniMap = Class.forName("reifnsk.minimap.ReiMinimap");
+                Field reiInstanceField = reiMiniMap.getDeclaredField("instance");
+                reiInstanceField.setAccessible(true);
+                Object reiInstance = reiInstanceField.get(null);
+                Field reiSeed = reiData.getDeclaredField("seed");
+                Field reiPreloadedChunks = reiMiniMap.getDeclaredField("preloadedChunks");
+                Field reiSlime = reiData.getDeclaredField("slime");
+                reiSlime.setAccessible(true);
+                reiPreloadedChunks.setAccessible(true);
+                reiSeed.setAccessible(true);
+                reiSeed.set(null, seed);
+                Method reiMethod_createChunkData = reiData.getDeclaredMethod("createChunkData", int.class, int.class);
+                Method reiMethod_updateChunk = reiData.getDeclaredMethod("updateChunk", boolean.class);
+                reiMethod_createChunkData.setAccessible(true);
+                reiMethod_updateChunk.setAccessible(true);
+                boolean preloadedChunks = reiPreloadedChunks.getBoolean(reiInstance);
+                // reiPreloadedChunks.get();
+                int cx, cz;
+                int rcx, rcz;
+                for (cz = -8; cz <= 8; ++cz) {
+                    for (cx = -8; cx <= 8; ++cx) {
+                        rcx = get_thePlayer().ah + cx;
+                        rcz = get_thePlayer().aj + cz;
+                        Object chunkDataInstance = reiMethod_createChunkData.invoke(null, rcx, rcz);
+                        if (chunkDataInstance != null) {
+                            // this.slime = seed != 0L && (new Random(seed + (long)(this.xPosition * this.xPosition * 4987142) + (long)(this.xPosition * 5947611) + (long)(this.zPosition * this.zPosition) * 4392871L + (long)(this.zPosition * 389711) ^ 987234911L)).nextInt(10) == 0;
+                            reiMethod_updateChunk.invoke(chunkDataInstance, preloadedChunks);
+                            reiSlime.set(chunkDataInstance, (new Random(seed + (long) (rcx * rcx * 4987142) + (long) (rcx * 5947611) + (long) (rcz * rcz) * 4392871L + (long) (rcz * 389711) ^ 987234911L)).nextInt(10) == 0);
+                        }
+                    }
+                }
+            }
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            ;
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+    }
+
     public File getAppDir(String str) {
         return Minecraft.a(str);
     }
@@ -986,6 +1052,7 @@ public class ImprovedChat {
     }
 
     public static int getUpdateCounterOfChatLine(ane thechatline) {
+        if (thechatline == null) return 0;
         return thechatline.b();
     }
 
@@ -1010,7 +1077,6 @@ public class ImprovedChat {
     }
 
     public static Server getCurrentServer() {
-        // System.out.println("Current : "+Current.name);
         return Current;
     }
 
@@ -1719,36 +1785,12 @@ public class ImprovedChat {
             }
         });
 
-        /* commands.put("seed", new icCommand("Sets seed for this world (for Rei's minimap", "~setSeed <seed>", "Set seed") {
+        commands.put("seed", new icCommand("Sets seed for this world (for Rei's minimap", "~seed <seed>", "Set seed") {
             @Override
             public boolean process(String[] args) {
                 if (args != null) {
                     try {
-                        Long seed = Long.parseLong(args[0]);
-                        //long origseed = m.f.C.
-                        long origseed = minecraft.f.x.c();
-                        int gametype = minecraft.f.x.q();
-                        boolean mapFeatures = minecraft.f.x.r();
-
-                        String worldname = minecraft.f.x.j();
-
-                        try {
-                            Class o = minecraft.f.x.getClass();
-                            Field Seed = o.getDeclaredField("a");
-                            Seed.setAccessible(true);
-                            // Object origSeed = Seed.get(m.f.C);
-                            stdout("Original (obfuscated?) seed : " + Seed.getLong(minecraft.f.C));
-                            // Seed.set(m.f.C, seed);
-                            Seed.setLong(minecraft.f.x, seed);
-                            stdout("After seed : " + Seed.getLong(minecraft.f.x));
-                        } catch (NoSuchFieldException e) {
-                            stderr("No such field!");
-                        } catch (IllegalAccessException e) {
-                            stderr("IllegalAccesException");
-                        }
-
-                        // public rl(dx dx, java.lang.String s) { }
-                        // m.f.C.a((dx) newdx);// , (String) worldname);
+                        setSeed(Long.parseLong(args[0]));
                     } catch (NumberFormatException ex) {
                         return false;
                     }
@@ -1756,7 +1798,7 @@ public class ImprovedChat {
                 }
                 return false;
             }
-        }); */
+        });
 
         commands.put("close", new icCommand("Used for closing the curent tab", "~close", "") {
             @Override
@@ -1902,6 +1944,10 @@ public class ImprovedChat {
         }
     }
 
+    public aed getWorld() {
+        return minecraft.e.A;
+    }
+
     public static void exec(String line) {
         if (!line.startsWith("(")) {
             String[] var7 = space.split(line, 2);
@@ -1988,19 +2034,13 @@ public class ImprovedChat {
             ImprovedChat.getCurrentServer().ChatMode = cm != null ? chatModeHeroChat : null;
             ImprovedChat.getCurrentServer().heroChat = true;
             ImprovedChat.save();
-            /* try {
-                Method m = ImprovedChat.class.getDeclaredMethod("save");
-                if (m != null) {
-                    m.setAccessible(true);
-                    m.invoke(ImprovedChat.instance);
-                }
-            } catch (NoSuchMethodException e) {
-                ;
-            } catch (InvocationTargetException e) {
-                ;
-            } catch (IllegalAccessException e) {
-                ;
-            } */
+        } else if(text.startsWith("Seed: ")) {
+            String seed = text.substring(6);
+            try {
+                ImprovedChat.instance.setSeed(Long.parseLong(seed));
+            } catch (Exception e) {
+
+            }
         }
     }
 
