@@ -131,7 +131,7 @@ public class aoi extends aox {
     }
 
     public void c(int var1) {
-        Iterator<ane> var2 = this.c.iterator();
+        Iterator<ane> var2 = this.b.iterator();
 
         ane var3;
         do {
