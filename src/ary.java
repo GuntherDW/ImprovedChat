@@ -56,6 +56,10 @@ public class ary extends asd {
         return this.f;
     }
 
+    public void c(boolean var1) {
+        this.var_m = var1;
+    }
+
     public String c() {
         int var1 = this.o < this.p ? this.o : this.p;
         int var2 = this.o < this.p ? this.p : this.o;
