@@ -30,7 +30,7 @@ public class aro extends asw {
         Keyboard.enableRepeatEvents(true);
         this.c = this.e.v.b().b().size();
         this.a = new ary(this.k, 4, this.g - 12, this.f - 4, 12);
-        this.a.f(100);
+        this.a.f(ImprovedChat.chatLineMaxLength);
         this.a.a(false);
         this.a.b(true);
         this.a.a(this.q);
