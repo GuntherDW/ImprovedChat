@@ -38,6 +38,10 @@ public class ary extends asd {
         ++this.h;
     }
 
+    public void h(int var1) {
+        this.r = var1;
+    }
+
     public void a(String var1) {
         if (var1.length() > this.g) {
             this.f = var1.substring(0, this.g);
