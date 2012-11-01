@@ -4,9 +4,9 @@ import org.lwjgl.opengl.GL11;
 import java.util.Iterator;
 import java.util.List;
 
-public class aos extends aox {
+public class ary extends asd {
 
-    public final aov fontrenderer; // ImprovedChat private -> public
+    public final asb fontrenderer; // ImprovedChat private -> public
     private final int b;
     private final int c;
     private final int d;
@@ -17,7 +17,7 @@ public class aos extends aox {
     private boolean j = true;
     private boolean k = true;
     private boolean var_l = false;
-    private boolean m = true;
+    private boolean var_m = true;
     private int n = 0;
     public int o = 0; // ImprovedChat private -> public
     private int p = 0;
@@ -26,7 +26,7 @@ public class aos extends aox {
     private boolean s = true;
 
 
-    public aos(aov var1, int var2, int var3, int var4, int var5) {
+    public ary(asb var1, int var2, int var3, int var4, int var5) {
         this.fontrenderer = var1;
         this.b = var2;
         this.c = var3;
@@ -60,7 +60,7 @@ public class aos extends aox {
 
     public void b(String var1) {
         String var2 = "";
-        String var3 = l.a(var1);
+        String var3 = m.a(var1);
         int var4 = this.o < this.p ? this.o : this.p;
         int var5 = this.o < this.p ? this.p : this.o;
         int var6 = this.g - this.f.length() - (var4 - this.p);
@@ -187,26 +187,26 @@ public class aos extends aox {
     }
 
     public boolean a(char var1, int var2) {
-        if (this.m && this.var_l) {
+        if (this.var_m && this.var_l) {
             switch (var1) {
                 case 1:
                     this.e();
                     this.i(0);
                     return true;
                 case 3:
-                    apn.d(this.c());
+                    asw.d(this.c());
                     return true;
                 case 22:
-                    this.b(apn.l());
+                    this.b(asw.l());
                     return true;
                 case 24:
-                    apn.d(this.c());
+                    asw.d(this.c());
                     this.b("");
                     return true;
                 default:
                     switch (var2) {
                         case Keyboard.KEY_BACK:
-                            if (apn.o()) {
+                            if (asw.o()) {
                                 this.a(-1);
                             } else {
                                 this.b(-1);
@@ -214,7 +214,7 @@ public class aos extends aox {
 
                             return true;
                         case Keyboard.KEY_HOME:
-                            if (apn.p()) {
+                            if (asw.p()) {
                                 this.i(0);
                             } else {
                                 this.d();
@@ -222,13 +222,13 @@ public class aos extends aox {
 
                             return true;
                         case Keyboard.KEY_LEFT:
-                            if (apn.p()) {
-                                if (apn.o()) {
+                            if (asw.p()) {
+                                if (asw.o()) {
                                     this.i(this.a((int) -1, this.n()));
                                 } else {
                                     this.i(this.n() - 1);
                                 }
-                            } else if (apn.o()) {
+                            } else if (asw.o()) {
                                 this.e(this.c(-1));
                             } else {
                                 this.d(-1);
@@ -236,13 +236,13 @@ public class aos extends aox {
 
                             return true;
                         case Keyboard.KEY_RIGHT:
-                            if (apn.p()) {
-                                if (apn.o()) {
+                            if (asw.p()) {
+                                if (asw.o()) {
                                     this.i(this.a((int) 1, this.n()));
                                 } else {
                                     this.i(this.n() + 1);
                                 }
-                            } else if (apn.o()) {
+                            } else if (asw.o()) {
                                 this.e(this.c(1));
                             } else {
                                 this.d(1);
@@ -250,7 +250,7 @@ public class aos extends aox {
 
                             return true;
                         case Keyboard.KEY_END:
-                            if (apn.p()) {
+                            if (asw.p()) {
                                 this.i(this.f.length());
                             } else {
                                 this.e();
@@ -258,7 +258,7 @@ public class aos extends aox {
 
                             return true;
                         case Keyboard.KEY_DELETE:
-                            if (apn.o()) {
+                            if (asw.o()) {
                                 this.a(1);
                             } else {
                                 this.b(1);
@@ -266,7 +266,7 @@ public class aos extends aox {
 
                             return true;
                         default:
-                            if (l.a(var1)) {
+                            if (m.a(var1)) {
                                 this.b(Character.toString(var1));
                                 return true;
                             } else {
@@ -282,7 +282,7 @@ public class aos extends aox {
     public void a(int var1, int var2, int var3) {
         boolean var4 = var1 >= this.b && var1 < this.b + this.d && var2 >= this.c && var2 < this.c + this.e;
         if (this.k) {
-            this.b(this.m && var4);
+            this.b(this.var_m && var4);
         }
 
         if (this.var_l && var3 == 0) {
@@ -316,7 +316,7 @@ public class aos extends aox {
 
             int bg = ((ImprovedChat.bgOpacity & 255) << 24) + ImprovedChat.bgColor;
 
-            int var1 = this.m ? this.q : this.r;
+            int var1 = this.var_m ? this.q : this.r;
             int var2 = this.o - this.n;
             int var3 = this.p - this.n;
             String var4 = this.f;
@@ -331,7 +331,7 @@ public class aos extends aox {
                 var3 = var4.length();
             }
 
-            char carot = var6?'|':':';
+            char carot = var6 ? '|' : ':';
 
             String var10 = null;
 
@@ -375,12 +375,13 @@ public class aos extends aox {
 
             int height = this.j ? this.c + (this.e - 8) / 2 : (this.c + 12) - 4 - (size <= 0 ? 1 : size) * 12;
 
-            if(!this.i()) this.a(this.b - 1, height, this.b + this.d - 4, (this.c + 12) - 2, bg);
+            if (!this.i()) this.a(this.b - 1, height, this.b + this.d - 4, (this.c + 12) - 2, bg);
 
             while (var12.hasNext()) {
                 String wheel = var12.next();
 
-                if(!this.j) this.fontrenderer.a(cm, this.j ? this.b + 4 : this.b, (this.c + 12) - 12 * size, var1);// 14737632);
+                if (!this.j)
+                    this.fontrenderer.a(cm, this.j ? this.b + 4 : this.b, (this.c + 12) - 12 * size, var1);// 14737632);
                 this.fontrenderer.a(wheel, var7, this.j ? var8 + this.fontrenderer.b - 10 : (this.c + 12) - 12 * size, var1);// 14737632);
 
                 size--;
@@ -403,7 +404,7 @@ public class aos extends aox {
             var4 = var5;
         }
 
-        ave var6 = ave.a;
+        azb var6 = azb.a;
         GL11.glColor4f(0.0F, 0.0F, 255.0F, 255.0F);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_COLOR_LOGIC_OP);

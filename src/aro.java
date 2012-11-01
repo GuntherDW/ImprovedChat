@@ -2,12 +2,11 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-public class aok extends apn {
+public class aro extends asw {
 
     private String b = "";
     private int c = -1;
@@ -16,22 +15,22 @@ public class aok extends apn {
     private int n = 0;
     private List o = new ArrayList();
     private URI p = null;
-    protected aos a;
+    protected ary a;
     private String q = "";
 
-    private static Pattern prefixPattern = Pattern.compile("~\\(.*?[^\\\\]\\)");
 
-    public aok() {}
+    public aro() {
+    }
 
-    public aok(String var1) {
+    public aro(String var1) {
         this.q = var1;
     }
 
-    public void w_() {
+    public void A_() {
         Keyboard.enableRepeatEvents(true);
         this.c = this.e.v.b().b().size();
-        this.a = new aos(this.k, 4, this.g - 12, this.f - 4, 12);
-        this.a.f(ImprovedChat.chatLineMaxLength);
+        this.a = new ary(this.k, 4, this.g - 12, this.f - 4, 12);
+        this.a.f(100);
         this.a.a(false);
         this.a.b(true);
         this.a.a(this.q);
@@ -49,14 +48,14 @@ public class aok extends apn {
 
     protected void a(char var1, int var2) {
         this.m = false;
-        if(var2 == Keyboard.KEY_TAB) {
-            this.u_();
+        if (var2 == Keyboard.KEY_TAB) {
+            this.y_();
         } else {
             this.d = false;
         }
 
         if(var2 == Keyboard.KEY_ESCAPE) {
-            this.e.a((apn)null);
+            this.e.a((asw)null);
             ImprovedChat.commandScroll = 0;
         } else if(var2 == Keyboard.KEY_RETURN || var2 == Keyboard.KEY_NUMPADENTER) {
             String var3 = this.a.b().trim();
@@ -67,7 +66,7 @@ public class aok extends apn {
                 ImprovedChat.currentTab().chatScroll = 0;
             }
 
-            this.e.a((apn)null);
+            this.e.a((asw)null);
         } else if(var2 == Keyboard.KEY_UP && ImprovedChat.commandScroll < ImprovedChat.pastCommands.size()) {
             ++ImprovedChat.commandScroll;
             this.a.a(ImprovedChat.pastCommands.get(ImprovedChat.pastCommands.size() - ImprovedChat.commandScroll));
@@ -110,14 +109,14 @@ public class aok extends apn {
     }
 
     protected void a(int var1, int var2, int var3) {
-        if(var3 == 0 && this.e.y.p) {
-            aoy var4 = this.e.v.b().a(Mouse.getX(), Mouse.getY());
-            if(var4 != null) {
+        if (var3 == 0 && this.e.y.p) {
+            ase var4 = this.e.v.b().a(Mouse.getX(), Mouse.getY());
+            if (var4 != null) {
                 URI var5 = var4.g();
-                if(var5 != null) {
-                    if(this.e.y.q) {
+                if (var5 != null) {
+                    if (this.e.y.q) {
                         this.p = var5;
-                        this.e.a((apn)(new aol(this, this, var4.f(), 0, var4)));
+                        this.e.a((asw) (new arp(this, this, var4.f(), 0, var4)));
                     } else {
                         this.a(var5);
                     }
@@ -132,13 +131,13 @@ public class aok extends apn {
     }
 
     public void a(boolean var1, int var2) {
-        if(var2 == 0) {
-            if(var1) {
+        if (var2 == 0) {
+            if (var1) {
                 this.a(this.p);
             }
 
             this.p = null;
-            this.e.a((apn)this);
+            this.e.a((asw) this);
         }
 
     }
@@ -146,7 +145,7 @@ public class aok extends apn {
     private void a(URI var1) {
         try {
             Class var2 = Class.forName("java.awt.Desktop");
-            Object var3 = var2.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
+            Object var3 = var2.getMethod("getDesktop", new Class[0]).invoke((Object) null, new Object[0]);
             var2.getMethod("browse", new Class[]{URI.class}).invoke(var3, new Object[]{var1});
         } catch (Throwable var4) {
             var4.printStackTrace();
@@ -154,11 +153,11 @@ public class aok extends apn {
 
     }
 
-    public void u_() {
+    public void y_() {
         String var3;
-        if(this.d) {
+        if (this.d) {
             this.a.b(this.a.a(-1, this.a.h(), false) - this.a.h());
-            if(this.n >= this.o.size()) {
+            if (this.n >= this.o.size()) {
                 this.n = 0;
             }
         } else {
@@ -168,7 +167,7 @@ public class aok extends apn {
             String var2 = this.a.b().substring(var1).toLowerCase();
             var3 = this.a.b().substring(0, this.a.h());
             this.a(var3, var2);
-            if(this.o.isEmpty()) {
+            if (this.o.isEmpty()) {
                 return;
             }
 
@@ -176,12 +175,12 @@ public class aok extends apn {
             this.a.b(var1 - this.a.h());
         }
 
-        if(this.o.size() > 1) {
+        if (this.o.size() > 1) {
             StringBuilder var4 = new StringBuilder();
 
-            for(Iterator var5 = this.o.iterator(); var5.hasNext(); var4.append(ImprovedChat.stripColors(var3))) {
-                var3 = (String)var5.next();
-                if(var4.length() > 0) {
+            for (Iterator var5 = this.o.iterator(); var5.hasNext(); var4.append(ImprovedChat.stripColors(var3))) {
+                var3 = (String) var5.next();
+                if (var4.length() > 0) {
                     var4.append(", ");
                 }
             }
@@ -196,8 +195,8 @@ public class aok extends apn {
     }
 
     private void a(String var1, String var2) {
-        if(var1.length() >= 1) {
-            this.e.g.a.c(new bp(var1));
+        if (var1.length() >= 1) {
+            this.e.g.a.c(new cl(var1));
             this.m = true;
         }
     }
@@ -205,24 +204,24 @@ public class aok extends apn {
     public void a(int var1) {
         int var2 = this.c + var1;
         int var3 = this.e.v.b().b().size();
-        if(var2 < 0) {
+        if (var2 < 0) {
             var2 = 0;
         }
 
-        if(var2 > var3) {
+        if (var2 > var3) {
             var2 = var3;
         }
 
-        if(var2 != this.c) {
-            if(var2 == var3) {
+        if (var2 != this.c) {
+            if (var2 == var3) {
                 this.c = var3;
                 this.a.a(this.b);
             } else {
-                if(this.c == var3) {
+                if (this.c == var3) {
                     this.b = this.a.b();
                 }
 
-                this.a.a((String)this.e.v.b().b().get(var2));
+                this.a.a((String) this.e.v.b().b().get(var2));
                 this.c = var2;
             }
         }
@@ -234,21 +233,21 @@ public class aok extends apn {
     }
 
     public void a(String[] var1) {
-        if(this.m) {
+        if (this.m) {
             this.o.clear();
             String[] var2 = var1;
             int var3 = var1.length;
 
-            for(int var4 = 0; var4 < var3; ++var4) {
+            for (int var4 = 0; var4 < var3; ++var4) {
                 String var5 = var2[var4];
-                if(var5.length() > 0) {
+                if (var5.length() > 0) {
                     this.o.add(var5);
                 }
             }
 
-            if(this.o.size() > 0) {
+            if (this.o.size() > 0) {
                 this.d = true;
-                this.u_();
+                this.y_();
             }
         }
 

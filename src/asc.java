@@ -4,77 +4,84 @@ import java.util.Random;
 
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
-public class aow extends aox {
+public class asc extends asd {
 
-    private static final awh b = new awh();
+    private static final bag b = new bag();
     private final Random c = new Random();
     private final Minecraft d;
-    private final aoi e;
+    private final arm e;
     private int f = 0;
     private String g = "";
     private int h = 0;
-    private boolean j = false;
+    private boolean var_i = false;
     public float a = 1.0F;
 
 
-    public aow(Minecraft var1) {
+    public asc(Minecraft var1) {
         this.d = var1;
-        this.e = new aoi(var1);
+        this.e = new arm(var1);
         ImprovedChat.init(var1);
     }
 
     public void a(float var1, boolean var2, int var3, int var4) {
-        apo var5 = new apo(this.d.y, this.d.c, this.d.d);
+        asx var5 = new asx(this.d.y, this.d.c, this.d.d);
         int var6 = var5.a();
         int var7 = var5.b();
-        aov var8 = this.d.p;
+        asb var8 = this.d.p;
         this.d.t.c();
-        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glEnable(3042);
         if (Minecraft.t()) {
             this.a(this.d.g.c(var1), var6, var7);
         } else {
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GL11.glBlendFunc(770, 771);
         }
 
-        rj var9 = this.d.g.by.f(3);
-        if (this.d.y.P == 0 && var9 != null && var9.c == aig.ba.ca) {
+        tv var9 = this.d.g.bK.f(3);
+        if (this.d.y.S == 0 && var9 != null && var9.c == alf.bd.cm) {
             this.a(var6, var7);
         }
 
-        if (!this.d.g.a(ji.k)) {
-            float var10 = this.d.g.cy + (this.d.g.bY - this.d.g.cy) * var1;
+        if (!this.d.g.a(kw.k)) {
+            float var10 = this.d.g.cm + (this.d.g.j - this.d.g.cm) * var1;
             if (var10 > 0.0F) {
                 this.b(var10, var6, var7);
             }
         }
 
         boolean var11;
-        int var12,var13,var17,var16,var19,var20,var23,var22,var47;
-
+        int var12;
+        int var13;
+        int var17;
+        int var16;
+        int var19;
+        int var20;
+        int var23;
+        int var22;
+        int var24;
+        int var47;
         if (!this.d.b.a()) {
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glBindTexture(3553, this.d.o.b("/gui/gui.png"));
-            of var31 = this.d.g.by;
-            this.i = -90.0F;
+            qf var31 = this.d.g.bK;
+            this.j = -90.0F;
             this.b(var6 / 2 - 91, var7 - 22, 0, 0, 182, 22);
             this.b(var6 / 2 - 91 - 1 + var31.c * 20, var7 - 22 - 1, 0, 22, 24, 22);
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.d.o.b("/gui/icons.png"));
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_ONE_MINUS_DST_COLOR, GL11.GL_ONE_MINUS_SRC_COLOR);
+            GL11.glBindTexture(3553, this.d.o.b("/gui/icons.png"));
+            GL11.glEnable(3042);
+            GL11.glBlendFunc(775, 769);
             this.b(var6 / 2 - 7, var7 / 2 - 7, 0, 0, 16, 16);
-            GL11.glDisable(GL11.GL_BLEND);
-            var11 = this.d.g.ad / 3 % 2 == 1;
-            if (this.d.g.ad < 10) {
+            GL11.glDisable(3042);
+            var11 = this.d.g.ae / 3 % 2 == 1;
+            if (this.d.g.ae < 10) {
                 var11 = false;
             }
 
-            var12 = this.d.g.aN();
-            var13 = this.d.g.aL;
+            var12 = this.d.g.aT();
+            var13 = this.d.g.aR;
             this.c.setSeed((long) (this.f * 312871));
             boolean var14 = false;
-            ou var15 = this.d.g.bL();
+            qx var15 = this.d.g.bZ();
             var16 = var15.a();
             var17 = var15.b();
             this.d.I.a("bossHealth");
@@ -85,10 +92,10 @@ public class aow extends aox {
                 var18 = var6 / 2 - 91;
                 var19 = var6 / 2 + 91;
                 this.d.I.a("expBar");
-                var20 = this.d.g.bK();
+                var20 = this.d.g.bY();
                 if (var20 > 0) {
                     short var21 = 182;
-                    var22 = (int) (this.d.g.cc * (float) (var21 + 1));
+                    var22 = (int) (this.d.g.ci * (float) (var21 + 1));
                     var23 = var7 - 32 + 3;
                     this.b(var18, var23, 0, 64, var21, 5);
                     if (var22 > 0) {
@@ -98,9 +105,9 @@ public class aow extends aox {
 
                 var47 = var7 - 39;
                 var22 = var47 - 10;
-                var23 = this.d.g.aO();
-                int var24 = -1;
-                if (this.d.g.a(ji.l)) {
+                var23 = this.d.g.aU();
+                var24 = -1;
+                if (this.d.g.a(kw.l)) {
                     var24 = this.f % 25;
                 }
 
@@ -127,8 +134,10 @@ public class aow extends aox {
                     }
 
                     var26 = 16;
-                    if (this.d.g.a(ji.u)) {
+                    if (this.d.g.a(kw.u)) {
                         var26 += 36;
+                    } else if (this.d.g.a(kw.v)) {
+                        var26 += 72;
                     }
 
                     byte var27 = 0;
@@ -147,7 +156,7 @@ public class aow extends aox {
                     }
 
                     byte var30 = 0;
-                    if (this.d.e.H().s()) {
+                    if (this.d.e.J().t()) {
                         var30 = 5;
                     }
 
@@ -173,52 +182,52 @@ public class aow extends aox {
 
                 this.d.I.c("food");
 
-                int var52;
+                int var51;
                 for (var25 = 0; var25 < 10; ++var25) {
                     var26 = var47;
-                    var52 = 16;
-                    byte var53 = 0;
-                    if (this.d.g.a(ji.s)) {
-                        var52 += 36;
-                        var53 = 13;
+                    var51 = 16;
+                    byte var52 = 0;
+                    if (this.d.g.a(kw.s)) {
+                        var51 += 36;
+                        var52 = 13;
                     }
 
-                    if (this.d.g.bL().e() <= 0.0F && this.f % (var16 * 3 + 1) == 0) {
+                    if (this.d.g.bZ().e() <= 0.0F && this.f % (var16 * 3 + 1) == 0) {
                         var26 = var47 + (this.c.nextInt(3) - 1);
                     }
 
                     if (var14) {
-                        var53 = 1;
+                        var52 = 1;
                     }
 
                     var29 = var19 - var25 * 8 - 9;
-                    this.b(var29, var26, 16 + var53 * 9, 27, 9, 9);
+                    this.b(var29, var26, 16 + var52 * 9, 27, 9, 9);
                     if (var14) {
                         if (var25 * 2 + 1 < var17) {
-                            this.b(var29, var26, var52 + 54, 27, 9, 9);
+                            this.b(var29, var26, var51 + 54, 27, 9, 9);
                         }
 
                         if (var25 * 2 + 1 == var17) {
-                            this.b(var29, var26, var52 + 63, 27, 9, 9);
+                            this.b(var29, var26, var51 + 63, 27, 9, 9);
                         }
                     }
 
                     if (var25 * 2 + 1 < var16) {
-                        this.b(var29, var26, var52 + 36, 27, 9, 9);
+                        this.b(var29, var26, var51 + 36, 27, 9, 9);
                     }
 
                     if (var25 * 2 + 1 == var16) {
-                        this.b(var29, var26, var52 + 45, 27, 9, 9);
+                        this.b(var29, var26, var51 + 45, 27, 9, 9);
                     }
                 }
 
                 this.d.I.c("air");
-                if (this.d.g.a(aco.g)) {
-                    var25 = this.d.g.ai();
-                    var26 = ih.f((double) (var25 - 2) * 10.0D / 300.0D);
-                    var52 = ih.f((double) var25 * 10.0D / 300.0D) - var26;
+                if (this.d.g.a(afg.h)) {
+                    var25 = this.d.g.al();
+                    var26 = jv.f((double) (var25 - 2) * 10.0D / 300.0D);
+                    var51 = jv.f((double) var25 * 10.0D / 300.0D) - var26;
 
-                    for (var28 = 0; var28 < var26 + var52; ++var28) {
+                    for (var28 = 0; var28 < var26 + var51; ++var28) {
                         if (var28 < var26) {
                             this.b(var19 - var28 * 8 - 9, var22, 16, 18, 9, 9);
                         } else {
@@ -230,10 +239,10 @@ public class aow extends aox {
                 this.d.I.b();
             }
 
-            GL11.glDisable(GL11.GL_BLEND);
+            GL11.glDisable(3042);
             this.d.I.a("actionBar");
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-            ang.c();
+            GL11.glEnable('\u803a');
+            aqj.c();
 
             for (var18 = 0; var18 < 9; ++var18) {
                 var19 = var6 / 2 - 90 + var18 * 20 + 2;
@@ -241,17 +250,17 @@ public class aow extends aox {
                 this.a(var18, var19, var20, var1);
             }
 
-            ang.a();
-            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+            aqj.a();
+            GL11.glDisable('\u803a');
             this.d.I.b();
         }
 
         float var33;
-        if (this.d.g.bI() > 0) {
+        if (this.d.g.bV() > 0) {
             this.d.I.a("sleep");
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
-            GL11.glDisable(GL11.GL_ALPHA_TEST);
-            int var32 = this.d.g.bI();
+            GL11.glDisable(2929);
+            GL11.glDisable(3008);
+            int var32 = this.d.g.bV();
             var33 = (float) var32 / 100.0F;
             if (var33 > 1.0F) {
                 var33 = 1.0F - (float) (var32 - 100) / 10.0F;
@@ -259,18 +268,18 @@ public class aow extends aox {
 
             var12 = (int) (220.0F * var33) << 24 | 1052704;
             a(0, 0, var6, var7, var12);
-            GL11.glEnable(GL11.GL_ALPHA_TEST);
-            GL11.glEnable(GL11.GL_DEPTH_TEST);
+            GL11.glEnable(3008);
+            GL11.glEnable(2929);
             this.d.I.b();
         }
 
         int var38;
         int var40;
-        if (this.d.b.f() && this.d.g.ca > 0) {
+        if (this.d.b.f() && this.d.g.cg > 0) {
             this.d.I.a("expLevel");
             var11 = false;
-            var12 = var11 ? 0xFFFFFF : 0x80FF20;
-            String var35 = "" + this.d.g.ca;
+            var12 = var11 ? 16777215 : 8453920;
+            String var35 = "" + this.d.g.cg;
             var40 = (var6 - var8.a(var35)) / 2;
             var38 = var7 - 31 - 4;
             var8.b(var35, var40 + 1, var38, 0);
@@ -284,25 +293,25 @@ public class aow extends aox {
         if (this.d.q()) {
             this.d.I.a("demo");
             String var36 = "";
-            if (this.d.e.D() >= 120500L) {
-                var36 = aj.a("demo.demoExpired");
+            if (this.d.e.E() >= 120500L) {
+                var36 = bd.a("demo.demoExpired");
             } else {
-                var36 = String.format(aj.a("demo.remainingTime"), new Object[]{ip.a((int) (120500L - this.d.e.D()))});
+                var36 = String.format(bd.a("demo.remainingTime"), new Object[]{kd.a((int) (120500L - this.d.e.E()))});
             }
 
             var12 = var8.a(var36);
-            var8.a(var36, var6 - var12 - 10, 5, 0xFFFFFF);
+            var8.a(var36, var6 - var12 - 10, 5, 16777215);
             this.d.I.b();
         }
 
-        if (this.d.y.Q) {
+        if (this.d.y.T) {
             this.d.I.a("debug");
             GL11.glPushMatrix();
-            var8.a("Minecraft 1.3.2 (" + this.d.K + ")", 2, 2, 0xFFFFFF);
-            var8.a(this.d.m(), 2, 12, 0xFFFFFF);
-            var8.a(this.d.n(), 2, 22, 0xFFFFFF);
-            var8.a(this.d.p(), 2, 32, 0xFFFFFF);
-            var8.a(this.d.o(), 2, 42, 0xFFFFFF);
+            var8.a("Minecraft 1.4.2 (" + this.d.K + ")", 2, 2, 16777215);
+            var8.a(this.d.m(), 2, 12, 16777215);
+            var8.a(this.d.n(), 2, 22, 16777215);
+            var8.a(this.d.p(), 2, 32, 16777215);
+            var8.a(this.d.o(), 2, 42, 16777215);
             long var41 = Runtime.getRuntime().maxMemory();
             long var34 = Runtime.getRuntime().totalMemory();
             long var42 = Runtime.getRuntime().freeMemory();
@@ -311,19 +320,20 @@ public class aow extends aox {
             this.b(var8, var45, var6 - var8.a(var45) - 2, 2, 14737632);
             var45 = "Allocated memory: " + var34 * 100L / var41 + "% (" + var34 / 1024L / 1024L + "MB)";
             this.b(var8, var45, var6 - var8.a(var45) - 2, 12, 14737632);
-            this.b(var8, String.format("x: %.5f", new Object[]{Double.valueOf(this.d.g.t)}), 2, 64, 14737632);
+            var47 = jv.c(this.d.g.t);
+            var22 = jv.c(this.d.g.u);
+            var23 = jv.c(this.d.g.v);
+            this.b(var8, String.format("x: %.5f (%d) // c: %d (%d)", new Object[]{Double.valueOf(this.d.g.t), Integer.valueOf(var47), Integer.valueOf(var47 >> 4), Integer.valueOf(var47 & 15)}), 2, 64, 14737632);
             this.b(var8, String.format("y: %.3f (feet pos, %.3f eyes pos)", new Object[]{Double.valueOf(this.d.g.D.b), Double.valueOf(this.d.g.u)}), 2, 72, 14737632);
-            this.b(var8, String.format("z: %.5f", new Object[]{Double.valueOf(this.d.g.v)}), 2, 80, 14737632);
-            this.b(var8, "f: " + (ih.c((double) (this.d.g.z * 4.0F / 360.0F) + 0.5D) & 3), 2, 88, 14737632);
-            var47 = ih.c(this.d.g.t);
-            var22 = ih.c(this.d.g.u);
-            var23 = ih.c(this.d.g.v);
+            this.b(var8, String.format("z: %.5f (%d) // c: %d (%d)", new Object[]{Double.valueOf(this.d.g.v), Integer.valueOf(var23), Integer.valueOf(var23 >> 4), Integer.valueOf(var23 & 15)}), 2, 80, 14737632);
+            var24 = jv.c((double) (this.d.g.z * 4.0F / 360.0F) + 0.5D) & 3;
+            this.b(var8, "f: " + var24 + " (" + i.c[var24] + ") / " + jv.g(this.d.g.z), 2, 88, 14737632);
             if (this.d.e != null && this.d.e.e(var47, var22, var23)) {
-                wl var48 = this.d.e.d(var47, var23);
-                this.b(var8, "lc: " + (var48.h() + 15) + " b: " + var48.a(var47 & 15, var23 & 15, this.d.e.r()).y + " bl: " + var48.a(vb.b, var47 & 15, var22, var23 & 15) + " sl: " + var48.a(vb.a, var47 & 15, var22, var23 & 15) + " rl: " + var48.c(var47 & 15, var22, var23 & 15, 0), 2, 96, 14737632);
+                za var53 = this.d.e.d(var47, var23);
+                this.b(var8, "lc: " + (var53.h() + 15) + " b: " + var53.a(var47 & 15, var23 & 15, this.d.e.s()).y + " bl: " + var53.a(xq.b, var47 & 15, var22, var23 & 15) + " sl: " + var53.a(xq.a, var47 & 15, var22, var23 & 15) + " rl: " + var53.c(var47 & 15, var22, var23 & 15, 0), 2, 96, 14737632);
             }
 
-            this.b(var8, String.format("ws: %.3f, fs: %.3f, g: %b", new Object[]{Float.valueOf(this.d.g.bZ.b()), Float.valueOf(this.d.g.bZ.a()), Boolean.valueOf(this.d.g.E)}), 2, 104, 14737632);
+            this.b(var8, String.format("ws: %.3f, fs: %.3f, g: %b, fl: %d", new Object[]{Float.valueOf(this.d.g.cf.b()), Float.valueOf(this.d.g.cf.a()), Boolean.valueOf(this.d.g.E), Integer.valueOf(this.d.e.f(var47, var23))}), 2, 104, 14737632);
             GL11.glPopMatrix();
             this.d.I.b();
         }
@@ -339,33 +349,33 @@ public class aow extends aox {
             if (var12 > 0) {
                 GL11.glPushMatrix();
                 GL11.glTranslatef((float) (var6 / 2), (float) (var7 - 48), 0.0F);
-                GL11.glEnable(GL11.GL_BLEND);
-                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                var13 = 0xFFFFFF;
-                if (this.j) {
-                    var13 = Color.HSBtoRGB(var33 / 50.0F, 0.7F, 0.6F) & 0xFFFFFF;
+                GL11.glEnable(3042);
+                GL11.glBlendFunc(770, 771);
+                var13 = 16777215;
+                if (this.var_i) {
+                    var13 = Color.HSBtoRGB(var33 / 50.0F, 0.7F, 0.6F) & 16777215;
                 }
 
                 var8.b(this.g, -var8.a(this.g) / 2, -4, var13 + (var12 << 24));
-                GL11.glDisable(GL11.GL_BLEND);
+                GL11.glDisable(3042);
                 GL11.glPopMatrix();
             }
 
             this.d.I.b();
         }
 
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glDisable(GL11.GL_ALPHA_TEST);
+        GL11.glEnable(3042);
+        GL11.glBlendFunc(770, 771);
+        GL11.glDisable(3008);
         GL11.glPushMatrix();
         GL11.glTranslatef(0.0F, (float) (var7 - 48), 0.0F);
         this.d.I.a("chat");
         this.e.a(this.f);
         this.d.I.b();
         GL11.glPopMatrix();
-        if (this.d.y.I.e && (!this.d.A() || this.d.g.a.c.size() > 1)) {
+        if (this.d.y.L.e && (!this.d.A() || this.d.g.a.c.size() > 1)) {
             this.d.I.a("playerList");
-            asv var37 = this.d.g.a;
+            awr var37 = this.d.g.a;
             List var39 = var37.c;
             var13 = var37.d;
             var40 = var13;
@@ -386,74 +396,73 @@ public class aow extends aox {
             for (var19 = 0; var19 < var13; ++var19) {
                 var20 = var17 + var19 % var38 * var16;
                 var47 = var44 + var19 / var38 * 9;
-                a(var20, var47, var20 + var16 - 1, var47 + 8, 0x20FFFFFF);
+                a(var20, var47, var20 + var16 - 1, var47 + 8, 553648127);
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                GL11.glEnable(GL11.GL_ALPHA_TEST);
+                GL11.glEnable(3008);
                 if (var19 < var39.size()) {
-                    ath var46 = (ath) var39.get(var19);
-                    var8.a(var46.a, var20, var47, 0xFFFFFF);
+                    axd var46 = (axd) var39.get(var19);
+                    var8.a(var46.a, var20, var47, 16777215);
                     this.d.o.b(this.d.o.b("/gui/icons.png"));
-                    byte var51 = 0;
-                    boolean var49 = false;
-                    byte var50;
+                    byte var50 = 0;
+                    boolean var48 = false;
+                    byte var49;
                     if (var46.b < 0) {
-                        var50 = 5;
+                        var49 = 5;
                     } else if (var46.b < 150) {
-                        var50 = 0;
+                        var49 = 0;
                     } else if (var46.b < 300) {
-                        var50 = 1;
+                        var49 = 1;
                     } else if (var46.b < 600) {
-                        var50 = 2;
+                        var49 = 2;
                     } else if (var46.b < 1000) {
-                        var50 = 3;
+                        var49 = 3;
                     } else {
-                        var50 = 4;
+                        var49 = 4;
                     }
 
-                    this.i += 100.0F;
-                    this.b(var20 + var16 - 12, var47, 0 + var51 * 10, 176 + var50 * 8, 10, 8);
-                    this.i -= 100.0F;
+                    this.j += 100.0F;
+                    this.b(var20 + var16 - 12, var47, 0 + var50 * 10, 176 + var49 * 8, 10, 8);
+                    this.j -= 100.0F;
                 }
             }
         }
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        GL11.glDisable(2896);
+        GL11.glEnable(3008);
     }
 
     private void d() {
-        if (avw.a != null) {
-            nd var1 = avw.a;
-            avw.a = null;
-            aov var2 = this.d.p;
-            apo var3 = new apo(this.d.y, this.d.c, this.d.d);
-            int var4 = var3.a();
-            short var5 = 182;
-            int var6 = var4 / 2 - var5 / 2;
-            int var7 = (int) ((float) var1.i() / (float) var1.aM() * (float) (var5 + 1));
-            byte var8 = 12;
-            this.b(var6, var8, 0, 74, var5, 5);
-            this.b(var6, var8, 0, 74, var5, 5);
-            if (var7 > 0) {
-                this.b(var6, var8, 0, 79, var7, 5);
+        if (ayo.c != null && ayo.b > 0) {
+            --ayo.b;
+            asb var1 = this.d.p;
+            asx var2 = new asx(this.d.y, this.d.c, this.d.d);
+            int var3 = var2.a();
+            short var4 = 182;
+            int var5 = var3 / 2 - var4 / 2;
+            int var6 = (int) (ayo.a * (float) (var4 + 1));
+            byte var7 = 12;
+            this.b(var5, var7, 0, 74, var4, 5);
+            this.b(var5, var7, 0, 74, var4, 5);
+            if (var6 > 0) {
+                this.b(var5, var7, 0, 79, var6, 5);
             }
 
-            String var9 = "Boss health";
-            var2.a(var9, var4 / 2 - var2.a(var9) / 2, var8 - 10, 0xFF00FF);
+            String var8 = ayo.c;
+            var1.a(var8, var3 / 2 - var1.a(var8) / 2, var7 - 10, 16777215);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.d.o.b("/gui/icons.png"));
+            GL11.glBindTexture(3553, this.d.o.b("/gui/icons.png"));
         }
     }
 
     private void a(int var1, int var2) {
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDisable(2929);
         GL11.glDepthMask(false);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glBlendFunc(770, 771);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glDisable(GL11.GL_ALPHA_TEST);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.d.o.b("%blur%/misc/pumpkinblur.png"));
-        ave var3 = ave.a;
+        GL11.glDisable(3008);
+        GL11.glBindTexture(3553, this.d.o.b("%blur%/misc/pumpkinblur.png"));
+        azb var3 = azb.a;
         var3.b();
         var3.a(0.0D, (double) var2, -90.0D, 0.0D, 1.0D);
         var3.a((double) var1, (double) var2, -90.0D, 1.0D, 1.0D);
@@ -461,8 +470,8 @@ public class aow extends aox {
         var3.a(0.0D, 0.0D, -90.0D, 0.0D, 0.0D);
         var3.a();
         GL11.glDepthMask(true);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        GL11.glEnable(2929);
+        GL11.glEnable(3008);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
@@ -477,12 +486,12 @@ public class aow extends aox {
         }
 
         this.a = (float) ((double) this.a + (double) (var1 - this.a) * 0.01D);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDisable(2929);
         GL11.glDepthMask(false);
-        GL11.glBlendFunc(0, GL11.GL_ONE_MINUS_SRC_COLOR);
+        GL11.glBlendFunc(0, 769);
         GL11.glColor4f(this.a, this.a, this.a, 1.0F);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.d.o.b("%blur%/misc/vignette.png"));
-        ave var4 = ave.a;
+        GL11.glBindTexture(3553, this.d.o.b("%blur%/misc/vignette.png"));
+        azb var4 = azb.a;
         var4.b();
         var4.a(0.0D, (double) var3, -90.0D, 0.0D, 1.0D);
         var4.a((double) var2, (double) var3, -90.0D, 1.0D, 1.0D);
@@ -490,9 +499,9 @@ public class aow extends aox {
         var4.a(0.0D, 0.0D, -90.0D, 0.0D, 0.0D);
         var4.a();
         GL11.glDepthMask(true);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glEnable(2929);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glBlendFunc(770, 771);
     }
 
     private void b(float var1, int var2, int var3) {
@@ -502,17 +511,17 @@ public class aow extends aox {
             var1 = var1 * 0.8F + 0.2F;
         }
 
-        GL11.glDisable(GL11.GL_ALPHA_TEST);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDisable(3008);
+        GL11.glDisable(2929);
         GL11.glDepthMask(false);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glBlendFunc(770, 771);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, var1);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.d.o.b("/terrain.png"));
-        float var4 = (float) (aig.be.bZ % 16) / 16.0F;
-        float var5 = (float) (aig.be.bZ / 16) / 16.0F;
-        float var6 = (float) (aig.be.bZ % 16 + 1) / 16.0F;
-        float var7 = (float) (aig.be.bZ / 16 + 1) / 16.0F;
-        ave var8 = ave.a;
+        GL11.glBindTexture(3553, this.d.o.b("/terrain.png"));
+        float var4 = (float) (alf.bh.cl % 16) / 16.0F;
+        float var5 = (float) (alf.bh.cl / 16) / 16.0F;
+        float var6 = (float) (alf.bh.cl % 16 + 1) / 16.0F;
+        float var7 = (float) (alf.bh.cl / 16 + 1) / 16.0F;
+        azb var8 = azb.a;
         var8.b();
         var8.a(0.0D, (double) var3, -90.0D, (double) var4, (double) var7);
         var8.a((double) var2, (double) var3, -90.0D, (double) var6, (double) var7);
@@ -520,13 +529,13 @@ public class aow extends aox {
         var8.a(0.0D, 0.0D, -90.0D, (double) var4, (double) var5);
         var8.a();
         GL11.glDepthMask(true);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        GL11.glEnable(2929);
+        GL11.glEnable(3008);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     private void a(int var1, int var2, int var3, float var4) {
-        rj var5 = this.d.g.by.a[var1];
+        tv var5 = this.d.g.bK.a[var1];
         if (var5 != null) {
             float var6 = (float) var5.b - var4;
             if (var6 > 0.0F) {
@@ -537,12 +546,12 @@ public class aow extends aox {
                 GL11.glTranslatef((float) (-(var2 + 8)), (float) (-(var3 + 12)), 0.0F);
             }
 
-            b.a(this.d.p, this.d.o, var5, var2, var3);
+            b.b(this.d.p, this.d.o, var5, var2, var3);
             if (var6 > 0.0F) {
                 GL11.glPopMatrix();
             }
 
-            b.b(this.d.p, this.d.o, var5, var2, var3);
+            b.c(this.d.p, this.d.o, var5, var2, var3);
         }
     }
 
@@ -557,10 +566,10 @@ public class aow extends aox {
     public void a(String var1) {
         this.g = "Now playing: " + var1;
         this.h = 60;
-        this.j = true;
+        this.var_i = true;
     }
 
-    public aoi b() {
+    public arm b() {
         return this.e;
     }
 

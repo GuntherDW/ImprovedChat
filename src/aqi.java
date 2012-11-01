@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class anf {
+public class aqi {
 
-    public static List<anf> a = new ArrayList<anf>();
-    public static ic b = new ic();
+    public static List<aqi> a = new ArrayList<aqi>();
+    public static jq b = new jq();
     public String c;
     public int d;
     public boolean e;
@@ -15,7 +15,7 @@ public class anf {
 
 
     public static void a(int var0) {
-        anf var1 = (anf)b.a(var0);
+        aqi var1 = (aqi)b.a(var0);
         if(var1 != null) {
             ++var1.f;
         }
@@ -23,12 +23,12 @@ public class anf {
     }
 
     public static void a(int var0, boolean var1) {
-        anf var2 = (anf)b.a(var0);
+        aqi var2 = (aqi)b.a(var0);
         if(var2 != null) {
             var2.e = var1;
         }
 
-        if (ImprovedChat.minecraft.e.K) {
+        if (ImprovedChat.minecraft.e.J) {
             if (!var1) {
                 ImprovedChat.keyPressed(var0);
             } else if ((Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) && Keyboard.isKeyDown(Keyboard.KEY_TAB)) {
@@ -46,7 +46,7 @@ public class anf {
         Iterator var0 = a.iterator();
 
         while(var0.hasNext()) {
-            anf var1 = (anf)var0.next();
+            aqi var1 = (aqi)var0.next();
             var1.d();
         }
 
@@ -57,13 +57,13 @@ public class anf {
         Iterator var0 = a.iterator();
 
         while(var0.hasNext()) {
-            anf var1 = (anf)var0.next();
+            aqi var1 = (aqi)var0.next();
             b.a(var1.d, var1);
         }
 
     }
 
-    public anf(String var1, int var2) {
+    public aqi(String var1, int var2) {
         this.c = var1;
         this.d = var2;
         a.add(this);

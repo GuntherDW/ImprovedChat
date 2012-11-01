@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ane {
+public class aqh {
 
     private final int a;
     private final String b;
@@ -16,28 +16,28 @@ public class ane {
     private static SimpleDateFormat prefix = null;
     private static SimpleDateFormat sufix = null;
 
-    public ane(int var1, String var2, int var3) {
+    public aqh(int var1, String var2, int var3) {
         this.b = var2;
         this.a = var1;
         this.c = var3;
         this.writeLog();
     }
 
-    public ane(int var1, String var2) {
+    public aqh(int var1, String var2) {
         this.b = var2;
         this.a = var1;
         this.c = 0;
         this.writeLog();
     }
 
-    public ane(String line) {
+    public aqh(String line) {
         this.b = line;
         this.a = ImprovedChat.minecraft.v.c();
         this.c = 0;
         this.writeLog();
     }
 
-    public ane(String line, String tabName) {
+    public aqh(String line, String tabName) {
         this.b = line;
         this.a = 0;
         this.c = 0;

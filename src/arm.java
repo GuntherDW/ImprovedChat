@@ -1,10 +1,11 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
-public class aoi extends aox {
+public class arm extends asd {
 
     private final Minecraft a;
     private final List b = new ArrayList();
@@ -13,7 +14,7 @@ public class aoi extends aox {
     private boolean e = false;
 
 
-    public aoi(Minecraft var1) {
+    public arm(Minecraft var1) {
         this.a = var1;
     }
 
@@ -22,7 +23,7 @@ public class aoi extends aox {
             byte var2 = ImprovedChat.ChatLinesSmall;
             boolean var3 = false;
             int var4 = 0;
-            int var5 = getImprovedLines().size();
+            int var5 = this.c.size();
             float var6 = this.a.y.r * 0.9F + 0.1F;
             if (var5 > 0) {
 
@@ -74,7 +75,7 @@ public class aoi extends aox {
     }
 
     public void b(String var1) {
-        if(this.b.isEmpty() || !((String)this.b.get(this.b.size() - 1)).equals(var1)) {
+        if (this.b.isEmpty() || !((String) this.b.get(this.b.size() - 1)).equals(var1)) {
             this.b.add(var1);
         }
 
@@ -87,32 +88,31 @@ public class aoi extends aox {
 
     public void b(int var1) {
         this.d += var1;
-        int var2 = getImprovedLines().size();
+        int var2 = this.c.size();
         if (this.d > var2 - 20) {
             this.d = var2 - 20;
         }
 
-        if(this.d <= 0) {
+        if (this.d <= 0) {
             this.d = 0;
             this.e = false;
         }
 
-        ImprovedChat.currentTab().chatScroll = this.d;
     }
 
-    public aoy a(int var1, int var2) {
-        if(!this.d()) {
+    public ase a(int var1, int var2) {
+        if (!this.d()) {
             return null;
         } else {
-            apo var3 = new apo(this.a.y, this.a.c, this.a.d);
+            asx var3 = new asx(this.a.y, this.a.c, this.a.d);
             int var4 = var3.e();
             int var5 = var1 / var4 - 3;
             int var6 = var2 / var4 - 40;
             if (var5 >= 0 && var6 >= 0) {
-                int var7 = Math.min(ImprovedChat.ChatLinesBig, getImprovedLines().size());
+                int var7 = Math.min(ImprovedChat.ChatLinesBig, this.c.size());
                 if (var5 <= 320 && var6 < this.a.p.b * var7 + var7) {
                     int var8 = var6 / (this.a.p.b + 1) + this.d;
-                    return new aoy(this.a.p, (ane) getImprovedLines().get(var8), var5, var6 - (var8 - this.d) * this.a.p.b + var8);
+                    return new ase(this.a.p, (aqh) this.c.get(var8), var5, var6 - (var8 - this.d) * this.a.p.b + var8);
                 } else {
                     return null;
                 }
@@ -122,35 +122,35 @@ public class aoi extends aox {
         }
     }
 
-    public void a(String var1, Object ... var2) {
-        this.a(ak.a().a(var1, var2));
+    public void a(String var1, Object... var2) {
+        this.a(be.a().a(var1, var2));
     }
 
     public boolean d() {
-        return this.a.r instanceof aok;
+        return this.a.r instanceof aro;
     }
 
     public void c(int var1) {
-        Iterator<ane> var2 = this.b.iterator();
+        Iterator var2 = this.c.iterator();
 
-        ane var3;
+        aqh var3;
         do {
-            if(!var2.hasNext()) {
+            if (!var2.hasNext()) {
                 return;
             }
 
-            var3 = var2.next();
-        } while(var3.c() != var1);
+            var3 = (aqh) var2.next();
+        } while (var3.c() != var1);
 
         var2.remove();
     }
 
-    public void addChatLine(ane line) {
+    public void addChatLine(aqh line) {
         this.c.add(line);
         this.b.add(line.a());
     }
 
-    private List<ane> getImprovedLines() {
+    private List<aqh> getImprovedLines() {
         return ImprovedChat.currentTab().e;
     }
 
