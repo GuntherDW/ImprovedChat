@@ -98,6 +98,8 @@ public class arm extends asd {
             this.e = false;
         }
 
+        ImprovedChat.currentTab().chatScroll = this.d;
+
     }
 
     public ase a(int var1, int var2) {
