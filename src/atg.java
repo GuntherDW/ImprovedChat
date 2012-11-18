@@ -4,9 +4,9 @@ import org.lwjgl.opengl.GL11;
 import java.util.Iterator;
 import java.util.List;
 
-public class ary extends asd {
+public class atg extends atl {
 
-    public final asb fontrenderer; // ImprovedChat private -> public
+    private final atj fontrenderer;
     private final int b;
     private final int c;
     private final int d;
@@ -14,7 +14,7 @@ public class ary extends asd {
     private String f = "";
     private int g = 32;
     public int h; // ImprovedChat private -> public
-    private boolean j = true;
+    private boolean i = true;
     private boolean k = true;
     private boolean var_l = false;
     private boolean var_m = true;
@@ -26,7 +26,7 @@ public class ary extends asd {
     private boolean s = true;
 
 
-    public ary(asb var1, int var2, int var3, int var4, int var5) {
+    public atg(atj var1, int var2, int var3, int var4, int var5) {
         this.fontrenderer = var1;
         this.b = var2;
         this.c = var3;
@@ -36,10 +36,6 @@ public class ary extends asd {
 
     public void a() {
         ++this.h;
-    }
-
-    public void h(int var1) {
-        this.r = var1;
     }
 
     public void a(String var1) {
@@ -56,10 +52,6 @@ public class ary extends asd {
         return this.f;
     }
 
-    public void c(boolean var1) {
-        this.var_m = var1;
-    }
-
     public String c() {
         int var1 = this.o < this.p ? this.o : this.p;
         int var2 = this.o < this.p ? this.p : this.o;
@@ -68,7 +60,7 @@ public class ary extends asd {
 
     public void b(String var1) {
         String var2 = "";
-        String var3 = m.a(var1);
+        String var3 = u.a(var1);
         int var4 = this.o < this.p ? this.o : this.p;
         int var5 = this.o < this.p ? this.p : this.o;
         int var6 = this.g - this.f.length() - (var4 - this.p);
@@ -202,19 +194,19 @@ public class ary extends asd {
                     this.i(0);
                     return true;
                 case 3:
-                    asw.d(this.c());
+                    aue.d(this.c());
                     return true;
                 case 22:
-                    this.b(asw.l());
+                    this.b(aue.l());
                     return true;
                 case 24:
-                    asw.d(this.c());
+                    aue.d(this.c());
                     this.b("");
                     return true;
                 default:
                     switch (var2) {
                         case Keyboard.KEY_BACK:
-                            if (asw.o()) {
+                            if (aue.o()) {
                                 this.a(-1);
                             } else {
                                 this.b(-1);
@@ -222,7 +214,7 @@ public class ary extends asd {
 
                             return true;
                         case Keyboard.KEY_HOME:
-                            if (asw.p()) {
+                            if (aue.p()) {
                                 this.i(0);
                             } else {
                                 this.d();
@@ -230,13 +222,13 @@ public class ary extends asd {
 
                             return true;
                         case Keyboard.KEY_LEFT:
-                            if (asw.p()) {
-                                if (asw.o()) {
+                            if (aue.p()) {
+                                if (aue.o()) {
                                     this.i(this.a((int) -1, this.n()));
                                 } else {
                                     this.i(this.n() - 1);
                                 }
-                            } else if (asw.o()) {
+                            } else if (aue.o()) {
                                 this.e(this.c(-1));
                             } else {
                                 this.d(-1);
@@ -244,13 +236,13 @@ public class ary extends asd {
 
                             return true;
                         case Keyboard.KEY_RIGHT:
-                            if (asw.p()) {
-                                if (asw.o()) {
+                            if (aue.p()) {
+                                if (aue.o()) {
                                     this.i(this.a((int) 1, this.n()));
                                 } else {
                                     this.i(this.n() + 1);
                                 }
-                            } else if (asw.o()) {
+                            } else if (aue.o()) {
                                 this.e(this.c(1));
                             } else {
                                 this.d(1);
@@ -258,7 +250,7 @@ public class ary extends asd {
 
                             return true;
                         case Keyboard.KEY_END:
-                            if (asw.p()) {
+                            if (aue.p()) {
                                 this.i(this.f.length());
                             } else {
                                 this.e();
@@ -266,7 +258,7 @@ public class ary extends asd {
 
                             return true;
                         case Keyboard.KEY_DELETE:
-                            if (asw.o()) {
+                            if (aue.o()) {
                                 this.a(1);
                             } else {
                                 this.b(1);
@@ -274,7 +266,7 @@ public class ary extends asd {
 
                             return true;
                         default:
-                            if (m.a(var1)) {
+                            if (u.a(var1)) {
                                 this.b(Character.toString(var1));
                                 return true;
                             } else {
@@ -295,7 +287,7 @@ public class ary extends asd {
 
         if (this.var_l && var3 == 0) {
             int var5 = var1 - this.b;
-            if (this.j) {
+            if (this.i) {
                 var5 -= 4;
             }
 
@@ -312,7 +304,7 @@ public class ary extends asd {
             if (ImprovedChat.getCurrentServer() != null && ImprovedChat.getCurrentServer().ChatMode != null)
                 cm = ImprovedChat.getCurrentServer().ChatMode + " ";
 
-            int len = cm != null && !this.j ? fontrenderer.a(ImprovedChat.stripColors(cm)) : 0;
+            int len = cm != null && !this.i ? fontrenderer.a(ImprovedChat.stripColors(cm)) : 0;
 
             if (this.i()) {
                 a(this.b - 1, this.c - 1, this.b + this.d + 1, this.c + this.e + 1, 0xffa0a0a0);
@@ -330,8 +322,8 @@ public class ary extends asd {
             String var4 = this.f;
             boolean var5 = var2 >= 0 && var2 <= var4.length();
             boolean var6 = this.var_l && this.h / 6 % 2 == 0 && var5;
-            int var7 = this.j ? this.b + 4 : this.b;
-            int var8 = this.j ? this.c + (this.e - 8) / 2 : this.c;
+            int var7 = this.i ? this.b + 4 : this.b;
+            int var8 = this.i ? this.c + (this.e - 8) / 2 : this.c;
             int var9 = var7;
             var7 += len;
 
@@ -381,16 +373,16 @@ public class ary extends asd {
             Iterator<String> var12 = vl.iterator();
             int size = vl.size();
 
-            int height = this.j ? this.c + (this.e - 8) / 2 : (this.c + 12) - 4 - (size <= 0 ? 1 : size) * 12;
+            int height = this.i ? this.c + (this.e - 8) / 2 : (this.c + 12) - 4 - (size <= 0 ? 1 : size) * 12;
 
             if (!this.i()) this.a(this.b - 1, height, this.b + this.d - 4, (this.c + 12) - 2, bg);
 
             while (var12.hasNext()) {
                 String wheel = var12.next();
 
-                if (!this.j)
-                    this.fontrenderer.a(cm, this.j ? this.b + 4 : this.b, (this.c + 12) - 12 * size, var1);// 14737632);
-                this.fontrenderer.a(wheel, var7, this.j ? var8 + this.fontrenderer.b - 10 : (this.c + 12) - 12 * size, var1);// 14737632);
+                if (!this.i)
+                    this.fontrenderer.a(cm, this.i ? this.b + 4 : this.b, (this.c + 12) - 12 * size, var1);// 14737632);
+                this.fontrenderer.a(wheel, var7, this.i ? var8 + this.fontrenderer.b - 10 : (this.c + 12) - 12 * size, var1);// 14737632);
 
                 size--;
             }
@@ -412,19 +404,19 @@ public class ary extends asd {
             var4 = var5;
         }
 
-        azb var6 = azb.a;
+        bao var6 = bao.a;
         GL11.glColor4f(0.0F, 0.0F, 255.0F, 255.0F);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glEnable(GL11.GL_COLOR_LOGIC_OP);
-        GL11.glLogicOp(GL11.GL_OR_REVERSE);
+        GL11.glDisable(3553);
+        GL11.glEnable(3058);
+        GL11.glLogicOp(5387);
         var6.b();
         var6.a((double) var1, (double) var4, 0.0D);
         var6.a((double) var3, (double) var4, 0.0D);
         var6.a((double) var3, (double) var2, 0.0D);
         var6.a((double) var1, (double) var2, 0.0D);
         var6.a();
-        GL11.glDisable(GL11.GL_COLOR_LOGIC_OP);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(3058);
+        GL11.glEnable(3553);
     }
 
     public void f(int var1) {
@@ -444,15 +436,19 @@ public class ary extends asd {
     }
 
     public boolean i() {
-        return this.j;
+        return this.i;
     }
 
     public void a(boolean var1) {
-        this.j = var1;
+        this.i = var1;
     }
 
     public void g(int var1) {
         this.q = var1;
+    }
+
+    public void h(int var1) {
+        this.r = var1;
     }
 
     public void b(boolean var1) {
@@ -465,6 +461,10 @@ public class ary extends asd {
 
     public boolean l() {
         return this.var_l;
+    }
+
+    public void c(boolean var1) {
+        this.var_m = var1;
     }
 
     public int n() {

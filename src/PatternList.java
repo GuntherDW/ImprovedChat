@@ -51,7 +51,7 @@ public class PatternList {
         if (from >= 0 && from <= this.list.size()) {
             if (to >= 0 && to <= this.list.size()) {
                 this.list.add(to, this.list.remove(from));
-                return "Move: Rule succesfully moved";
+                return "Move: Rule successfully moved";
             } else {
                 return "Move: Second index out of range";
             }

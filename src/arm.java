@@ -1,159 +1,179 @@
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
-import org.lwjgl.opengl.GL11;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
-public class arm extends asd {
+public class arm {
 
-    private final Minecraft a;
-    private final List b = new ArrayList();
-    private final List c = new ArrayList();
-    public int d = 0; // ImprovedChat private -> public
-    private boolean e = false;
+    private final int a;
+    private final String b;
+    private final int c;
 
+    private static Map<String, BufferedWriter> out = new HashMap<String, BufferedWriter>();
+    private static SimpleDateFormat prefix = null;
+    private static SimpleDateFormat sufix = null;
 
-    public arm(Minecraft var1) {
+    public arm(int var1, String var2, int var3) {
+        this.b = var2;
         this.a = var1;
+        this.c = var3;
+        this.writeLog();
     }
 
-    public void a(int var1) {
-        if (this.a.y.n != 2) {
-            byte var2 = ImprovedChat.ChatLinesSmall;
-            boolean var3 = false;
-            int var4 = 0;
-            int var5 = this.c.size();
-            float var6 = this.a.y.r * 0.9F + 0.1F;
-            if (var5 > 0) {
-
-                int var7, var9, var12;
-
-                if (this.d()) {
-                    var2 = ImprovedChat.ChatLinesBig; /* ChatLinesBig */
-                    var3 = true;
-                }
-
-                var4 = ImprovedChat.handle_draw(this, a.p, var3, var2, var1);
-
-                if (var3) {
-                    var7 = this.a.p.b;
-                    GL11.glTranslatef(0.0F, (float) var7, 0.0F);
-                    int var16 = var5 * var7 + var5;
-                    var9 = var4 * var7 + var4;
-                    int var17 = this.d * var9 / var5;
-                    int var11 = var9 * var9 / var16;
-                    if (var16 != var9) {
-                        var12 = var17 > 0 ? 170 : 96;
-                        int var18 = this.e ? 13382451 : 3355562;
-                        a(0, -var17, 2, -var17 - var11, var18 + (var12 << 24));
-                        a(2, -var17, 1, -var17 - var11, 13421772 + (var12 << 24));
-                    }
-                }
-            }
-        }
+    public arm(int var1, String var2) {
+        this.b = var2;
+        this.a = var1;
+        this.c = 0;
+        this.writeLog();
     }
 
-    public void a() {
-        this.c.clear();
-        this.b.clear();
-    }
-
-    public void a(String var1) {
-        this.a(var1, 0);
-    }
-
-    public void a(String var1, int var2) {
-        if(var2 != 0)
-            this.c(var2);
-
-        ImprovedChat.receiveLine(var1, this.a.v.c(), var2);
-    }
-
-    public List b() {
+    public String a() {
         return this.b;
     }
 
-    public void b(String var1) {
-        if (this.b.isEmpty() || !((String) this.b.get(this.b.size() - 1)).equals(var1)) {
-            this.b.add(var1);
-        }
-
+    public int b() {
+        return this.a;
     }
 
-    public void c() {
-        this.d = 0;
-        this.e = false;
+    public int c() {
+        return this.c;
     }
 
-    public void b(int var1) {
-        this.d += var1;
-        int var2 = this.c.size();
-        if (this.d > var2 - 20) {
-            this.d = var2 - 20;
+    private void writeLog() {
+        try {
+            String line = ImprovedChat.stripColors(this.b);
+            // line = line.replaceAll("\u00a7[0123456789abcdefABCDEF]", "");
+            BufferedWriter e = this.getOut();
+            Date now = Calendar.getInstance().getTime();
+            e.write(prefix.format(now) + line + sufix.format(now));
+            e.flush();
+        } catch (Exception var4) {
+            System.err.println("Error: " + var4.getMessage());
+            var4.printStackTrace();
         }
-
-        if (this.d <= 0) {
-            this.d = 0;
-            this.e = false;
-        }
-
-        ImprovedChat.currentTab().chatScroll = this.d;
-
     }
 
-    public ase a(int var1, int var2) {
-        if (!this.d()) {
-            return null;
+    private BufferedWriter getOut() {
+
+        String serverName = ImprovedChat.getCurrentServer().name;
+
+        if(out != null && out.containsKey(serverName)) {
+            return out.get(serverName);
         } else {
-            asx var3 = new asx(this.a.y, this.a.c, this.a.d);
-            int var4 = var3.e();
-            int var5 = var1 / var4 - 3;
-            int var6 = var2 / var4 - 40;
-            if (var5 >= 0 && var6 >= 0) {
-                int var7 = Math.min(ImprovedChat.ChatLinesBig, this.c.size());
-                if (var5 <= 320 && var6 < this.a.p.b * var7 + var7) {
-                    int var8 = var6 / (this.a.p.b + 1) + this.d;
-                    return new ase(this.a.p, (aqh) this.c.get(var8), var5, var6 - (var8 - this.d) * this.a.p.b + var8);
+
+            File modDir = new File(Minecraft.a("minecraft"), "mods" + File.separator + "wd1966");
+            File config = new File(modDir, "ChatLogger.conf");
+            String lineFormat = "EEE, d MMM yyyy HH:mm:ss \'-\' $line\'\n\'";
+            BufferedWriter bwrit = null;
+            File log = null;
+            if(!modDir.exists()) {
+                modDir.mkdirs();
+            }
+
+            try {
+                if(modDir.exists()) {
+                    if(config.exists()) {
+                        BufferedReader e = new BufferedReader(new FileReader(config));
+
+                        String line;
+                        while((line = e.readLine()) != null) {
+                            if(!line.startsWith("#")) {
+                                String[] split = line.split("=", 2);
+                                if(split.length == 2) {
+                                    if(split[0].equalsIgnoreCase("format")) {
+                                        lineFormat = this.unescape(split[1]);
+                                    }
+
+                                    if(split[0].equalsIgnoreCase("destination")) {
+                                        String dest_log_string = split[1];
+                                        dest_log_string = dest_log_string.replaceAll("%server%", serverName)/*.replaceAll("%tab%", ImprovedChat.currentTab().name)*/;
+                                        log = new File(dest_log_string);
+                                    }
+                                }
+                            }
+                        }
+
+                        e.close();
+                    } else {
+                        // log = new File(modDir, "chat"+(tabName!=null?"-%server%")+".log");
+                        log = new File(modDir, "chat-%server%.log");
+                        PrintWriter e1 = new PrintWriter(config);
+                        e1.println("#Config file for chat logger");
+                        e1.println("format=" + this.escape(lineFormat));
+                        e1.println("destination=" + log.getAbsolutePath());
+                        log = new File(log.getAbsolutePath().replaceAll("%server", serverName));
+                        e1.close();
+                    }
+
+                    int e2 = lineFormat.indexOf("$line");
+                    if(e2 < 0) {
+                        e2 = 0;
+                    }
+
+                    bwrit = new BufferedWriter(new FileWriter(log, true));
+                    prefix = new SimpleDateFormat(lineFormat.substring(0, e2));
+                    sufix = new SimpleDateFormat(lineFormat.substring(e2 + 5));
                 } else {
-                    return null;
+                    bwrit = new BufferedWriter(new FileWriter("chatlog.txt", true));
+                    prefix = new SimpleDateFormat("");
+                    sufix = new SimpleDateFormat("");
+                }
+            } catch (IOException var8) {
+                var8.printStackTrace();
+            }
+
+            if(bwrit!=null)
+                out.put(ImprovedChat.getCurrentServer().name, bwrit);
+
+            return bwrit;
+        }
+    }
+
+    private String escape(String line) {
+        StringBuffer o = new StringBuffer();
+
+        for(int i = 0; i < line.length(); ++i) {
+            char ch = line.charAt(i);
+            if(ch == 10) {
+                o.append("\\n");
+            } else if(ch == 13) {
+                o.append("\\r");
+            } else if(ch == 12) {
+                o.append("\\f");
+            } else {
+                o.append(ch);
+            }
+        }
+
+        return o.toString();
+    }
+
+    private String unescape(String line) {
+        StringBuffer o = new StringBuffer();
+
+        for(int i = 0; i < line.length(); ++i) {
+            char ch = line.charAt(i);
+            if(ch == 92 && i + 1 < line.length()) {
+                ++i;
+                ch = line.charAt(i);
+                if(ch == 110) {
+                    o.append("\n");
+                } else if(ch == 114) {
+                    o.append("\r");
+                // } else if(ch == 102) {
+                } else if(ch == 102) {
+                    o.append("\f");
+                } else {
+                    o.append("\\" + ch);
                 }
             } else {
-                return null;
+                o.append(ch);
             }
         }
+
+        return o.toString();
     }
-
-    public void a(String var1, Object... var2) {
-        this.a(be.a().a(var1, var2));
-    }
-
-    public boolean d() {
-        return this.a.r instanceof aro;
-    }
-
-    public void c(int var1) {
-        Iterator var2 = this.c.iterator();
-
-        aqh var3;
-        do {
-            if (!var2.hasNext()) {
-                return;
-            }
-
-            var3 = (aqh) var2.next();
-        } while (var3.c() != var1);
-
-        var2.remove();
-    }
-
-    public void addChatLine(aqh line) {
-        this.c.add(line);
-        this.b.add(line.a());
-    }
-
-    private List<aqh> getImprovedLines() {
-        return ImprovedChat.currentTab().e;
-    }
-
 }

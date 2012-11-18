@@ -5,12 +5,12 @@ import java.util.Random;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
-public class asc extends asd {
+public class atk extends atl {
 
-    private static final bag b = new bag();
+    private static final bbt b = new bbt();
     private final Random c = new Random();
     private final Minecraft d;
-    private final arm e;
+    private final asu e;
     private int f = 0;
     private String g = "";
     private int h = 0;
@@ -18,17 +18,17 @@ public class asc extends asd {
     public float a = 1.0F;
 
 
-    public asc(Minecraft var1) {
+    public atk(Minecraft var1) {
         this.d = var1;
-        this.e = new arm(var1);
+        this.e = new asu(var1);
         ImprovedChat.init(var1);
     }
 
     public void a(float var1, boolean var2, int var3, int var4) {
-        asx var5 = new asx(this.d.y, this.d.c, this.d.d);
+        auf var5 = new auf(this.d.y, this.d.c, this.d.d);
         int var6 = var5.a();
         int var7 = var5.b();
-        asb var8 = this.d.p;
+        atj var8 = this.d.p;
         this.d.t.c();
         GL11.glEnable(3042);
         if (Minecraft.t()) {
@@ -37,13 +37,13 @@ public class asc extends asd {
             GL11.glBlendFunc(770, 771);
         }
 
-        tv var9 = this.d.g.bK.f(3);
-        if (this.d.y.S == 0 && var9 != null && var9.c == alf.bd.cm) {
+        um var9 = this.d.g.bI.f(3);
+        if (this.d.y.T == 0 && var9 != null && var9.c == amj.bd.cm) {
             this.a(var6, var7);
         }
 
-        if (!this.d.g.a(kw.k)) {
-            float var10 = this.d.g.cm + (this.d.g.j - this.d.g.cm) * var1;
+        if (!this.d.g.a(ll.k)) {
+            float var10 = this.d.g.cj + (this.d.g.j - this.d.g.cj) * var1;
             if (var10 > 0.0F) {
                 this.b(var10, var6, var7);
             }
@@ -63,7 +63,7 @@ public class asc extends asd {
         if (!this.d.b.a()) {
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glBindTexture(3553, this.d.o.b("/gui/gui.png"));
-            qf var31 = this.d.g.bK;
+            qw var31 = this.d.g.bI;
             this.j = -90.0F;
             this.b(var6 / 2 - 91, var7 - 22, 0, 0, 182, 22);
             this.b(var6 / 2 - 91 - 1 + var31.c * 20, var7 - 22 - 1, 0, 22, 24, 22);
@@ -77,11 +77,11 @@ public class asc extends asd {
                 var11 = false;
             }
 
-            var12 = this.d.g.aT();
+            var12 = this.d.g.aU();
             var13 = this.d.g.aR;
             this.c.setSeed((long) (this.f * 312871));
             boolean var14 = false;
-            qx var15 = this.d.g.bZ();
+            ro var15 = this.d.g.cd();
             var16 = var15.a();
             var17 = var15.b();
             this.d.I.a("bossHealth");
@@ -92,10 +92,10 @@ public class asc extends asd {
                 var18 = var6 / 2 - 91;
                 var19 = var6 / 2 + 91;
                 this.d.I.a("expBar");
-                var20 = this.d.g.bY();
+                var20 = this.d.g.cc();
                 if (var20 > 0) {
                     short var21 = 182;
-                    var22 = (int) (this.d.g.ci * (float) (var21 + 1));
+                    var22 = (int) (this.d.g.cf * (float) (var21 + 1));
                     var23 = var7 - 32 + 3;
                     this.b(var18, var23, 0, 64, var21, 5);
                     if (var22 > 0) {
@@ -105,9 +105,9 @@ public class asc extends asd {
 
                 var47 = var7 - 39;
                 var22 = var47 - 10;
-                var23 = this.d.g.aU();
+                var23 = this.d.g.aW();
                 var24 = -1;
-                if (this.d.g.a(kw.l)) {
+                if (this.d.g.a(ll.l)) {
                     var24 = this.f % 25;
                 }
 
@@ -134,9 +134,9 @@ public class asc extends asd {
                     }
 
                     var26 = 16;
-                    if (this.d.g.a(kw.u)) {
+                    if (this.d.g.a(ll.u)) {
                         var26 += 36;
-                    } else if (this.d.g.a(kw.v)) {
+                    } else if (this.d.g.a(ll.v)) {
                         var26 += 72;
                     }
 
@@ -156,7 +156,7 @@ public class asc extends asd {
                     }
 
                     byte var30 = 0;
-                    if (this.d.e.J().t()) {
+                    if (this.d.e.K().t()) {
                         var30 = 5;
                     }
 
@@ -187,12 +187,12 @@ public class asc extends asd {
                     var26 = var47;
                     var51 = 16;
                     byte var52 = 0;
-                    if (this.d.g.a(kw.s)) {
+                    if (this.d.g.a(ll.s)) {
                         var51 += 36;
                         var52 = 13;
                     }
 
-                    if (this.d.g.bZ().e() <= 0.0F && this.f % (var16 * 3 + 1) == 0) {
+                    if (this.d.g.cd().e() <= 0.0F && this.f % (var16 * 3 + 1) == 0) {
                         var26 = var47 + (this.c.nextInt(3) - 1);
                     }
 
@@ -222,10 +222,10 @@ public class asc extends asd {
                 }
 
                 this.d.I.c("air");
-                if (this.d.g.a(afg.h)) {
+                if (this.d.g.a(agb.h)) {
                     var25 = this.d.g.al();
-                    var26 = jv.f((double) (var25 - 2) * 10.0D / 300.0D);
-                    var51 = jv.f((double) var25 * 10.0D / 300.0D) - var26;
+                    var26 = ke.f((double) (var25 - 2) * 10.0D / 300.0D);
+                    var51 = ke.f((double) var25 * 10.0D / 300.0D) - var26;
 
                     for (var28 = 0; var28 < var26 + var51; ++var28) {
                         if (var28 < var26) {
@@ -242,7 +242,7 @@ public class asc extends asd {
             GL11.glDisable(3042);
             this.d.I.a("actionBar");
             GL11.glEnable('\u803a');
-            aqj.c();
+            aro.c();
 
             for (var18 = 0; var18 < 9; ++var18) {
                 var19 = var6 / 2 - 90 + var18 * 20 + 2;
@@ -250,17 +250,17 @@ public class asc extends asd {
                 this.a(var18, var19, var20, var1);
             }
 
-            aqj.a();
+            aro.a();
             GL11.glDisable('\u803a');
             this.d.I.b();
         }
 
         float var33;
-        if (this.d.g.bV() > 0) {
+        if (this.d.g.bZ() > 0) {
             this.d.I.a("sleep");
             GL11.glDisable(2929);
             GL11.glDisable(3008);
-            int var32 = this.d.g.bV();
+            int var32 = this.d.g.bZ();
             var33 = (float) var32 / 100.0F;
             if (var33 > 1.0F) {
                 var33 = 1.0F - (float) (var32 - 100) / 10.0F;
@@ -275,11 +275,11 @@ public class asc extends asd {
 
         int var38;
         int var40;
-        if (this.d.b.f() && this.d.g.cg > 0) {
+        if (this.d.b.f() && this.d.g.cd > 0) {
             this.d.I.a("expLevel");
             var11 = false;
             var12 = var11 ? 16777215 : 8453920;
-            String var35 = "" + this.d.g.cg;
+            String var35 = "" + this.d.g.cd;
             var40 = (var6 - var8.a(var35)) / 2;
             var38 = var7 - 31 - 4;
             var8.b(var35, var40 + 1, var38, 0);
@@ -293,10 +293,10 @@ public class asc extends asd {
         if (this.d.q()) {
             this.d.I.a("demo");
             String var36 = "";
-            if (this.d.e.E() >= 120500L) {
-                var36 = bd.a("demo.demoExpired");
+            if (this.d.e.F() >= 120500L) {
+                var36 = bm.a("demo.demoExpired");
             } else {
-                var36 = String.format(bd.a("demo.remainingTime"), new Object[]{kd.a((int) (120500L - this.d.e.E()))});
+                var36 = String.format(bm.a("demo.remainingTime"), new Object[]{km.a((int) (120500L - this.d.e.F()))});
             }
 
             var12 = var8.a(var36);
@@ -304,10 +304,10 @@ public class asc extends asd {
             this.d.I.b();
         }
 
-        if (this.d.y.T) {
+        if (this.d.y.U) {
             this.d.I.a("debug");
             GL11.glPushMatrix();
-            var8.a("Minecraft 1.4.2 (" + this.d.K + ")", 2, 2, 16777215);
+            var8.a("Minecraft 1.4.5 (" + this.d.K + ")", 2, 2, 16777215);
             var8.a(this.d.m(), 2, 12, 16777215);
             var8.a(this.d.n(), 2, 22, 16777215);
             var8.a(this.d.p(), 2, 32, 16777215);
@@ -320,20 +320,20 @@ public class asc extends asd {
             this.b(var8, var45, var6 - var8.a(var45) - 2, 2, 14737632);
             var45 = "Allocated memory: " + var34 * 100L / var41 + "% (" + var34 / 1024L / 1024L + "MB)";
             this.b(var8, var45, var6 - var8.a(var45) - 2, 12, 14737632);
-            var47 = jv.c(this.d.g.t);
-            var22 = jv.c(this.d.g.u);
-            var23 = jv.c(this.d.g.v);
+            var47 = ke.c(this.d.g.t);
+            var22 = ke.c(this.d.g.u);
+            var23 = ke.c(this.d.g.v);
             this.b(var8, String.format("x: %.5f (%d) // c: %d (%d)", new Object[]{Double.valueOf(this.d.g.t), Integer.valueOf(var47), Integer.valueOf(var47 >> 4), Integer.valueOf(var47 & 15)}), 2, 64, 14737632);
             this.b(var8, String.format("y: %.3f (feet pos, %.3f eyes pos)", new Object[]{Double.valueOf(this.d.g.D.b), Double.valueOf(this.d.g.u)}), 2, 72, 14737632);
             this.b(var8, String.format("z: %.5f (%d) // c: %d (%d)", new Object[]{Double.valueOf(this.d.g.v), Integer.valueOf(var23), Integer.valueOf(var23 >> 4), Integer.valueOf(var23 & 15)}), 2, 80, 14737632);
-            var24 = jv.c((double) (this.d.g.z * 4.0F / 360.0F) + 0.5D) & 3;
-            this.b(var8, "f: " + var24 + " (" + i.c[var24] + ") / " + jv.g(this.d.g.z), 2, 88, 14737632);
-            if (this.d.e != null && this.d.e.e(var47, var22, var23)) {
-                za var53 = this.d.e.d(var47, var23);
-                this.b(var8, "lc: " + (var53.h() + 15) + " b: " + var53.a(var47 & 15, var23 & 15, this.d.e.s()).y + " bl: " + var53.a(xq.b, var47 & 15, var22, var23 & 15) + " sl: " + var53.a(xq.a, var47 & 15, var22, var23 & 15) + " rl: " + var53.c(var47 & 15, var22, var23 & 15, 0), 2, 96, 14737632);
+            var24 = ke.c((double) (this.d.g.z * 4.0F / 360.0F) + 0.5D) & 3;
+            this.b(var8, "f: " + var24 + " (" + q.c[var24] + ") / " + ke.g(this.d.g.z), 2, 88, 14737632);
+            if (this.d.e != null && this.d.e.f(var47, var22, var23)) {
+                zs var53 = this.d.e.d(var47, var23);
+                this.b(var8, "lc: " + (var53.h() + 15) + " b: " + var53.a(var47 & 15, var23 & 15, this.d.e.t()).y + " bl: " + var53.a(yh.b, var47 & 15, var22, var23 & 15) + " sl: " + var53.a(yh.a, var47 & 15, var22, var23 & 15) + " rl: " + var53.c(var47 & 15, var22, var23 & 15, 0), 2, 96, 14737632);
             }
 
-            this.b(var8, String.format("ws: %.3f, fs: %.3f, g: %b, fl: %d", new Object[]{Float.valueOf(this.d.g.cf.b()), Float.valueOf(this.d.g.cf.a()), Boolean.valueOf(this.d.g.E), Integer.valueOf(this.d.e.f(var47, var23))}), 2, 104, 14737632);
+            this.b(var8, String.format("ws: %.3f, fs: %.3f, g: %b, fl: %d", new Object[]{Float.valueOf(this.d.g.cc.b()), Float.valueOf(this.d.g.cc.a()), Boolean.valueOf(this.d.g.E), Integer.valueOf(this.d.e.f(var47, var23))}), 2, 104, 14737632);
             GL11.glPopMatrix();
             this.d.I.b();
         }
@@ -373,9 +373,9 @@ public class asc extends asd {
         this.e.a(this.f);
         this.d.I.b();
         GL11.glPopMatrix();
-        if (this.d.y.L.e && (!this.d.A() || this.d.g.a.c.size() > 1)) {
+        if (this.d.y.M.e && (!this.d.A() || this.d.g.a.c.size() > 1)) {
             this.d.I.a("playerList");
-            awr var37 = this.d.g.a;
+            axz var37 = this.d.g.a;
             List var39 = var37.c;
             var13 = var37.d;
             var40 = var13;
@@ -400,7 +400,7 @@ public class asc extends asd {
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                 GL11.glEnable(3008);
                 if (var19 < var39.size()) {
-                    axd var46 = (axd) var39.get(var19);
+                    ayl var46 = (ayl) var39.get(var19);
                     var8.a(var46.a, var20, var47, 16777215);
                     this.d.o.b(this.d.o.b("/gui/icons.png"));
                     byte var50 = 0;
@@ -433,14 +433,14 @@ public class asc extends asd {
     }
 
     private void d() {
-        if (ayo.c != null && ayo.b > 0) {
-            --ayo.b;
-            asb var1 = this.d.p;
-            asx var2 = new asx(this.d.y, this.d.c, this.d.d);
+        if (azx.c != null && azx.b > 0) {
+            --azx.b;
+            atj var1 = this.d.p;
+            auf var2 = new auf(this.d.y, this.d.c, this.d.d);
             int var3 = var2.a();
             short var4 = 182;
             int var5 = var3 / 2 - var4 / 2;
-            int var6 = (int) (ayo.a * (float) (var4 + 1));
+            int var6 = (int) (azx.a * (float) (var4 + 1));
             byte var7 = 12;
             this.b(var5, var7, 0, 74, var4, 5);
             this.b(var5, var7, 0, 74, var4, 5);
@@ -448,7 +448,7 @@ public class asc extends asd {
                 this.b(var5, var7, 0, 79, var6, 5);
             }
 
-            String var8 = ayo.c;
+            String var8 = azx.c;
             var1.a(var8, var3 / 2 - var1.a(var8) / 2, var7 - 10, 16777215);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glBindTexture(3553, this.d.o.b("/gui/icons.png"));
@@ -462,7 +462,7 @@ public class asc extends asd {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(3008);
         GL11.glBindTexture(3553, this.d.o.b("%blur%/misc/pumpkinblur.png"));
-        azb var3 = azb.a;
+        bao var3 = bao.a;
         var3.b();
         var3.a(0.0D, (double) var2, -90.0D, 0.0D, 1.0D);
         var3.a((double) var1, (double) var2, -90.0D, 1.0D, 1.0D);
@@ -491,7 +491,7 @@ public class asc extends asd {
         GL11.glBlendFunc(0, 769);
         GL11.glColor4f(this.a, this.a, this.a, 1.0F);
         GL11.glBindTexture(3553, this.d.o.b("%blur%/misc/vignette.png"));
-        azb var4 = azb.a;
+        bao var4 = bao.a;
         var4.b();
         var4.a(0.0D, (double) var3, -90.0D, 0.0D, 1.0D);
         var4.a((double) var2, (double) var3, -90.0D, 1.0D, 1.0D);
@@ -517,11 +517,11 @@ public class asc extends asd {
         GL11.glBlendFunc(770, 771);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, var1);
         GL11.glBindTexture(3553, this.d.o.b("/terrain.png"));
-        float var4 = (float) (alf.bh.cl % 16) / 16.0F;
-        float var5 = (float) (alf.bh.cl / 16) / 16.0F;
-        float var6 = (float) (alf.bh.cl % 16 + 1) / 16.0F;
-        float var7 = (float) (alf.bh.cl / 16 + 1) / 16.0F;
-        azb var8 = azb.a;
+        float var4 = (float) (amj.bh.cl % 16) / 16.0F;
+        float var5 = (float) (amj.bh.cl / 16) / 16.0F;
+        float var6 = (float) (amj.bh.cl % 16 + 1) / 16.0F;
+        float var7 = (float) (amj.bh.cl / 16 + 1) / 16.0F;
+        bao var8 = bao.a;
         var8.b();
         var8.a(0.0D, (double) var3, -90.0D, (double) var4, (double) var7);
         var8.a((double) var2, (double) var3, -90.0D, (double) var6, (double) var7);
@@ -535,7 +535,7 @@ public class asc extends asd {
     }
 
     private void a(int var1, int var2, int var3, float var4) {
-        tv var5 = this.d.g.bK.a[var1];
+        um var5 = this.d.g.bI.a[var1];
         if (var5 != null) {
             float var6 = (float) var5.b - var4;
             if (var6 > 0.0F) {
@@ -569,7 +569,7 @@ public class asc extends asd {
         this.var_i = true;
     }
 
-    public arm b() {
+    public asu b() {
         return this.e;
     }
 

@@ -803,7 +803,7 @@ public class ImprovedChat {
         return getFontRenderer().a(str);
     }
 
-    public static asb getFontRenderer() {
+    public static atj getFontRenderer() {
         return minecraft.p;
     }
 
@@ -821,7 +821,7 @@ public class ImprovedChat {
 
     }
 
-    public static int handle_draw(arm theGuiIngame, asb fontRenderer, boolean var35, byte var30, int updateCounter) {
+    public static int handle_draw(asu theGuiIngame, atj fontRenderer, boolean var35, byte var30, int updateCounter) {
         //boolean var36 = false;
         int ret = 0;
 
@@ -915,7 +915,7 @@ public class ImprovedChat {
                         int var26 = (-var11 + currentTab().chatScroll) * 9;
                         var12 = getChatMessageOfChatLine(currentTab().e.get(var11));
                         if (!getGameSettings().o) {
-                            var12 = kd.a(var12);
+                            var12 = km.a(var12);
                         }
                         drawRectOnGuiIngame(theGuiIngame, var39, var26 - 1, var39 + 320, var26 + 8, /* var12 / 2 << 24*/ addAlpha(historyColor, histTrans));
                         GL11.glEnable(GL11.GL_BLEND);
@@ -939,15 +939,15 @@ public class ImprovedChat {
         return gethex(r, g, b, a);
     }
 
-    public static void drawRectOnGuiIngame(arm inGameGUI, int var1, int var2, int var3, int var4, int var5) {
+    public static void drawRectOnGuiIngame(asu inGameGUI, int var1, int var2, int var3, int var4, int var5) {
         inGameGUI.a(var1, var2, var3, var4, var5);
     }
 
-    public static String getChatMessageOfChatLine(aqh thechatline) {
+    public static String getChatMessageOfChatLine(arm thechatline) {
         return thechatline.a();
     }
 
-    public static axc get_thePlayer() {
+    public static ayk get_thePlayer() {
         return minecraft.g;
     }
 
@@ -955,7 +955,7 @@ public class ImprovedChat {
         get_thePlayer().c(str);
     }
 
-    public static asw getCurrentScreen() {
+    public static aue getCurrentScreen() {
         return minecraft.r;
     }
 
@@ -1026,7 +1026,7 @@ public class ImprovedChat {
         return Minecraft.a(str);
     }
 
-    public static ard getGameSettings() {
+    public static asl getGameSettings() {
         return minecraft.y;
     }
 
@@ -1044,27 +1044,27 @@ public class ImprovedChat {
     }
 
     public static String getLastServer() {
-        return getGameSettings().V;
+        return getGameSettings().W;
     }
 
     public static void setLastServer(Server server) {
-        getGameSettings().V = server.name;
+        getGameSettings().W = server.name;
     }
 
-    public static int getUpdateCounterOfChatLine(aqh thechatline) {
+    public static int getUpdateCounterOfChatLine(arm thechatline) {
         if (thechatline == null) return 0;
         return thechatline.b();
     }
 
-    public static void drawStringWithShadow(asb fontRenderer, String var1, int var2, int var3, int var4) {
+    public static void drawStringWithShadow(atj fontRenderer, String var1, int var2, int var3, int var4) {
         fontRenderer.a(var1, var2, var3, var4);
     }
 
-    public static void drawString(asb fontRenderer, String var1, int var2, int var3, int var4) {
+    public static void drawString(atj fontRenderer, String var1, int var2, int var3, int var4) {
         fontRenderer.b(var1, var2, var3, var4);
     }
 
-    public static int getUpdateCounterOfGuiIngame(arm inGameUI) {
+    public static int getUpdateCounterOfGuiIngame(asu inGameUI) {
         return inGameUI.d;
     }
 
@@ -1073,7 +1073,7 @@ public class ImprovedChat {
     }
 
     public static String getAllowedCharacters() {
-        return m.a;
+        return u.a;
     }
 
     public static Server getCurrentServer() {
@@ -1108,7 +1108,7 @@ public class ImprovedChat {
 
         if (command != null) {
             if (command.endsWith("\\")) {
-                minecraft.a(new aro(replaceVarsInBind(command.substring(0, command.length() - 1)) ));
+                minecraft.a(new asw(replaceVarsInBind(command.substring(0, command.length() - 1)) ));
             } else {
                 process(command);
             }
@@ -1219,11 +1219,11 @@ public class ImprovedChat {
     public static void stdout(String line, int tick, int var2) {
         if (line != null && !line.trim().equals("")) {
             List<String> lines = processInput(line);
-            aqh[] linesArray = new aqh[lines.size()];
+            arm[] linesArray = new arm[lines.size()];
 
             for (int fixed = 0; fixed < linesArray.length; ++fixed) {
-                linesArray[fixed] = new aqh(tick, lines.get(fixed), var2);
-                minecraft.v.b().addChatLine(linesArray[fixed]);
+                linesArray[fixed] = new arm(tick, lines.get(fixed), var2);
+                minecraft.v.b().addImpChatLine(linesArray[fixed]);
             }
 
             String var11 = colorTags.matcher(line).replaceAll("");
@@ -1233,11 +1233,11 @@ public class ImprovedChat {
             while (var5.hasNext()) {
                 tab = (Tab) var5.next();
                 if (tab.valid(var11)) {
-                    aqh[] var9 = linesArray;
+                    arm[] var9 = linesArray;
                     int var8 = linesArray.length;
 
                     for (int var7 = 0; var7 < var8; ++var7) {
-                        aqh e = var9[var7];
+                        arm e = var9[var7];
                         tab.add(e);
                     }
 
@@ -1251,7 +1251,7 @@ public class ImprovedChat {
 
             tab = getCurrentServer().tabs.get(getCurrentServer().currentTabIndex);
             tab.blinking = false;
-            if (minecraft.r instanceof arn && tab.chatScroll > 0 && tab.valid(var11)) {
+            if (minecraft.r instanceof asv && tab.chatScroll > 0 && tab.valid(var11)) {
                 tab.chatScroll += lines.size();
                 if (tab.chatScroll > tab.e.size() - 9) {
                     tab.chatScroll = tab.e.size() - 9;
@@ -1944,7 +1944,7 @@ public class ImprovedChat {
         }
     }
 
-    public agv getWorld() {
+    public ahq getWorld() {
         return minecraft.e.z;
     }
 
@@ -2110,7 +2110,7 @@ public class ImprovedChat {
         }
 
         @Override
-        public void receivePacket(da packet) {
+        public void receivePacket(dj packet) {
             if (packet.b > 0) {
                 byte[] packetBytes = packet.c;
                 if (packetBytes[0] == (byte) 25) {
@@ -2136,8 +2136,8 @@ public class ImprovedChat {
         }
 
         @Override
-        public da getRegisterPacket() {
-            da registerPacket = new da();
+        public dj getRegisterPacket() {
+            dj registerPacket = new dj();
             registerPacket.a = "ImprovedChat";
             registerPacket.c = new byte[1];
             registerPacket.c[0] = (byte) 26;
